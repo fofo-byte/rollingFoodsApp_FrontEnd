@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/view/homeCustomer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'RollingFoods'),
+      home: const HomeCustomer(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
