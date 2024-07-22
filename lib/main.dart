@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rolling_foods_app_front_end/view/homeCustomer.dart';
+import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 
 void main() {
   runApp(const MyApp());

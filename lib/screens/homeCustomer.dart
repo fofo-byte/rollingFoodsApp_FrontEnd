@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:rolling_foods_app_front_end/model/foodTruck.dart';
+import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:http/http.dart' as http;
 import 'package:rolling_foods_app_front_end/services/foodTruck_service.dart';
 
@@ -49,9 +49,15 @@ class _HomeCustomerState extends State<HomeCustomer> {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(snapshot.data![index].name),
-                  subtitle: Text(snapshot.data![index].description),
+                return Card(
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(snapshot.data![index].name),
+                        subtitle: Text(snapshot.data![index].description),
+                      ),
+                    ],
+                  ),
                 );
               },
             );

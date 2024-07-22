@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:rolling_foods_app_front_end/model/foodTruck.dart';
+import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 
 class ApiService {
   // The URL of the API's endpoint
