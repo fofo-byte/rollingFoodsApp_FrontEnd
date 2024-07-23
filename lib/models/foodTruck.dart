@@ -3,6 +3,7 @@ class Foodtruck {
   String name;
   String description;
 
+
   Foodtruck({
     required this.id,
     required this.name,
