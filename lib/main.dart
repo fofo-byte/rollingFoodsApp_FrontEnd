@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/screens/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
 
         useMaterial3: true,
       ),
-      home: const HomeCustomer(),
+      home: const Foodtruckprofil(),
       debugShowCheckedModeBanner: false,
     );
   }
