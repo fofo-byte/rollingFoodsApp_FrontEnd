@@ -39,13 +39,13 @@ class _HomeCustomerState extends State<HomeCustomer> {
           ),
         ],
         centerTitle: true,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.teal,
         title: const Text('Rolling Foods', style: TextStyle(
             color: Colors.yellow,
             fontSize: 20,
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.italic,
-            fontFamily: 'Open Sans',
+            fontFamily: 'Lonely',
             letterSpacing: 2.0),
         ),
       ),
@@ -53,6 +53,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //Section for search bar
             Container(
               color: Colors.red,
               height: 150,
@@ -74,6 +75,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
                 ),
               ),
             ),
+            //Section for food trucks
             Container(
               padding: const EdgeInsets.all(20),
               child: const Text(
