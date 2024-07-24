@@ -77,6 +77,34 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                           color: Colors.teal),
                     ),
                 ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 400,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 0),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text("Description", style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black87
+                            )),
+                            subtitle: Text("Description of the foodtruck"),
+                          ),
+                          ListTile(
+                            title: Text("Location"),
+                            subtitle: Text("Location of the foodtruck"),
+                          ),
+                          ListTile(
+                            title: Text("Opening hours"),
+                            subtitle: Text("Opening hours of the foodtruck"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+
               ],
             )
           ],
