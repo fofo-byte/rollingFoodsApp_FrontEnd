@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
@@ -26,46 +27,95 @@ class _HomeCustomerState extends State<HomeCustomer> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            // Scaffold.of(context).openDrawer();
-          },
+        actions: [
+          IconButton(
+            color: Colors.yellow,
+            icon: const Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+          ),
+        ],
+        centerTitle: true,
+        backgroundColor: Colors.teal,
+        title: const Text('Rolling Foods', style: TextStyle(
+            color: Colors.yellow,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Lonely',
+            letterSpacing: 2.0),
         ),
-        title: const Text('Rolling Foods', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, fontFamily: 'Open Sans', letterSpacing: 2.0),
       ),
-    ),
-    body: Center(
-      child: FutureBuilder<List<Foodtruck>>(
-        future: foodTrucks,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          } else if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Column(
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(snapshot.data![index].name),
-                        subtitle: Text(snapshot.data![index].description),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //Section for search bar
+            Container(
+              color: Colors.red,
+              height: 150,
+              child: const Center(
+                child: Card(
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.search,
+                      color: Colors.red,
+                    ),
+                    title: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search for food trucks',
+                        border: InputBorder.none,
                       ),
-                    ],
+                    ),
                   ),
-                );
+                ),
+              ),
+            ),
+            //Section for food trucks
+            Container(
+              padding: const EdgeInsets.all(20),
+              child: const Text(
+                'Food Trucks à proximité',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.yellow,
+                ),
+              ),
+            ),
+            FutureBuilder<List<Foodtruck>>(
+              future: foodTrucks,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Foodtruck>? data = snapshot.data;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: data!.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        color: Colors.deepPurple,
+                        child: ListTile(
+                          textColor: Colors.yellow,
+                          title: Text(data[index].name),
+                          subtitle: Text(data[index].description),
+                        ),
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const CircularProgressIndicator();
               },
-            );
-          }
-          return const CircularProgressIndicator();
-        },
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
+
 }
