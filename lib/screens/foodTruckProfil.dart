@@ -34,7 +34,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
             color: Colors.yellow,
             icon: const Icon(Icons.account_circle),
             onPressed: () {
-              Navigator.pushNamed(context, '/login');
+              
             },
           ),
         ],
