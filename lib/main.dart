@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
+import 'package:rolling_foods_app_front_end/screens/homeProprio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,7 +10,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,8 @@ class MyApp extends StatelessWidget {
 
         useMaterial3: true,
       ),
-      home: const FoodTruckAdmin(),
+      home: const HomePropio(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-
-
