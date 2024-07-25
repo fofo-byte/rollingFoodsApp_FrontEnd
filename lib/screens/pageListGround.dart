@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 
-class FoodTruckAdmin extends StatefulWidget {
-  const FoodTruckAdmin({super.key});
+class ListGround extends StatefulWidget {
+  const ListGround({super.key});
 
   @override
-  State<FoodTruckAdmin> createState() => _FoodTruckAdminState();
+  State<ListGround> createState() => _ListGroundState();
 }
 
-class _FoodTruckAdminState extends State<FoodTruckAdmin> {
+class _ListGroundState extends State<ListGround> {
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20),
-      elevation: 10,
-      backgroundColor: Colors.orange,
-    );
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -37,24 +32,12 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
               letterSpacing: 2.0),
         ),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Page d'administration du foodtruck"),
-              ElevatedButton(
-                onPressed: null,
-                child: Text('Foodtruck ouvert'),
-              ),
-              ElevatedButton(
-                onPressed: null,
-                child: Text('Voir les terrains'),
-              ),
-              ElevatedButton(
-                onPressed: null,
-                child: Text('Administation foodtruck'),
-              ),
+              Text("Page de la liste des terrains"),
             ],
           ),
         ),

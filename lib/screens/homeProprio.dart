@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 
-class FoodTruckAdmin extends StatefulWidget {
-  const FoodTruckAdmin({super.key});
+class HomePropio extends StatefulWidget {
+  const HomePropio({super.key});
 
   @override
-  State<FoodTruckAdmin> createState() => _FoodTruckAdminState();
+  State<HomePropio> createState() => _HomePropioState();
 }
 
-class _FoodTruckAdminState extends State<FoodTruckAdmin> {
+class _HomePropioState extends State<HomePropio> {
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20),
-      elevation: 10,
-      backgroundColor: Colors.orange,
-    );
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -37,19 +32,19 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
               letterSpacing: 2.0),
         ),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Page d'administration du foodtruck"),
+              Text("Page du proprio de terrain"),
               ElevatedButton(
                 onPressed: null,
-                child: Text('Foodtruck ouvert'),
+                child: Text('Voir la liste de terrain'),
               ),
               ElevatedButton(
                 onPressed: null,
-                child: Text('Voir les terrains'),
+                child: Text('Modifier profil'),
               ),
               ElevatedButton(
                 onPressed: null,
