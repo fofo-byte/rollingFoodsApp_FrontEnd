@@ -1,12 +1,6 @@
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
-import 'package:http/http.dart' as http;
 import 'package:rolling_foods_app_front_end/services/foodTruck_service.dart';
-
-
 
 class HomeCustomer extends StatefulWidget {
   const HomeCustomer({super.key});
@@ -24,30 +18,38 @@ class _HomeCustomerState extends State<HomeCustomer> {
     foodTrucks = ApiService().fetchFoodTrucks();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/images/logo.jpeg',
+              scale: 14,
+              fit: BoxFit.contain,
+              height: 45,
+            ),
+            const Text(
+              'Rolling Foods',
+              style: TextStyle(
+                  color: Colors.yellow,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  fontFamily: 'Lonely',
+                  letterSpacing: 2.0),
+            ),
+          ],
+        ),
         actions: [
           IconButton(
             color: Colors.yellow,
             icon: const Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
-            },
+            onPressed: () {},
           ),
         ],
-        centerTitle: true,
-        backgroundColor: Colors.teal,
-        title: const Text('Rolling Foods', style: TextStyle(
-            color: Colors.yellow,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Lonely',
-            letterSpacing: 2.0),
-        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -55,15 +57,19 @@ class _HomeCustomerState extends State<HomeCustomer> {
           children: [
             //Section for search bar
             Container(
-              color: Colors.red,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(10),
+              ),
               height: 150,
               child: const Center(
                 child: Card(
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                  margin:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                   child: ListTile(
                     leading: Icon(
                       Icons.search,
-                      color: Colors.red,
+                      color: Colors.black,
                     ),
                     title: TextField(
                       decoration: InputDecoration(
@@ -83,7 +89,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.yellow,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -97,9 +103,9 @@ class _HomeCustomerState extends State<HomeCustomer> {
                     itemCount: data!.length,
                     itemBuilder: (context, index) {
                       return Card(
-                        color: Colors.deepPurple,
+                        color: Theme.of(context).colorScheme.primary,
                         child: ListTile(
-                          textColor: Colors.yellow,
+                          textColor: Theme.of(context).colorScheme.onPrimary,
                           title: Text(data[index].name),
                           subtitle: Text(data[index].description),
                         ),
@@ -117,5 +123,4 @@ class _HomeCustomerState extends State<HomeCustomer> {
       ),
     );
   }
-
 }

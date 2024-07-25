@@ -16,11 +16,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: Color(0xFFF44336), // Rouge
-
+        colorScheme: ColorScheme.light(
+            surface: Colors.grey.shade200,
+            onSurface: Colors.black,
+            primary: Colors.blue,
+            onPrimary: Colors.white),
         useMaterial3: true,
       ),
-      home: const HomePropio(),
+      home: const HomeCustomer(),
       debugShowCheckedModeBanner: false,
     );
   }
