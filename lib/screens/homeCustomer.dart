@@ -97,17 +97,19 @@ class _HomeCustomerState extends State<HomeCustomer> {
               future: foodTrucks,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<Foodtruck>? data = snapshot.data;
                   return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: data!.length,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
+                      //Foodtruck foodtruck = snapshot.data![index];
                       return Card(
-                        color: Theme.of(context).colorScheme.primary,
                         child: ListTile(
-                          textColor: Theme.of(context).colorScheme.onPrimary,
-                          title: Text(data[index].name),
-                          subtitle: Text(data[index].description),
+                          leading: CircleAvatar(),
+                          title: Text(snapshot.data![index].name),
+                          subtitle: Text(snapshot.data![index].description),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/foodtruck',
+                                arguments: snapshot.data![index]);
+                          },
                         ),
                       );
                     },
@@ -115,7 +117,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               },
             ),
           ],
