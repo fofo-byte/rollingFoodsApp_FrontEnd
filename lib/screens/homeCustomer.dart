@@ -97,22 +97,18 @@ class _HomeCustomerState extends State<HomeCustomer> {
               future: foodTrucks,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      //Foodtruck foodtruck = snapshot.data![index];
-                      return Card(
-                        child: ListTile(
-                          leading: CircleAvatar(),
-                          title: Text(snapshot.data![index].name),
-                          subtitle: Text(snapshot.data![index].description),
-                          onTap: () {
-                            Navigator.pushNamed(context, '/foodtruck',
-                                arguments: snapshot.data![index]);
-                          },
-                        ),
-                      );
-                    },
+                  List<Foodtruck> data = snapshot.data!;
+                  return Column(
+                    children: data
+                        .map((foodTruck) => ListTile(
+                              title: Text(foodTruck.name),
+                              subtitle: Text(foodTruck.description),
+                              /*leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    foodTruck.pictures[0].location),
+                              ),*/
+                            ))
+                        .toList(),
                   );
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
