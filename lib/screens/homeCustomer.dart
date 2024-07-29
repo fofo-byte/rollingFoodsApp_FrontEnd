@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
+import 'package:rolling_foods_app_front_end/screens/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service.dart';
 
 class HomeCustomer extends StatefulWidget {
@@ -34,7 +35,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
             const Text(
               'Rolling Foods',
               style: TextStyle(
-                  color: Colors.yellow,
+                  color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,
@@ -98,17 +99,35 @@ class _HomeCustomerState extends State<HomeCustomer> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<Foodtruck> data = snapshot.data!;
-                  return Column(
-                    children: data
-                        .map((foodTruck) => ListTile(
-                              title: Text(foodTruck.name),
-                              subtitle: Text(foodTruck.description),
-                              /*leading: CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    foodTruck.pictures[0].location),
-                              ),*/
-                            ))
-                        .toList(),
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        color: Theme.of(context).colorScheme.surface,
+                        elevation: 10,
+                        shadowColor: Colors.black,
+                        margin: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          //leading: Image.network(data[index].image),
+                          title: Text(data[index].name),
+                          subtitle: Text(data[index].description),
+                          //trailing: Text(data[index].location),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Foodtruckprofil(
+                                    foodtruckId: data[index].id),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   );
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
