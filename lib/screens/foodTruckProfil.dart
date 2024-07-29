@@ -20,6 +20,15 @@ class Foodtruckprofil extends StatefulWidget {
 }
 
 class _FoodtruckprofilState extends State<Foodtruckprofil> {
+  late Future<Foodtruck> foodTruck;
+  final MapController _mapController = MapController();
+
+  @override
+  void initState() {
+    super.initState();
+    foodTruck = ApiService().fetchFoodTruckById(widget.foodtruckId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +60,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
           ),
         ),
         body: FutureBuilder<Foodtruck>(
-            future: ApiService().fetchFoodTruckById(widget.foodtruckId),
+            future: foodTruck,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -63,16 +72,49 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                 return const Center(child: Text('No data'));
               }
               Foodtruck foodtruck = snapshot.data!;
-              return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Text(foodtruck.name,
-                          style: const TextStyle(fontSize: 24)),
-                      const SizedBox(height: 16),
-                      Text(foodtruck.description),
-                    ],
-                  ));
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 300,
+                      child: Map(
+                        _mapController,
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: 10, vertical: 0),
+                      foregroundDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            AssetImage("assets/images/foodtruck.jpg"),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            foodtruck.name,
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            foodtruck.description,
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }));
   }
 }
