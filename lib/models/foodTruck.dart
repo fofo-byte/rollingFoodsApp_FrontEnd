@@ -1,3 +1,4 @@
+import 'package:rolling_foods_app_front_end/models/coordinates.dart';
 import 'package:rolling_foods_app_front_end/models/picture.dart';
 
 class Foodtruck {
@@ -5,12 +6,14 @@ class Foodtruck {
   String name;
   String description;
   List<Picture> pictures;
+  Coordinates coordinates;
 
   Foodtruck({
     required this.id,
     required this.name,
     required this.description,
     required this.pictures,
+    required this.coordinates,
   });
 
   factory Foodtruck.fromJson(Map<String, dynamic> json) {
@@ -21,6 +24,8 @@ class Foodtruck {
       pictures: (json['pictures'] as List)
           .map((picture) => Picture.fromJson(picture))
           .toList(), // Convert the list of pictures to a list of Picture objects
+      coordinates: Coordinates.fromJson(json[
+          'coordinates']), // Convert the coordinates to a Coordinates object
     );
   }
 
@@ -28,6 +33,7 @@ class Foodtruck {
         'id': id,
         'name': name,
         'description': description,
+        'coordinates': coordinates.toJson(),
         'pictures': pictures.map((picture) => picture.toJson()).toList(),
       };
 }

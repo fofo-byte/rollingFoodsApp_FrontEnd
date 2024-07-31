@@ -12,11 +12,13 @@ class HomeCustomer extends StatefulWidget {
 
 class _HomeCustomerState extends State<HomeCustomer> {
   late Future<List<Foodtruck>> foodTrucks;
+  late Future<List<Foodtruck>> popularFoodTrucks;
 
   @override
   void initState() {
     super.initState();
     foodTrucks = ApiService().fetchFoodTrucks();
+    popularFoodTrucks = ApiService().fetchFoodTrucks();
   }
 
   @override
@@ -24,15 +26,17 @@ class _HomeCustomerState extends State<HomeCustomer> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Row(
+        centerTitle: true,
+        backgroundColor: Colors.grey.shade200,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Row(
           children: [
-            Image.asset(
-              'assets/images/logo.jpeg',
-              scale: 14,
-              fit: BoxFit.contain,
-              height: 45,
-            ),
-            const Text(
+            Text(
               'Rolling Foods',
               style: TextStyle(
                   color: Colors.black,
@@ -59,14 +63,14 @@ class _HomeCustomerState extends State<HomeCustomer> {
             //Section for search bar
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10),
               ),
-              height: 150,
+              height: 50,
+              width: 400,
+              margin: const EdgeInsets.all(10),
               child: const Center(
                 child: Card(
-                  margin:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                   child: ListTile(
                     leading: Icon(
                       Icons.search,
@@ -82,17 +86,21 @@ class _HomeCustomerState extends State<HomeCustomer> {
                 ),
               ),
             ),
-            //Section for food trucks
-            Container(
-              padding: const EdgeInsets.all(20),
-              child: const Text(
-                'Food Trucks à proximité',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+            //Section for list food trucks
+            const Text(
+              textAlign: TextAlign.center,
+              'A proximité',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
+            ),
+
+            const Divider(
+              height: 1,
+              color: Colors.grey,
+              thickness: 0.5,
             ),
             FutureBuilder<List<Foodtruck>>(
               future: foodTrucks,
@@ -105,7 +113,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
                     itemBuilder: (context, index) {
                       return Card(
                         color: Theme.of(context).colorScheme.surface,
-                        elevation: 10,
+                        elevation: 5,
                         shadowColor: Colors.black,
                         margin: const EdgeInsets.all(10),
                         shape: RoundedRectangleBorder(
@@ -134,6 +142,17 @@ class _HomeCustomerState extends State<HomeCustomer> {
                 }
                 return const Center(child: CircularProgressIndicator());
               },
+            ),
+            Container(
+              padding: const EdgeInsets.all(20),
+              child: const Text(
+                'Food Trucks les plus populaires',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ],
         ),
