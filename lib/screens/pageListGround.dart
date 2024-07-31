@@ -37,7 +37,7 @@ class _ListGroundState extends State<ListGround> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Page de la liste des terrains"),
+              Text("Page de la liste des lieux d'emplacements"),
             ],
           ),
         ),

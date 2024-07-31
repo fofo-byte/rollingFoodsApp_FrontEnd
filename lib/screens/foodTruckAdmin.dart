@@ -20,7 +20,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
         actions: [
           IconButton(
             color: Colors.yellow,
-            icon: Icon(Icons.account_circle),
+            icon: const Icon(Icons.account_circle),
             onPressed: () {},
           ),
         ],
@@ -37,7 +37,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
               letterSpacing: 2.0),
         ),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,7 +49,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
               ),
               ElevatedButton(
                 onPressed: null,
-                child: Text('Voir les terrains'),
+                child: Text("Liste des lieux d'emplacements"),
               ),
               ElevatedButton(
                 onPressed: null,

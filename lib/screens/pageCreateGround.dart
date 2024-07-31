@@ -32,10 +32,10 @@ class CreateGround extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Page de création de terrain"),
+              Text("Page de création de lieux d'emplacements"),
               ElevatedButton(
                 onPressed: null,
-                child: Text('Créer un terrain'),
+                child: Text('Créer un lieux d\'emplacement'),
               ),
             ],
           ),

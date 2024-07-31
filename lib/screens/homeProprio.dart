@@ -37,10 +37,10 @@ class _HomePropioState extends State<HomePropio> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Page du proprio de terrain"),
+              Text("Page du proprio de lieu d'emplacement"),
               ElevatedButton(
                 onPressed: null,
-                child: Text('Voir la liste de terrain'),
+                child: Text('Voir la liste de lieux d\'emplacement'),
               ),
               ElevatedButton(
                 onPressed: null,
@@ -48,7 +48,7 @@ class _HomePropioState extends State<HomePropio> {
               ),
               ElevatedButton(
                 onPressed: null,
-                child: Text('Administation foodtruck'),
+                child: Text('Administation lieu d\'emplacement'),
               ),
             ],
           ),
