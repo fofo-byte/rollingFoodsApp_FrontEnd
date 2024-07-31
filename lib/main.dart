@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
+import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
             onPrimary: Colors.white),
         useMaterial3: true,
       ),
-      home: const HomeCustomer(),
+      home: const Loginpage(),
       debugShowCheckedModeBanner: false,
     );
   }
