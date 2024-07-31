@@ -26,15 +26,17 @@ class _HomeCustomerState extends State<HomeCustomer> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Row(
+        centerTitle: true,
+        backgroundColor: Colors.grey.shade200,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Row(
           children: [
-            Image.asset(
-              'assets/images/logo.jpeg',
-              scale: 14,
-              fit: BoxFit.contain,
-              height: 45,
-            ),
-            const Text(
+            Text(
               'Rolling Foods',
               style: TextStyle(
                   color: Colors.black,
@@ -85,16 +87,20 @@ class _HomeCustomerState extends State<HomeCustomer> {
               ),
             ),
             //Section for list food trucks
-            Container(
-              padding: const EdgeInsets.all(20),
-              child: const Text(
-                'Food Trucks à proximité',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+            const Text(
+              textAlign: TextAlign.center,
+              'A proximité',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
+            ),
+
+            const Divider(
+              height: 1,
+              color: Colors.grey,
+              thickness: 0.5,
             ),
             FutureBuilder<List<Foodtruck>>(
               future: foodTrucks,

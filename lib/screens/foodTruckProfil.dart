@@ -23,6 +23,8 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
   late Future<Foodtruck> foodTruck;
   final MapController _mapController = MapController();
 
+  final List<Marker> markers = [];
+
   @override
   void initState() {
     super.initState();
@@ -72,14 +74,41 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                 return const Center(child: Text('No data'));
               }
               Foodtruck foodtruck = snapshot.data!;
+
+              markers.add(Marker(
+                width: 80.0,
+                height: 80.0,
+                point: LatLng(foodtruck.coordinates.latitude,
+                    foodtruck.coordinates.longitude),
+                child: const Icon(Icons.pin_drop, color: Colors.red),
+              ));
+
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       height: 300,
-                      child: Map(
-                        _mapController,
+                      child: FlutterMap(
+                        mapController: _mapController,
+                        options: MapOptions(
+                          maxZoom: 15,
+                          initialCenter: LatLng(foodtruck.coordinates.latitude,
+                              foodtruck.coordinates.longitude),
+                          initialZoom: 14,
+                        ),
+                        children: [
+                          TileLayer(
+                            urlTemplate:
+                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            userAgentPackageName:
+                                'dev.fleaflet.flutter_map.example',
+                            // Plenty of other options available!
+                          ),
+                          MarkerLayer(
+                            markers: markers,
+                          ),
+                        ],
                       ),
                     ),
                     Container(
