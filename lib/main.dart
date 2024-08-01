@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
+import 'package:rolling_foods_app_front_end/screens/homeProprio.dart';
 import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
             onPrimary: Colors.white),
         useMaterial3: true,
       ),
-      home: const FoodTruckAdmin(),
+      home: const HomePropio(),
       debugShowCheckedModeBanner: false,
     );
   }

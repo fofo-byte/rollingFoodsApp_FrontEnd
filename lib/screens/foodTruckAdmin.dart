@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 
 class FoodTruckAdmin extends StatefulWidget {
   const FoodTruckAdmin({super.key});
@@ -58,13 +59,21 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
               ),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              children: [
+              children: const [
+                /*
                 itemDashboard('Liste des camions', Icons.abc, Colors.red),
                 itemDashboard(
                     'Liste des lieux', Icons.location_on, Colors.blue),
                 itemDashboard(
                     'Liste des commandes', Icons.shopping_cart, Colors.green),
                 itemDashboard('Liste des clients', Icons.people, Colors.purple),
+                */
+
+                Itemdashboard(color: Colors.red, icon: Icons.abc),
+                Itemdashboard(color: Colors.blue, icon: Icons.location_on),
+                Itemdashboard(color: Colors.green, icon: Icons.shopping_cart),
+                Itemdashboard(color: Colors.purple, icon: Icons.people),
+                Itemdashboard(color: Colors.black, icon: Icons.people),
               ],
             ),
           ),
@@ -72,41 +81,4 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
       ),
     );
   }
-}
-
-itemDashboard(String title, IconData icon, Color color) {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 5,
-          blurRadius: 7,
-          offset: const Offset(0, 3),
-        ),
-      ],
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Icon(
-            icon,
-            color: color,
-            size: 30,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
-    ),
-  );
 }

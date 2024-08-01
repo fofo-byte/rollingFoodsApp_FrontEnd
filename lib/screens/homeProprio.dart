@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 
 class HomePropio extends StatefulWidget {
   const HomePropio({super.key});
@@ -11,48 +12,57 @@ class _HomePropioState extends State<HomePropio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            color: Colors.yellow,
-            icon: Icon(Icons.account_circle),
-            onPressed: () {},
+      body: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.yellow,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50),
+                bottomRight: Radius.circular(50),
+              ),
+            ),
+            child: const Column(children: [
+              SizedBox(
+                height: 60,
+              ),
+              ListTile(
+                title: Text('salut Prorpio',
+                    style:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                subtitle: Text('Bienvenue sur votre espace admin',
+                    style: TextStyle(fontSize: 20)),
+                trailing: CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/foodtruck.jpg'),
+                  radius: 30,
+                ),
+              ),
+            ]),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: GridView(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+              ),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [
+                Itemdashboard(color: Colors.red, icon: Icons.abc),
+                Itemdashboard(color: Colors.blue, icon: Icons.location_on),
+                Itemdashboard(color: Colors.green, icon: Icons.shopping_cart),
+                Itemdashboard(color: Colors.purple, icon: Icons.people),
+                Itemdashboard(color: Colors.black, icon: Icons.people),
+              ],
+            ),
           ),
         ],
-        centerTitle: true,
-        backgroundColor: Colors.teal,
-        title: const Text(
-          'Rolling Foods',
-          style: TextStyle(
-              color: Colors.yellow,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-              fontFamily: 'Lonely',
-              letterSpacing: 2.0),
-        ),
-      ),
-      body: const SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Page du proprio de lieu d'emplacement"),
-              ElevatedButton(
-                onPressed: null,
-                child: Text('Voir la liste de lieux d\'emplacement'),
-              ),
-              ElevatedButton(
-                onPressed: null,
-                child: Text('Modifier profil'),
-              ),
-              ElevatedButton(
-                onPressed: null,
-                child: Text('Administation lieu d\'emplacement'),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
