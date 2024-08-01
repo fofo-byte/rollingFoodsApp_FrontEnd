@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
             onPrimary: Colors.white),
         useMaterial3: true,
       ),
-      home: const Loginpage(),
+      home: const FoodTruckAdmin(),
       debugShowCheckedModeBanner: false,
     );
   }
