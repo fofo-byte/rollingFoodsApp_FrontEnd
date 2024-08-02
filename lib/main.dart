@@ -3,6 +3,7 @@ import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/screens/homeProprio.dart';
 import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
+import 'package:rolling_foods_app_front_end/screens/pageFormFoodTruckProfil.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
             onPrimary: Colors.white),
         useMaterial3: true,
       ),
-      home: const HomePropio(),
+      home: PageFormFoodTruckProfil(),
       debugShowCheckedModeBanner: false,
     );
   }
