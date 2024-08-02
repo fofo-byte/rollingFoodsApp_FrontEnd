@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 class Itemdashboard extends StatelessWidget {
   final Color color;
   final IconData icon;
+  final String title;
 
-  const Itemdashboard({super.key, required this.color, required this.icon});
+  const Itemdashboard(
+      {super.key,
+      required this.color,
+      required this.icon,
+      required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +39,14 @@ class Itemdashboard extends StatelessWidget {
               icon,
               color: color,
               size: 30,
+            ),
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              color: color,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(

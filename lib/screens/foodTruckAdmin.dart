@@ -69,11 +69,26 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                 itemDashboard('Liste des clients', Icons.people, Colors.purple),
                 */
 
-                Itemdashboard(color: Colors.red, icon: Icons.abc),
-                Itemdashboard(color: Colors.blue, icon: Icons.location_on),
-                Itemdashboard(color: Colors.green, icon: Icons.shopping_cart),
-                Itemdashboard(color: Colors.purple, icon: Icons.people),
-                Itemdashboard(color: Colors.black, icon: Icons.people),
+                Itemdashboard(
+                    color: Colors.red,
+                    icon: Icons.abc,
+                    title: 'Créer un lieu d\'emplacement'),
+                Itemdashboard(
+                    color: Colors.blue,
+                    icon: Icons.location_on,
+                    title: 'Vos lieu d\'emplacement'),
+                Itemdashboard(
+                    color: Colors.green,
+                    icon: Icons.shopping_cart,
+                    title: 'Vos commandes'),
+                Itemdashboard(
+                    color: Colors.purple,
+                    icon: Icons.people,
+                    title: 'Vos clients'),
+                Itemdashboard(
+                    color: Colors.black,
+                    icon: Icons.people,
+                    title: 'Vos clients'),
               ],
             ),
           ),
