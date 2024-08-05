@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
             onPrimary: Colors.white),
         useMaterial3: true,
       ),
-      home: PageFormFoodTruckProfil(),
+      home: const Pageformfoodtruckprofil(),
       debugShowCheckedModeBanner: false,
     );
   }
