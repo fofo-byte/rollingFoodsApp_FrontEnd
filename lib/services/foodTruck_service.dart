@@ -46,4 +46,30 @@ class ApiService {
       throw Exception('Failed to load food truck');
     }
   }
+
+  Future<Foodtruck> createFoodTruck(Foodtruck foodTruck) async {
+    try {
+      print('Creating food truck: $foodTruck');
+      final response = await http.post(
+        Uri.parse(baseUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(foodTruck.toJson()),
+      );
+
+      if (response.statusCode == 201) {
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        print('Successfully created food truck: $jsonResponse');
+        return Foodtruck.fromJson(jsonResponse);
+      } else {
+        print(
+            'Failed to create food truck, status code: ${response.statusCode}');
+        throw Exception('Failed to create food truck');
+      }
+    } catch (e) {
+      print('Failed to create food truck: $e');
+      throw Exception('Failed to create food truck');
+    }
+  }
 }

@@ -4,12 +4,14 @@ class Itemdashboard extends StatelessWidget {
   final Color color;
   final IconData icon;
   final String title;
+  final Function onTap;
 
   const Itemdashboard(
       {super.key,
       required this.color,
       required this.icon,
-      required this.title});
+      required this.title,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +43,29 @@ class Itemdashboard extends StatelessWidget {
               size: 30,
             ),
           ),
-          Text(
+          /*Text(
+            textAlign: TextAlign.center,
             title,
             style: TextStyle(
               color: color,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-          ),
+          ),*/
+          ListTile(
+              contentPadding: const EdgeInsets.all(0),
+              title: Text(
+                textAlign: TextAlign.center,
+                title,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                onTap();
+              }),
           const SizedBox(
             height: 10,
           ),

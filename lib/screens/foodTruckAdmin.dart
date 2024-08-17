@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
+import 'package:slide_to_act/slide_to_act.dart';
 
 class FoodTruckAdmin extends StatefulWidget {
   const FoodTruckAdmin({super.key});
@@ -51,44 +52,55 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
           ),
           Padding(
             padding: const EdgeInsets.all(20),
-            child: GridView(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-              ),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                /*
-                itemDashboard('Liste des camions', Icons.abc, Colors.red),
-                itemDashboard(
-                    'Liste des lieux', Icons.location_on, Colors.blue),
-                itemDashboard(
-                    'Liste des commandes', Icons.shopping_cart, Colors.green),
-                itemDashboard('Liste des clients', Icons.people, Colors.purple),
-                */
-
-                Itemdashboard(
-                    color: Colors.red,
-                    icon: Icons.abc,
-                    title: 'Créer un lieu d\'emplacement'),
-                Itemdashboard(
-                    color: Colors.blue,
-                    icon: Icons.location_on,
-                    title: 'Vos lieu d\'emplacement'),
-                Itemdashboard(
-                    color: Colors.green,
-                    icon: Icons.shopping_cart,
-                    title: 'Vos commandes'),
-                Itemdashboard(
-                    color: Colors.purple,
-                    icon: Icons.people,
-                    title: 'Vos clients'),
-                Itemdashboard(
-                    color: Colors.black,
-                    icon: Icons.people,
-                    title: 'Vos clients'),
+            child: Column(
+              children: [
+                SlideAction(
+                  innerColor: Colors.orange,
+                  outerColor: Colors.green,
+                  sliderButtonIcon: const Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  ),
+                  onSubmit: () {},
+                  height: 70,
+                  text: 'Envoyer votre position',
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                GridView(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    Itemdashboard(
+                        color: Colors.orange,
+                        icon: Icons.person,
+                        title: 'Votre profil food truck',
+                        onTap: () {}),
+                    Itemdashboard(
+                        color: Colors.blue,
+                        icon: Icons.location_on,
+                        title: 'Liste des emplacements',
+                        onTap: () {}),
+                    Itemdashboard(
+                        color: Colors.green,
+                        icon: Icons.list,
+                        title: 'Historique des emplacements',
+                        onTap: () {}),
+                    Itemdashboard(
+                        color: Colors.red,
+                        icon: Icons.close,
+                        title: 'Fermer le food truck',
+                        onTap: () {}),
+                  ],
+                ),
               ],
             ),
           ),
