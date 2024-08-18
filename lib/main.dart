@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
             onPrimary: Colors.white),
         useMaterial3: true,
       ),
-      home: const HomePropio(),
+      home: const Loginpage(),
       debugShowCheckedModeBanner: false,
     );
   }
