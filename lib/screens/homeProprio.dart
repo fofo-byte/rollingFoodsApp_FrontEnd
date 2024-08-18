@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/screens/pageCreateGround.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 
 class HomePropio extends StatefulWidget {
@@ -53,27 +54,38 @@ class _HomePropioState extends State<HomePropio> {
               ),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              children: const [
+              children: [
                 Itemdashboard(
-                    color: Colors.red,
-                    icon: Icons.abc,
-                    title: 'Créer un lieu d\'emplacement'),
+                  color: Colors.blue,
+                  icon: Icons.location_on,
+                  title: 'Vos lieux d\'emplacement',
+                  onTap: () {
+                    // ignore: prefer_const_constructors
+                  },
+                ),
                 Itemdashboard(
-                    color: Colors.blue,
-                    icon: Icons.location_on,
-                    title: 'Vos lieu d\'emplacement'),
+                  color: Colors.red,
+                  icon: Icons.abc,
+                  title: 'Créer un lieu d\'emplacement',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CreateGround()));
+                  },
+                ),
                 Itemdashboard(
-                    color: Colors.green,
-                    icon: Icons.shopping_cart,
-                    title: 'Vos commandes'),
+                  color: Colors.green,
+                  icon: Icons.list,
+                  title: 'Votre historique',
+                  onTap: () {},
+                ),
                 Itemdashboard(
-                    color: Colors.purple,
-                    icon: Icons.people,
-                    title: 'Vos clients'),
-                Itemdashboard(
-                    color: Colors.black,
-                    icon: Icons.people,
-                    title: 'Vos clients'),
+                  color: Colors.purple,
+                  icon: Icons.people,
+                  title: 'Vos clients',
+                  onTap: () {},
+                ),
               ],
             ),
           ),
