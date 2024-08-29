@@ -7,7 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/avd.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
-import 'package:rolling_foods_app_front_end/services/foodTruck_service.dart';
+import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/map.dart';
 
 class Foodtruckprofil extends StatefulWidget {
