@@ -131,6 +131,29 @@ class _LoginpageState extends State<Loginpage> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('Vous étes un food trucker?'),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text('Cliquer ici'),
+                          ),
+                          const Text("Vous étes un lieux d'emplacement?"),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text('Cliquer ici'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
