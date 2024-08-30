@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/screens/signUpPage.dart';
+import 'package:rolling_foods_app_front_end/screens/signUpPageFoodTruckOwner.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 import 'package:rolling_foods_app_front_end/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -157,7 +158,13 @@ class _LoginpageState extends State<Loginpage> {
                         children: [
                           const Text('Vous étes un food trucker?'),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Signuppagefoodtruckowner()));
+                            },
                             child: const Text('Cliquer ici'),
                           ),
                           const Text("Vous étes un lieux d'emplacement?"),

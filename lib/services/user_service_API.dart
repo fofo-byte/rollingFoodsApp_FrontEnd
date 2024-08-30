@@ -35,6 +35,30 @@ class UserServiceApi {
     }
   }
 
+  Future<User> registerFoodTruckOwner(
+      String username, String email, String password) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/registerFoodTruckOwner'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'email': email,
+        'password': password
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      print('Successfully registered user: $jsonResponse');
+      return User.fromJson(jsonResponse);
+    } else {
+      print('Failed to register user, status code: ${response.statusCode}');
+      throw Exception('Failed to register user');
+    }
+  }
+
   // Login a user with the API
 
   Future<User> loginUser(String username, String email, String password) async {
