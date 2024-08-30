@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
+import 'package:rolling_foods_app_front_end/screens/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/screens/homeProprio.dart';
 import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Rolling Foods',
       theme: ThemeData(
         colorScheme: ColorScheme.light(
             surface: Colors.grey.shade200,
@@ -26,6 +27,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const Loginpage(),
+      routes: {
+        '/signup': (context) => const SignUpPage(),
+        '/homeCustomer': (context) => const HomeCustomer(),
+        '/homeProprio': (context) => const HomePropio(),
+        '/foodTruckAdmin': (context) => const FoodTruckAdmin(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

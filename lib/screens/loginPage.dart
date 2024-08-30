@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/screens/signUpPage.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
+import 'package:rolling_foods_app_front_end/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -25,11 +27,21 @@ class _LoginpageState extends State<Loginpage> {
       String email = _emailController.text;
       String password = _passwordController.text;
 
-      UserServiceApi().loginUser(username, email, password);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const HomeCustomer()));
-    } else {
-      print('Failed to login user');
+      try {
+        UserServiceApi().loginUser(username, email, password);
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? role = prefs.getString('role');
+        if (role == 'ROLE_USER') {
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacementNamed(context, '/homeCustomer');
+        } else if (role == 'ROLE_FOOD_TRUCK_OWNER') {
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacementNamed(context, '/foodTruckAdmin');
+        }
+      } catch (e) {
+        print('Failed to login user: $e');
+      }
     }
   }
 
@@ -79,18 +91,21 @@ class _LoginpageState extends State<Loginpage> {
                             },
                           ),
                         ),
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            border: OutlineInputBorder(),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextFormField(
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                              labelText: 'Email',
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email';
+                              }
+                              return null;
+                            },
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8),

@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rolling_foods_app_front_end/models/user.dart';
+import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServiceApi {
@@ -63,13 +65,17 @@ class UserServiceApi {
         throw Exception('Username not found in token');
       }
 
+      int userId = decodedToken['id'];
       String username = decodedToken['username'];
       String decodeEmail = decodedToken['email'];
+      String role = decodedToken['roles'][0]['authority'];
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
+      await prefs.setInt('userId', userId);
       await prefs.setString('username', username);
       await prefs.setString('email', decodeEmail);
+      await prefs.setString('role', role);
 
       print('Successfully logged in user: $jsonResponse');
       return User.fromJson(jsonResponse);

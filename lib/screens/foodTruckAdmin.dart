@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class FoodTruckAdmin extends StatefulWidget {
@@ -11,6 +12,21 @@ class FoodTruckAdmin extends StatefulWidget {
 }
 
 class _FoodTruckAdminState extends State<FoodTruckAdmin> {
+  String username = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username') ?? 'Guest';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ElevatedButton.styleFrom(
@@ -30,17 +46,17 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                 bottomRight: Radius.circular(50),
               ),
             ),
-            child: const Column(children: [
-              SizedBox(
+            child: Column(children: [
+              const SizedBox(
                 height: 60,
               ),
               ListTile(
-                title: Text('salut admin',
-                    style:
-                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                subtitle: Text('Bienvenue sur votre espace admin',
+                title: Text('Salut $username',
+                    style: const TextStyle(
+                        fontSize: 30, fontWeight: FontWeight.bold)),
+                subtitle: const Text('Bienvenue sur votre espace admin',
                     style: TextStyle(fontSize: 20)),
-                trailing: CircleAvatar(
+                trailing: const CircleAvatar(
                   backgroundImage: AssetImage('assets/images/foodtruck.jpg'),
                   radius: 30,
                 ),

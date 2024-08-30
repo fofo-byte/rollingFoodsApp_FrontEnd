@@ -1,22 +1,23 @@
 import 'dart:ffi';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class User {
-  int? id;
+  int id;
   String username;
   String email;
   String password;
-  String? role;
-  String? token;
+  String role;
+  String token;
 
   User({
-    this.id,
+    required this.id,
     required this.username,
     required this.email,
     required this.password,
-    this.role = '',
-    this.token = '',
+    required this.role,
+    required this.token,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
