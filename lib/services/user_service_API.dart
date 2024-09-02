@@ -89,14 +89,14 @@ class UserServiceApi {
         throw Exception('Username not found in token');
       }
 
-      int userId = decodedToken['id'];
+      int id = decodedToken['id'];
       String username = decodedToken['username'];
       String decodeEmail = decodedToken['email'];
       String role = decodedToken['roles'][0]['authority'];
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
-      await prefs.setInt('userId', userId);
+      await prefs.setInt('id', id);
       await prefs.setString('username', username);
       await prefs.setString('email', decodeEmail);
       await prefs.setString('role', role);

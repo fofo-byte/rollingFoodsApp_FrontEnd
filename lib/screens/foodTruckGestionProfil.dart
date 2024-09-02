@@ -1,17 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
-class FoodTruckAdmin extends StatefulWidget {
-  const FoodTruckAdmin({super.key});
+class Foodtruckgestionprofil extends StatefulWidget {
+  const Foodtruckgestionprofil({super.key});
 
   @override
-  State<FoodTruckAdmin> createState() => _FoodTruckAdminState();
+  State<Foodtruckgestionprofil> createState() => _FoodtruckgestionprofilState();
 }
 
-class _FoodTruckAdminState extends State<FoodTruckAdmin> {
+class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
   String username = '';
   int foodtruckId = 0;
 
@@ -31,12 +31,34 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20),
-      elevation: 10,
-      backgroundColor: Colors.orange,
-    );
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          IconButton(
+            color: Colors.yellow,
+            icon: const Icon(Icons.account_circle),
+            onPressed: () {},
+          ),
+        ],
+        centerTitle: true,
+        backgroundColor: Colors.teal,
+        title: const Text(
+          'Rolling Foods',
+          style: TextStyle(
+            color: Colors.yellow,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Lonely',
+          ),
+        ),
+      ),
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -53,10 +75,10 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                 height: 60,
               ),
               ListTile(
-                title: Text('Salut $username ${foodtruckId.toString()}',
+                title: Text('$username ${foodtruckId.toString()}',
                     style: const TextStyle(
                         fontSize: 30, fontWeight: FontWeight.bold)),
-                subtitle: const Text('Bienvenue sur votre espace admin',
+                subtitle: const Text('Votre espace gestion compte',
                     style: TextStyle(fontSize: 20)),
                 trailing: const CircleAvatar(
                   backgroundImage: AssetImage('assets/images/foodtruck.jpg'),
@@ -72,22 +94,6 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                SlideAction(
-                  innerColor: Colors.orange,
-                  outerColor: Colors.green,
-                  sliderButtonIcon: const Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
-                  ),
-                  onSubmit: () {},
-                  height: 70,
-                  text: 'Envoyer votre position',
-                  textStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
                 GridView(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -100,15 +106,15 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                     Itemdashboard(
                         color: Colors.orange,
                         icon: Icons.app_settings_alt,
-                        title: 'Gerez votre compte',
+                        title: 'Creer un compte',
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/foodTruckGestionProfil');
+                              context, '/createAccountFoodTruckOwner');
                         }),
                     Itemdashboard(
                         color: Colors.blue,
                         icon: Icons.location_on,
-                        title: 'Gerez votre foodtruck',
+                        title: 'Modifier votre compte',
                         onTap: () {}),
                     Itemdashboard(
                         color: Colors.green,
