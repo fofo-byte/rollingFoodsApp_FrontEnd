@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckGestionProfil.dart';
+import 'package:rolling_foods_app_front_end/screens/foodTruckGestionProfilFoodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/screens/homeProprio.dart';
@@ -39,6 +40,8 @@ class MyApp extends StatelessWidget {
             const Pageformfoodtruckprofil(),
         '/createAccountFoodTruckOwner': (context) =>
             const Pageformadminaccount(),
+        '/foodTruckGestionProfilFoodTruck': (context) =>
+            const Foodtruckgestionprofilfoodtruck(),
       },
       debugShowCheckedModeBanner: false,
     );

@@ -109,7 +109,10 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                         color: Colors.blue,
                         icon: Icons.location_on,
                         title: 'Gerez votre foodtruck',
-                        onTap: () {}),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/foodTruckGestionProfilFoodTruck');
+                        }),
                     Itemdashboard(
                         color: Colors.green,
                         icon: Icons.list,

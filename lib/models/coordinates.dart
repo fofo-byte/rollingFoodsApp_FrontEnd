@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
 class Coordinates {
-  double latitude;
-  double longitude;
+  double latitude = 50.47935;
+  double longitude = 4.18563;
 
   Coordinates({Key? key, required this.latitude, required this.longitude});
 
