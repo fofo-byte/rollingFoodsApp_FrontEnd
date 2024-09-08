@@ -6,8 +6,7 @@ class Foodtruck {
   String name;
   String description;
   String speciality;
-  String foodType;
-  List<Picture> pictures;
+  String foodTypes;
   Coordinates coordinates;
 
   Foodtruck({
@@ -15,8 +14,7 @@ class Foodtruck {
     required this.name,
     required this.description,
     required this.speciality,
-    required this.foodType,
-    required this.pictures,
+    required this.foodTypes,
     required this.coordinates,
   });
 
@@ -26,12 +24,10 @@ class Foodtruck {
       name: json['name'],
       description: json['description'],
       speciality: json['speciality'],
-      pictures: (json['pictures'] as List)
-          .map((picture) => Picture.fromJson(picture))
-          .toList(), // Convert the list of pictures to a list of Picture objects
+      // Convert the list of pictures to a list of Picture objects
       coordinates: Coordinates.fromJson(json['coordinates']),
       // Convert the coordinates to a Coordinates object
-      foodType: json['foodType'],
+      foodTypes: json['foodType'],
     );
   }
 
@@ -41,7 +37,6 @@ class Foodtruck {
         'description': description,
         'speciality': speciality,
         'coordinates': coordinates.toJson(),
-        'pictures': pictures.map((picture) => picture.toJson()).toList(),
-        'foodType': foodType,
+        'foodType': foodTypes,
       };
 }

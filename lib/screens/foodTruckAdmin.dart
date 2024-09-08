@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:slide_to_act/slide_to_act.dart';
@@ -19,6 +20,16 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
   void initState() {
     super.initState();
     _loadUsername();
+  }
+
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+    prefs.remove('role');
+
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const Loginpage()));
   }
 
   Future<void> _loadUsername() async {
@@ -58,9 +69,17 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                         fontSize: 30, fontWeight: FontWeight.bold)),
                 subtitle: const Text('Bienvenue sur votre espace admin',
                     style: TextStyle(fontSize: 20)),
-                trailing: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/foodtruck.jpg'),
-                  radius: 30,
+                trailing: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Colors.orange,
+                    ),
+                    onPressed: () {
+                      _logout();
+                    },
+                  ),
                 ),
               ),
             ]),

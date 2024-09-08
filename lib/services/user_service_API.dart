@@ -37,6 +37,8 @@ class UserServiceApi {
     }
   }
 
+  // Register a new FoodTruckOwner with the API
+
   Future<User> registerFoodTruckOwner(
       String username, String email, String password) async {
     final response = await http.post(

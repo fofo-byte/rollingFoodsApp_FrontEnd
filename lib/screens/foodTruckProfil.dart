@@ -136,7 +136,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            foodtruck.foodType,
+                            foodtruck.foodTypes,
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 
 class Foodtruckgestionprofilfoodtruck extends StatefulWidget {
@@ -21,13 +22,7 @@ class _FoodtruckgestionprofilfoodtruckState
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            color: Colors.yellow,
-            icon: const Icon(Icons.account_circle),
-            onPressed: () {},
-          ),
-        ],
+        actions: [],
         centerTitle: true,
         backgroundColor: Colors.teal,
         title: const Text(
@@ -45,6 +40,7 @@ class _FoodtruckgestionprofilfoodtruckState
         padding: EdgeInsets.zero,
         children: [
           Container(
+            height: 150,
             decoration: const BoxDecoration(
               color: Colors.orange,
               borderRadius: BorderRadius.only(
@@ -52,19 +48,33 @@ class _FoodtruckgestionprofilfoodtruckState
                 bottomRight: Radius.circular(50),
               ),
             ),
-            child: const Column(children: [
-              SizedBox(
-                height: 60,
+            child: Column(children: [
+              const SizedBox(
+                height: 50,
               ),
               ListTile(
-                title: Text('Salut Food Truck Owner',
+                title: const Text('Salut Food Truck Owner',
                     style:
-                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                subtitle: Text('Votre espace gestion compte',
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                subtitle: const Text('Votre espace gestion compte',
                     style: TextStyle(fontSize: 20)),
-                trailing: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/foodtruck.jpg'),
-                  radius: 30,
+                trailing: Stack(
+                  children: [
+                    const CircleAvatar(
+                      radius: 40,
+                      backgroundImage:
+                          AssetImage('assets/images/foodtruck.jpg'),
+                    ),
+                    Positioned(
+                      bottom: 25,
+                      right: 25,
+                      child: CircleAvatar(
+                          radius: 1,
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.add_a_photo))),
+                    ),
+                  ],
                 ),
               ),
             ]),
