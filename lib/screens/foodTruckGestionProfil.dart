@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:slide_to_act/slide_to_act.dart';
 
 class Foodtruckgestionprofil extends StatefulWidget {
   const Foodtruckgestionprofil({super.key});

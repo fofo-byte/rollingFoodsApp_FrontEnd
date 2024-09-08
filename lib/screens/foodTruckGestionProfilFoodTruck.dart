@@ -1,6 +1,13 @@
+import 'dart:ffi';
+import 'dart:io';
+import 'dart:core';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rolling_foods_app_front_end/services/firebaseService.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
+import 'package:path/path.dart' as path;
 
 class Foodtruckgestionprofilfoodtruck extends StatefulWidget {
   const Foodtruckgestionprofilfoodtruck({super.key});
@@ -12,6 +19,62 @@ class Foodtruckgestionprofilfoodtruck extends StatefulWidget {
 
 class _FoodtruckgestionprofilfoodtruckState
     extends State<Foodtruckgestionprofilfoodtruck> {
+  File? _image;
+  final picker = ImagePicker();
+
+  // Méthode pour sélectionner une image depuis la galerie
+  Future<void> getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      });
+
+      // Appeler la méthode d'upload après avoir sélectionné l'image
+      if (_image != null) {
+        String? imageUrl = await uploadImageToFirebase(_image!);
+        if (imageUrl != null) {
+          print("Image URL: $imageUrl");
+        }
+      }
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  // Méthode pour uploader l'image sur Firebase Storage
+  Future<String?> uploadImageToFirebase(File imageFile) async {
+    try {
+      // Obtenir le nom du fichier
+      String fileName = path.basename(imageFile.path);
+
+      // Créer une référence dans Firebase Storage
+      Reference storageRef = FirebaseStorage.instance
+          .ref()
+          .child('profileImagesFoodTruck/$fileName');
+
+      // Uploader le fichier
+      UploadTask uploadTask = storageRef.putFile(imageFile);
+
+      // Attendre que l'upload soit complété
+      TaskSnapshot taskSnapshot = await uploadTask;
+
+      // Récupérer l'URL de téléchargement de l'image
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+      print("Image uploaded to Firebase: $downloadURL");
+      return downloadURL; // Retourner l'URL de l'image
+    } catch (e) {
+      print("Failed to upload image: $e");
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,20 +123,16 @@ class _FoodtruckgestionprofilfoodtruckState
                     style: TextStyle(fontSize: 20)),
                 trailing: Stack(
                   children: [
-                    const CircleAvatar(
-                      radius: 40,
-                      backgroundImage:
-                          AssetImage('assets/images/foodtruck.jpg'),
+                    CircleAvatar(
+                      radius: 80,
+                      backgroundImage: _image != null
+                          ? FileImage(_image!)
+                          : const AssetImage('assets/images/foodtruck.jpg')
+                              as ImageProvider,
                     ),
-                    Positioned(
-                      bottom: 25,
-                      right: 25,
-                      child: CircleAvatar(
-                          radius: 1,
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.add_a_photo))),
-                    ),
+                    IconButton(
+                        onPressed: getImage,
+                        icon: const Icon(Icons.add_a_photo)),
                   ],
                 ),
               ),
