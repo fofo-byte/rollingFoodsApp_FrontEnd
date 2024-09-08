@@ -103,7 +103,7 @@ class _FoodtruckgestionprofilfoodtruckState
         padding: EdgeInsets.zero,
         children: [
           Container(
-            height: 150,
+            height: 180,
             decoration: const BoxDecoration(
               color: Colors.orange,
               borderRadius: BorderRadius.only(
@@ -124,13 +124,15 @@ class _FoodtruckgestionprofilfoodtruckState
                 trailing: Stack(
                   children: [
                     CircleAvatar(
-                      radius: 80,
+                      radius: 50,
                       backgroundImage: _image != null
                           ? FileImage(_image!)
                           : const AssetImage('assets/images/foodtruck.jpg')
                               as ImageProvider,
                     ),
                     IconButton(
+                        padding: EdgeInsets.all(50),
+                        color: Colors.black,
                         onPressed: getImage,
                         icon: const Icon(Icons.add_a_photo)),
                   ],
