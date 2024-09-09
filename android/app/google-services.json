@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "631494973899",
+    "project_id": "rollingfoodsfirebase",
+    "storage_bucket": "rollingfoodsfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631494973899:android:9d4aa8d894d6cda8d2fe4e",
+        "android_client_info": {
+          "package_name": "com.example.rolling_foods_app_front_end"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwkmjDZLXicdaDQ0QPwLigKOmHzPObPdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

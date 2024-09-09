@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckGestionProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckGestionProfilFoodTruck.dart';
-import 'package:rolling_foods_app_front_end/screens/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/screens/homeProprio.dart';
 import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
 import 'package:rolling_foods_app_front_end/screens/pageFormAdminAccount.dart';
 import 'package:rolling_foods_app_front_end/screens/pageFormFoodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/signUpPage.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

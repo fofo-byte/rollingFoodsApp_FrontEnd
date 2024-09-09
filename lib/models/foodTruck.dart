@@ -7,6 +7,7 @@ class Foodtruck {
   String description;
   String speciality;
   String foodTypes;
+  String? urlProlfileImage;
   Coordinates coordinates;
 
   Foodtruck({
@@ -15,6 +16,7 @@ class Foodtruck {
     required this.description,
     required this.speciality,
     required this.foodTypes,
+    required this.urlProlfileImage,
     required this.coordinates,
   });
 
@@ -24,6 +26,7 @@ class Foodtruck {
       name: json['name'],
       description: json['description'],
       speciality: json['speciality'],
+      urlProlfileImage: json['profileImage'],
       // Convert the list of pictures to a list of Picture objects
       coordinates: Coordinates.fromJson(json['coordinates']),
       // Convert the coordinates to a Coordinates object
@@ -37,6 +40,7 @@ class Foodtruck {
         'description': description,
         'speciality': speciality,
         'coordinates': coordinates.toJson(),
+        'profileImage': urlProlfileImage,
         'foodType': foodTypes,
       };
 }

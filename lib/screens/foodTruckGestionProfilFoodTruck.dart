@@ -1,6 +1,15 @@
+import 'dart:ffi';
+import 'dart:io';
+import 'dart:core';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
+import 'package:rolling_foods_app_front_end/services/firebaseService.dart';
+import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
+import 'package:path/path.dart' as path;
 
 class Foodtruckgestionprofilfoodtruck extends StatefulWidget {
   const Foodtruckgestionprofilfoodtruck({super.key});
@@ -22,7 +31,7 @@ class _FoodtruckgestionprofilfoodtruckState
             Navigator.pop(context);
           },
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         backgroundColor: Colors.teal,
         title: const Text(
@@ -40,7 +49,7 @@ class _FoodtruckgestionprofilfoodtruckState
         padding: EdgeInsets.zero,
         children: [
           Container(
-            height: 150,
+            height: 180,
             decoration: const BoxDecoration(
               color: Colors.orange,
               borderRadius: BorderRadius.only(
@@ -48,34 +57,17 @@ class _FoodtruckgestionprofilfoodtruckState
                 bottomRight: Radius.circular(50),
               ),
             ),
-            child: Column(children: [
-              const SizedBox(
+            // ignore: prefer_const_constructors
+            child: Column(children: const [
+              SizedBox(
                 height: 50,
               ),
               ListTile(
-                title: const Text('Salut Food Truck Owner',
+                title: Text('Salut Food Truck Owner',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                subtitle: const Text('Votre espace gestion compte',
+                subtitle: Text('Votre espace gestion compte',
                     style: TextStyle(fontSize: 20)),
-                trailing: Stack(
-                  children: [
-                    const CircleAvatar(
-                      radius: 40,
-                      backgroundImage:
-                          AssetImage('assets/images/foodtruck.jpg'),
-                    ),
-                    Positioned(
-                      bottom: 25,
-                      right: 25,
-                      child: CircleAvatar(
-                          radius: 1,
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.add_a_photo))),
-                    ),
-                  ],
-                ),
               ),
             ]),
           ),
