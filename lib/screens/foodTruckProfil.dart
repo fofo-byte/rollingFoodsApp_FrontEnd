@@ -7,6 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 
 import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
+import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/map.dart';
 
@@ -118,10 +119,12 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                       foregroundDecoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         radius: 50,
-                        backgroundImage:
-                            AssetImage("assets/images/foodtruck.jpg"),
+                        backgroundImage: foodtruck.urlProlfileImage != null
+                            ? NetworkImage(foodtruck.urlProlfileImage!)
+                            : const AssetImage('assets/images/foodtruck.jpg')
+                                as ImageProvider,
                       ),
                     ),
                     Container(

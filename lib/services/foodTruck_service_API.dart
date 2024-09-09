@@ -102,6 +102,7 @@ class ApiService {
     required String description,
     required String speciality,
     required String foodTypes,
+    required String profileImage,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('id');
@@ -113,6 +114,7 @@ class ApiService {
       'description': description,
       'speciality': speciality,
       'foodType': foodTypes,
+      'profileImage': profileImage,
       'coordinates': {
         'latitude': 50.4793576,
         'longitude': 4.18563,

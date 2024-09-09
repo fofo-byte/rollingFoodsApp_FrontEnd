@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +11,7 @@ import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:path/path.dart' as path;
 
 class Pageformfoodtruckprofil extends StatefulWidget {
   const Pageformfoodtruckprofil({super.key});
@@ -24,21 +26,49 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _specialityController = TextEditingController();
-
   String _selectedFoodTypes = '';
+
+  File? _image;
+  final picker = ImagePicker();
+  String? imageUrl;
 
   // Food types for dropdown
   // Food types for dropdown
   final List<MultiSelectItem<String>> _foodTypes = [
     MultiSelectItem("FAST_FOOD", "Fast Food"),
     MultiSelectItem("Mexican", "Mexican"),
-    MultiSelectItem("Italian", "Italian"),
+    MultiSelectItem("ITALIAN", "Italian"),
     MultiSelectItem("Chinese", "Chinese"),
     MultiSelectItem("Japanese", "Japanese"),
     MultiSelectItem("Indian", "Indian"),
     MultiSelectItem("Mediterranean", "Mediterranean"),
     MultiSelectItem("American", "American"),
   ];
+
+  // Method to upload an image
+  Future<void> getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      });
+
+      // Call the upload method after selecting the image
+      if (_image != null) {
+        imageUrl = await uploadImageToFirebase(_image!);
+        if (imageUrl != null) {
+          print("Image URL: $imageUrl");
+        }
+      }
+    } else {
+      print('No image selected.');
+    }
+  }
 
   // Method to submit the form
   Future<void> _submitForm() async {
@@ -54,6 +84,7 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
           description: _descriptionController.text,
           speciality: _specialityController.text,
           foodTypes: _selectedFoodTypes,
+          profileImage: imageUrl!,
         );
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -65,6 +96,34 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
       } else {
         print("User credential ID not found.");
       }
+    }
+  }
+
+  // Méthode pour uploader l'image sur Firebase Storage
+  Future<String?> uploadImageToFirebase(File imageFile) async {
+    try {
+      // Obtenir le nom du fichier
+      String fileName = path.basename(imageFile.path);
+
+      // Créer une référence dans Firebase Storage
+      Reference storageRef = FirebaseStorage.instance
+          .ref()
+          .child('profileImagesFoodTruck/$fileName + ${DateTime.now()}');
+
+      // Uploader le fichier
+      UploadTask uploadTask = storageRef.putFile(imageFile);
+
+      // Attendre que l'upload soit complété
+      TaskSnapshot taskSnapshot = await uploadTask;
+
+      // Récupérer l'URL de téléchargement de l'image
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+      print("Image uploaded to Firebase: $downloadURL");
+      return downloadURL; // Retourner l'URL de l'image
+    } catch (e) {
+      print("Failed to upload image: $e");
+      return null;
     }
   }
 
@@ -130,6 +189,25 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
             key: _formKey,
             child: Column(
               children: [
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: _image != null
+                          ? FileImage(_image!)
+                          : const AssetImage('assets/images/foodtruck.jpg')
+                              as ImageProvider,
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.all(50),
+                      color: Colors.black,
+                      onPressed: () async {
+                        await getImage();
+                      },
+                      icon: const Icon(Icons.add_a_photo),
+                    ),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
