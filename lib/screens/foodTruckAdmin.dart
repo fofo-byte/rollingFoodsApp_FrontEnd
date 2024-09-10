@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
+import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:slide_to_act/slide_to_act.dart';
@@ -38,6 +41,12 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
       username = prefs.getString('username') ?? 'Guest';
       foodtruckId = prefs.getInt('id') ?? 0;
     });
+  }
+
+  Future<void> _checkFoodTruckExists(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt('id') ?? 0;
+    int foodTruckOwnerId = await ApiService().findIdFoodTruckOwner(userId);
   }
 
   @override
@@ -129,8 +138,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                         icon: Icons.location_on,
                         title: 'Gerez votre foodtruck',
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, '/foodTruckGestionProfilFoodTruck');
+                          _checkFoodTruckExists(context);
                         }),
                     Itemdashboard(
                         color: Colors.green,
