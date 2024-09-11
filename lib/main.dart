@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
-import 'package:rolling_foods_app_front_end/screens/foodTruckGestionProfil.dart';
-import 'package:rolling_foods_app_front_end/screens/foodTruckGestionProfilFoodTruck.dart';
-import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
-import 'package:rolling_foods_app_front_end/screens/homeProprio.dart';
-import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
-import 'package:rolling_foods_app_front_end/screens/pageFormAdminAccount.dart';
-import 'package:rolling_foods_app_front_end/screens/pageFormFoodTruckProfil.dart';
-import 'package:rolling_foods_app_front_end/screens/signUpPage.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckAdmin.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckGestionProfil.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckGestionProfilFoodTruck.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionCustomer/homeCustomer.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/gestionFoodTruck.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionLocationOwner/homeProprio.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/pageFormAdminAccount.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/pageFormFoodTruckProfil.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/signUpPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
             const Pageformadminaccount(),
         '/foodTruckGestionProfilFoodTruck': (context) =>
             const Foodtruckgestionprofilfoodtruck(),
+        '/gestionFoodTruck': (context) => const Gestionfoodtruck(),
       },
       debugShowCheckedModeBanner: false,
     );
