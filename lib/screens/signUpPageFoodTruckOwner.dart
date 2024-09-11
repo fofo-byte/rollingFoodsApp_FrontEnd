@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/foodTruckAdmin.dart';
+import 'package:rolling_foods_app_front_end/screens/pageFormAdminAccount.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 
 class Signuppagefoodtruckowner extends StatefulWidget {
@@ -23,8 +24,27 @@ class _SignuppagefoodtruckownerState extends State<Signuppagefoodtruckowner> {
       String password = _passwordController.text;
 
       UserServiceApi().registerFoodTruckOwner(username, email, password);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const FoodTruckAdmin()));
+      await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('You have successfully signed up'),
+              content: const Text(
+                  'Vous pouvez maintenant créer votre compte food trucker'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const Pageformadminaccount()));
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          });
     }
   }
 
