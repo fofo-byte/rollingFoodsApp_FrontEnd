@@ -164,7 +164,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Foodtruckprofil(
-                                    foodtruckId: data[index].id),
+                                    foodtruckId: data[index].id ?? 0),
                               ),
                             );
                           },

@@ -79,8 +79,8 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
               markers.add(Marker(
                 width: 80.0,
                 height: 80.0,
-                point: LatLng(foodtruck.coordinates.latitude,
-                    foodtruck.coordinates.longitude),
+                point: LatLng(foodtruck.coordinates!.latitude,
+                    foodtruck.coordinates!.longitude),
                 child: const Icon(Icons.pin_drop, color: Colors.red),
               ));
 
@@ -94,8 +94,8 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                         mapController: _mapController,
                         options: MapOptions(
                           maxZoom: 15,
-                          initialCenter: LatLng(foodtruck.coordinates.latitude,
-                              foodtruck.coordinates.longitude),
+                          initialCenter: LatLng(foodtruck.coordinates!.latitude,
+                              foodtruck.coordinates!.longitude),
                           initialZoom: 14,
                         ),
                         children: [

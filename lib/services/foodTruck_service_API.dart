@@ -153,21 +153,53 @@ class ApiService {
   }
 
   //Update a food truck
-  Future<Foodtruck> updateFoodTruck(int id, Foodtruck foodTruck) async {
+  // Mettre à jour un food truck
+  Future<http.Response> updateFoodTruck({
+    int? id,
+    required String name,
+    required String description,
+    required String speciality,
+    required String foodTypes,
+    String? profileImage,
+  }) async {
     try {
-      print('Updating food truck with id $id: $foodTruck');
-      final response = await http.put(
-        Uri.parse('$baseUrl/$id'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(foodTruck.toJson()),
+      // Créer le JSON pour les données du food truck
+      Map<String, dynamic> foodTruckData = {
+        'id': id,
+        'name': name,
+        'description': description,
+        'speciality': speciality,
+        'foodType': foodTypes,
+        if (profileImage != null)
+          'profileImage': profileImage, // Ajouter l'image si présente
+      };
+
+      // Convertir les données du food truck en JSON
+      String foodTruckJson = jsonEncode(foodTruckData);
+
+      // Créer la requête HTTP
+      var request = http.MultipartRequest('PUT',
+          Uri.parse('http://10.0.2.2:8686/api/updateFoodTruck?ownerId=$id'));
+
+      // Ajouter le JSON des données du foodTruck comme une partie multipart
+      request.files.add(
+        http.MultipartFile.fromString(
+          'foodTruck', // Le nom attendu par le backend
+          foodTruckJson,
+          filename: 'foodTruck.json',
+          contentType: MediaType('application', 'json'),
+        ),
       );
 
+      // Envoyer la requête
+      var response = await request.send();
+
+      // Vérifier la réponse du serveur
       if (response.statusCode == 200) {
-        Map<String, dynamic> jsonResponse = json.decode(response.body);
-        print('Successfully updated food truck: $jsonResponse');
-        return Foodtruck.fromJson(jsonResponse);
+        Map<String, dynamic> jsonResponse =
+            json.decode(await response.stream.bytesToString());
+        print('Successfully updated food truck');
+        return http.Response('Success', 200);
       } else {
         print(
             'Failed to update food truck, status code: ${response.statusCode}');
@@ -183,7 +215,11 @@ class ApiService {
   Future<void> deleteFoodTruck(int id) async {
     try {
       print('Deleting food truck with id $id');
-      final response = await http.delete(Uri.parse('$baseUrl/$id'));
+      final response = await http.delete(
+          Uri.parse('http://10.0.2.2:8686/api/deleteFoodTruck?foodTruckId=$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
 
       if (response.statusCode == 204) {
         print('Successfully deleted food truck with id $id');
@@ -198,5 +234,33 @@ class ApiService {
     }
   }
 
-  //Create a food truck with JSON request
+  // Get food truck id by owner id
+  Future<int> getFoodTruckIdByOwnerId(int ownerId) async {
+    try {
+      print('Fetching food truck id by owner id $ownerId');
+      final response = await http.get(
+        Uri.parse(
+            'http://10.0.2.2:8686/api/foodTruckByOwnerId?ownerId=$ownerId'),
+      );
+
+      if (response.statusCode == 200) {
+        if (response.body.isEmpty) {
+          print('No food truck found for owner id $ownerId');
+          return 0;
+        }
+
+        String jsonResponse = response.body;
+        int foodTruckId = int.parse(jsonResponse);
+        print('Successfully fetched food truck id: $foodTruckId');
+        return foodTruckId;
+      } else {
+        print(
+            'Failed to load food truck id, status code: ${response.statusCode}');
+        throw Exception('Failed to load food truck id');
+      }
+    } catch (e) {
+      print('Failed to load food truck id: $e');
+      throw Exception('Failed to load food truck id');
+    }
+  }
 }

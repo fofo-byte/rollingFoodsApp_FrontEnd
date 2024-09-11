@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
+import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:slide_to_act/slide_to_act.dart';
@@ -38,6 +41,79 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
       username = prefs.getString('username') ?? 'Guest';
       foodtruckId = prefs.getInt('id') ?? 0;
     });
+  }
+
+  Future<void> _checkFoodTruckExists(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt('id') ?? 0;
+    int foodTruckOwnerId = await ApiService().findIdFoodTruckOwner(userId);
+
+    try {
+      int foodTruckId =
+          await ApiService().getFoodTruckIdByOwnerId(foodTruckOwnerId);
+      print('Food truck id flag: $foodTruckId'); // get the food truck id
+
+      // ignore: unnecessary_null_comparison
+      if (foodTruckId == 0) {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Vous n\'avez pas de food truck'),
+              content: const Text('Voulez-vous créer un food truck?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Non'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/pageFormFoodTruckProfil');
+                  },
+                  child: const Text('Oui'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Gérer votre food truck'),
+              content: const Text('Voulez-vous gérer votre food truck?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Non'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                        context, '/foodTruckGestionProfilFoodTruck',
+                        arguments: foodTruckId);
+                  },
+                  child: const Text('Oui'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vous n\'avez pas de food truck'),
+        ),
+      );
+    }
   }
 
   @override
@@ -129,8 +205,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                         icon: Icons.location_on,
                         title: 'Gerez votre foodtruck',
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, '/foodTruckGestionProfilFoodTruck');
+                          _checkFoodTruckExists(context);
                         }),
                     Itemdashboard(
                         color: Colors.green,
