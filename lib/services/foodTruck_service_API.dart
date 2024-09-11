@@ -244,6 +244,11 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
+        if (response.body.isEmpty) {
+          print('No food truck found for owner id $ownerId');
+          return 0;
+        }
+
         String jsonResponse = response.body;
         int foodTruckId = int.parse(jsonResponse);
         print('Successfully fetched food truck id: $foodTruckId');

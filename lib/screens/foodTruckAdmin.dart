@@ -47,6 +47,73 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int userId = prefs.getInt('id') ?? 0;
     int foodTruckOwnerId = await ApiService().findIdFoodTruckOwner(userId);
+
+    try {
+      int foodTruckId =
+          await ApiService().getFoodTruckIdByOwnerId(foodTruckOwnerId);
+      print('Food truck id flag: $foodTruckId'); // get the food truck id
+
+      // ignore: unnecessary_null_comparison
+      if (foodTruckId == 0) {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Vous n\'avez pas de food truck'),
+              content: const Text('Voulez-vous créer un food truck?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Non'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/pageFormFoodTruckProfil');
+                  },
+                  child: const Text('Oui'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Gérer votre food truck'),
+              content: const Text('Voulez-vous gérer votre food truck?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Non'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                        context, '/foodTruckGestionProfilFoodTruck',
+                        arguments: foodTruckId);
+                  },
+                  child: const Text('Oui'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vous n\'avez pas de food truck'),
+        ),
+      );
+    }
   }
 
   @override
