@@ -6,23 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
-import 'package:rolling_foods_app_front_end/screens/updatePageFoodTruckProfil.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/updatePageFoodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/services/firebaseService.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:path/path.dart' as path;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Foodtruckgestionprofilfoodtruck extends StatefulWidget {
-  const Foodtruckgestionprofilfoodtruck({super.key});
+class Gestionfoodtruck extends StatefulWidget {
+  const Gestionfoodtruck({super.key});
 
   @override
-  State<Foodtruckgestionprofilfoodtruck> createState() =>
-      _FoodtruckgestionprofilfoodtruckState();
+  State<Gestionfoodtruck> createState() => _GestionfoodtruckState();
 }
 
-class _FoodtruckgestionprofilfoodtruckState
-    extends State<Foodtruckgestionprofilfoodtruck> {
+class _GestionfoodtruckState extends State<Gestionfoodtruck> {
   String username = '';
   int userId = 0;
   int foodTruckOwnerId = 0;
@@ -106,15 +104,15 @@ class _FoodtruckgestionprofilfoodtruckState
                     ),
                   ),
                   // ignore: prefer_const_constructors
-                  child: Column(children: const [
-                    SizedBox(
+                  child: Column(children: [
+                    const SizedBox(
                       height: 50,
                     ),
                     ListTile(
-                      title: Text('Salut Food Truck Owner',
-                          style: TextStyle(
+                      title: Text('Salut $username',
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
-                      subtitle: Text('Votre espace gestion compte',
+                      subtitle: Text('Votre espace gestion food truck',
                           style: TextStyle(fontSize: 20)),
                     ),
                   ]),
@@ -139,15 +137,15 @@ class _FoodtruckgestionprofilfoodtruckState
                           Itemdashboard(
                               color: Colors.orange,
                               icon: Icons.app_settings_alt,
-                              title: 'Creer un food truck',
+                              title: 'Gestion profil food truck',
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, '/pageFormFoodTruckProfil');
+                                Navigator.pushNamed(context,
+                                    '/foodTruckGestionProfilFoodTruck');
                               }),
                           Itemdashboard(
                               color: Colors.blue,
-                              icon: Icons.location_on,
-                              title: 'Modifier votre food truck',
+                              icon: Icons.list,
+                              title: 'Gestion articles',
                               onTap: () {
                                 if (foodTruckId != 0) {
                                   print('Food truck id: $foodTruckId');
@@ -171,13 +169,13 @@ class _FoodtruckgestionprofilfoodtruckState
                               }),
                           Itemdashboard(
                               color: Colors.green,
-                              icon: Icons.list,
-                              title: 'Voir votre food truck',
+                              icon: Icons.inventory,
+                              title: 'Gestion stock',
                               onTap: () {}),
                           Itemdashboard(
                             color: Colors.red,
-                            icon: Icons.close,
-                            title: 'Supprimer votre food truck',
+                            icon: Icons.calculate,
+                            title: 'Gestion ventes',
                             onTap: () async {
                               bool? confirm = await showDialog(
                                 context: context,

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:rolling_foods_app_front_end/screens/loginPage.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,8 +96,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(
-                        context, '/foodTruckGestionProfilFoodTruck',
+                    Navigator.pushNamed(context, '/gestionFoodTruck',
                         arguments: foodTruckId);
                   },
                   child: const Text('Oui'),
@@ -210,7 +209,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                     Itemdashboard(
                         color: Colors.green,
                         icon: Icons.list,
-                        title: 'Historique des emplacements',
+                        title: 'Gerez les emplacements',
                         onTap: () {}),
                     Itemdashboard(
                         color: Colors.red,

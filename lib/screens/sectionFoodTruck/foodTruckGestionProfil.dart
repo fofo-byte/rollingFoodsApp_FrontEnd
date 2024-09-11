@@ -102,6 +102,7 @@ class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
+                    /*
                     Itemdashboard(
                         color: Colors.orange,
                         icon: Icons.app_settings_alt,
@@ -110,20 +111,16 @@ class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
                           Navigator.pushNamed(
                               context, '/createAccountFoodTruckOwner');
                         }),
+                        */
                     Itemdashboard(
                         color: Colors.blue,
-                        icon: Icons.location_on,
+                        icon: Icons.upgrade,
                         title: 'Modifier votre compte',
-                        onTap: () {}),
-                    Itemdashboard(
-                        color: Colors.green,
-                        icon: Icons.list,
-                        title: 'Historique des emplacements',
                         onTap: () {}),
                     Itemdashboard(
                         color: Colors.red,
                         icon: Icons.close,
-                        title: 'Fermer le food truck',
+                        title: 'Supprimer votre compte',
                         onTap: () {}),
                   ],
                 ),

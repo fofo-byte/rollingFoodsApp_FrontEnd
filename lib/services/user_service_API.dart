@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:rolling_foods_app_front_end/models/address.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruckOwner.dart';
 import 'package:rolling_foods_app_front_end/models/user.dart';
-import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionCustomer/homeCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServiceApi {

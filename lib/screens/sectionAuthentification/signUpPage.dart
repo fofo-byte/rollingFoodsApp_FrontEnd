@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rolling_foods_app_front_end/screens/homeCustomer.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionCustomer/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 
 class SignUpPage extends StatefulWidget {
