@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/pageFormAdminAccount.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
@@ -30,21 +31,26 @@ class _SignuppagefoodtruckownerState extends State<Signuppagefoodtruckowner> {
             return AlertDialog(
               title: const Text('You have successfully signed up'),
               content: const Text(
-                  'Vous pouvez maintenant créer votre compte food trucker'),
+                  'Vous pouvez maintenant vous reconnecter et créer votre compte food trucker'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const Pageformadminaccount()));
+                            builder: (context) => const Loginpage()));
                   },
                   child: const Text('OK'),
                 ),
               ],
             );
           });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('WARNING : Vous devez creer un compte food trucker',
+              style: TextStyle(color: Colors.red)),
+        ),
+      );
     }
   }
 

@@ -176,6 +176,27 @@ class UserServiceApi {
     }
   }
 
+  //check if the user is a food truck owner
+  Future<bool> isFoodTruckOwner(int userCredentialId) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/isFoodTruckOwner?userCredentialId=$userCredentialId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      print(
+          'Successfully checked if user is a food truck owner: $jsonResponse');
+      return jsonResponse['isFoodTruckOwner'];
+    } else {
+      print(
+          'Failed to check if user is a food truck owner, status code: ${response.statusCode}');
+      throw Exception('Failed to check if user is a food truck owner');
+    }
+  }
+
   //Decode the token from jwt
   Map<String, dynamic> parseJwt(String token) {
     final parts = token.split('.');

@@ -1,9 +1,13 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/homeCustomer.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/signUpPage.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/signUpPageFoodTruckOwner.dart';
+import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 import 'package:rolling_foods_app_front_end/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,6 +37,10 @@ class _LoginpageState extends State<Loginpage> {
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String? role = prefs.getString('role');
+        int? id = prefs.getInt('id');
+        print('Role: $role');
+        print('Id: $id');
+
         if (role == 'ROLE_USER') {
           // ignore: use_build_context_synchronously
           Navigator.pushReplacementNamed(context, '/homeCustomer');
@@ -44,6 +52,11 @@ class _LoginpageState extends State<Loginpage> {
         print('Failed to login user: $e');
       }
     }
+  }
+
+  Future<void> clearSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Efface toutes les données stockées
   }
 
   @override
