@@ -88,7 +88,11 @@ class UserServiceApi {
 
       String token = jsonResponse['token'];
 
-      Map<String, dynamic> decodedToken = parseJwt(token);
+      Map<String, dynamic> decodedToken = parseJwtEnabled(token);
+
+      print('Decoded Token: $decodedToken');
+      print(
+          'Enabled from token: ${decodedToken['enabled']} (type: ${decodedToken['enabled'].runtimeType})');
 
       // Créez l'objet User en utilisant les données décodées
       User user = User(
@@ -100,8 +104,10 @@ class UserServiceApi {
             ? decodedToken['roles'][0]['authority'] ?? ''
             : '',
         token: token,
-        enabled: decodedToken['enabled'] == 1 ? true : false,
+        enabled: decodedToken['enabled'] ?? false,
       );
+
+      print(user.toJson());
 
       print(
           'Enabled from token: ${decodedToken['enabled']} (type: ${decodedToken['enabled'].runtimeType})');
@@ -197,11 +203,12 @@ class UserServiceApi {
       },
     );
 
+    print('Response body: ${response.body}');
+
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
       print(
-          'Successfully checked if user is a food truck owner: $jsonResponse');
-      return jsonResponse['isFoodTruckOwner'];
+          'Successfully checked if user is a food truck owner: ${response.body}');
+      return json.decode(response.body) as bool;
     } else {
       print(
           'Failed to check if user is a food truck owner, status code: ${response.statusCode}');
@@ -224,5 +231,34 @@ class UserServiceApi {
     var normalized = base64Url.normalize(payload);
     var resp = utf8.decode(base64Url.decode(normalized));
     return json.decode(resp);
+  }
+
+  // Decode the token from JWT
+  Map<String, dynamic> parseJwtEnabled(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('Invalid token format');
+    }
+    final payload = parts[1];
+    var normalized = base64Url.normalize(payload);
+    var resp = utf8.decode(base64Url.decode(normalized));
+
+    // Decode the JSON payload
+    Map<String, dynamic> jsonPayload = json.decode(resp);
+
+    // Ensure 'enabled' is correctly interpreted as a boolean
+    if (jsonPayload.containsKey('enabled')) {
+      var enabledValue = jsonPayload['enabled'];
+      if (enabledValue is int) {
+        jsonPayload['enabled'] = (enabledValue == 1);
+      } else if (enabledValue is bool) {
+        jsonPayload['enabled'] = enabledValue;
+      } else {
+        // Handle unexpected type or set a default value
+        jsonPayload['enabled'] = false;
+      }
+    }
+
+    return jsonPayload;
   }
 }

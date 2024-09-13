@@ -7,7 +7,7 @@ class User {
   String password;
   String role;
   String token;
-  bool enabled = false;
+  bool enabled;
 
   User({
     required this.id,
@@ -16,7 +16,7 @@ class User {
     required this.password,
     required this.role,
     required this.token,
-    required enabled,
+    required this.enabled,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
