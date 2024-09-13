@@ -46,36 +46,52 @@ class _LoginpageState extends State<Loginpage> {
         String? role = prefs.getString('role');
         int? id = prefs.getInt('id');
         bool? enabled = prefs.getBool('enabled');
+        print('Token: ${user.token}');
+        print('Role: ${user.role}');
+        print('Id: ${user.enabled}');
         print('Role: $role');
         print('Id: $id');
 
         print('Enabled: $enabled');
 
         if (role == 'ROLE_USER') {
-          // ignore: use_build_context_synchronously
+          // Redirection vers la page client
           Navigator.pushReplacementNamed(context, '/homeCustomer');
-        } else if (role == 'ROLE_FOOD_TRUCK_OWNER' && enabled == true) {
-          // ignore: use_build_context_synchronously
-          Navigator.pushReplacementNamed(context, '/foodTruckAdmin');
-        } else if (role == 'ROLE_FOOD_TRUCK_OWNER' && enabled == false) {
-          await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Account not enabled'),
-                content: const Text(
-                    'Your account is not enabled yet. Please wait for an admin to enable it.'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
+        } else if (role == 'ROLE_FOOD_TRUCK_OWNER') {
+          if (enabled == false) {
+            // Vérification si l'utilisateur est un FoodTruckOwner
+            bool isFoodTruckOwner =
+                await UserServiceApi().isFoodTruckOwner(id!);
+            print('isFoodTruckOwner: $isFoodTruckOwner');
+            if (isFoodTruckOwner) {
+              //Show message if the user is not activated
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Compte non activé'),
+                    content: const Text(
+                        'Votre compte est verifié et un email vous sera envoyé après verification.'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                },
               );
-            },
-          );
+            } else {
+              // Redirection vers la page de formulaire d'inscription
+              Navigator.pushReplacementNamed(
+                  context, '/createAccountFoodTruckOwner');
+            }
+          } else {
+            // Affichage de l'alerte si l'utilisateur n'est pas activé
+            Navigator.pushReplacementNamed(context, '/foodTruckAdmin');
+          }
         }
       } catch (e) {
         print('Failed to login user: $e');

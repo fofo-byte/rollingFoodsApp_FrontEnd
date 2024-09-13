@@ -25,11 +25,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rolling Foods',
       theme: ThemeData(
-        colorScheme: ColorScheme.light(
-            surface: Colors.grey.shade200,
-            onSurface: Colors.black,
-            primary: Colors.blue,
-            onPrimary: Colors.white),
+        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: const Color(0xFFE5E5E5),
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
+        iconTheme: const IconThemeData(color: Colors.white),
+        dividerColor: Colors.white54,
+        textTheme: const TextTheme(
+          headlineLarge: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headlineSmall: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
         useMaterial3: true,
       ),
       home: const Loginpage(),
