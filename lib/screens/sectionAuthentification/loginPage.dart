@@ -33,30 +33,54 @@ class _LoginpageState extends State<Loginpage> {
       String password = _passwordController.text;
 
       try {
-        UserServiceApi().loginUser(username, email, password);
-
+        // Effacer toutes les données dans SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.clear();
+        User user = await UserServiceApi().loginUser(username, email, password);
+
+        prefs.setString('token', user.token);
+        prefs.setString('role', user.role);
+        prefs.setInt('id', user.id);
+        prefs.setBool('enabled', user.enabled);
+
         String? role = prefs.getString('role');
         int? id = prefs.getInt('id');
+        bool? enabled = prefs.getBool('enabled');
         print('Role: $role');
         print('Id: $id');
+
+        print('Enabled: $enabled');
 
         if (role == 'ROLE_USER') {
           // ignore: use_build_context_synchronously
           Navigator.pushReplacementNamed(context, '/homeCustomer');
-        } else if (role == 'ROLE_FOOD_TRUCK_OWNER') {
+        } else if (role == 'ROLE_FOOD_TRUCK_OWNER' && enabled == true) {
           // ignore: use_build_context_synchronously
           Navigator.pushReplacementNamed(context, '/foodTruckAdmin');
+        } else if (role == 'ROLE_FOOD_TRUCK_OWNER' && enabled == false) {
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Account not enabled'),
+                content: const Text(
+                    'Your account is not enabled yet. Please wait for an admin to enable it.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
         }
       } catch (e) {
         print('Failed to login user: $e');
       }
     }
-  }
-
-  Future<void> clearSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Efface toutes les données stockées
   }
 
   @override

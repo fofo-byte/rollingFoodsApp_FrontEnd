@@ -74,7 +74,7 @@ class UserServiceApi {
       body: jsonEncode(<String, String>{
         'username': username,
         'email': email,
-        'password': password
+        'password': password,
       }),
     );
 
@@ -83,30 +83,42 @@ class UserServiceApi {
       print('Successfully logged in user: $jsonResponse');
 
       if (!jsonResponse.containsKey('token')) {
-        throw Exception('Token not found is missing in response');
+        throw Exception('Token not found in response');
       }
 
       String token = jsonResponse['token'];
 
       Map<String, dynamic> decodedToken = parseJwt(token);
-      if (!decodedToken.containsKey('username')) {
-        throw Exception('Username not found in token');
-      }
 
-      int id = decodedToken['id'];
-      String username = decodedToken['username'];
-      String decodeEmail = decodedToken['email'];
-      String role = decodedToken['roles'][0]['authority'];
+      // Créez l'objet User en utilisant les données décodées
+      User user = User(
+        id: decodedToken['id'] ?? 0,
+        username: decodedToken['username'] ?? '',
+        email: decodedToken['email'] ?? '',
+        password: '', // Vous n'avez pas besoin de stocker le mot de passe
+        role: decodedToken['roles'] != null && decodedToken['roles'].isNotEmpty
+            ? decodedToken['roles'][0]['authority'] ?? ''
+            : '',
+        token: token,
+        enabled: decodedToken['enabled'] == 1 ? true : false,
+      );
 
+      print(
+          'Enabled from token: ${decodedToken['enabled']} (type: ${decodedToken['enabled'].runtimeType})');
+      print(
+          'Enabled from user: ${user.enabled} (type: ${user.enabled.runtimeType})');
+
+      // Stockez les informations dans SharedPreferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', token);
-      await prefs.setInt('id', id);
-      await prefs.setString('username', username);
-      await prefs.setString('email', decodeEmail);
-      await prefs.setString('role', role);
+      await prefs.setString('token', user.token);
+      await prefs.setInt('id', user.id);
+      await prefs.setString('username', user.username);
+      await prefs.setString('email', user.email);
+      await prefs.setString('role', user.role);
+      await prefs.setBool('enabled', user.enabled);
 
       print('Successfully logged in user: $jsonResponse');
-      return User.fromJson(jsonResponse);
+      return user;
     } else {
       print('Failed to login user, status code: ${response.statusCode}');
       throw Exception('Failed to login user');
@@ -195,6 +207,11 @@ class UserServiceApi {
           'Failed to check if user is a food truck owner, status code: ${response.statusCode}');
       throw Exception('Failed to check if user is a food truck owner');
     }
+  }
+
+  Future<void> clearSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Efface toutes les données stockées
   }
 
   //Decode the token from jwt

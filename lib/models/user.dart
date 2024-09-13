@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class User {
   int id;
   String username;
@@ -5,6 +7,7 @@ class User {
   String password;
   String role;
   String token;
+  bool enabled = false;
 
   User({
     required this.id,
@@ -13,16 +16,20 @@ class User {
     required this.password,
     required this.role,
     required this.token,
+    required enabled,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] != null ? json['id'] as int : 0,
+      id: json['id'] ?? 0,
       username: json['username'] ?? '',
       email: json['email'] ?? '',
-      password: json['password'] ?? '',
-      role: json['role'] ?? '',
+      password: '',
+      role: json['roles'] != null && json['roles'].isNotEmpty
+          ? json['roles'][0]['authority'] ?? ''
+          : '',
       token: json['token'] ?? '',
+      enabled: json['enabled'] ?? false,
     );
   }
 
