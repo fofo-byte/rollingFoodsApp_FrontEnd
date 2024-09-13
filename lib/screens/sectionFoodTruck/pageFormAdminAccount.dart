@@ -77,7 +77,7 @@ class _PageformadminaccountState extends State<Pageformadminaccount> {
               content: Text('Admin account registered successfully')),
         );
 
-        Navigator.pushNamed(context, '/foodTruckAdmin');
+        Navigator.pop(context);
       } catch (e) {
         print('Failed to register admin account: $e');
       }
