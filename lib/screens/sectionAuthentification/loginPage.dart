@@ -15,9 +15,9 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
 
   Future<void> _signInWithGoogle() async {
     // Implement Google Sign In
@@ -48,7 +48,6 @@ class _LoginpageState extends State<Loginpage> {
   Future<void> _login() async {
     final formState = _formKey.currentState;
     if (formState!.validate()) {
-      String username = _usernameController.text;
       String email = _emailController.text;
       String password = _passwordController.text;
 
@@ -56,7 +55,7 @@ class _LoginpageState extends State<Loginpage> {
         // Effacer toutes les données dans SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.clear();
-        var user = await UserServiceApi().loginUser(username, email, password);
+        var user = await UserServiceApi().loginUser(email, password);
 
         prefs.setString('token', user.token);
         prefs.setString('role', user.role);
@@ -119,6 +118,12 @@ class _LoginpageState extends State<Loginpage> {
     }
   }
 
+  void _toggleVisibility() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,22 +157,6 @@ class _LoginpageState extends State<Loginpage> {
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: TextFormField(
-                            controller: _usernameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Username',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your username';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
                             controller: _emailController,
                             decoration: const InputDecoration(
                               labelText: 'Email',
@@ -185,10 +174,17 @@ class _LoginpageState extends State<Loginpage> {
                           padding: const EdgeInsets.all(8),
                           child: TextFormField(
                             controller: _passwordController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'Password',
-                              border: OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                onPressed: _toggleVisibility,
+                                icon: _obscurePassword
+                                    ? const Icon(Icons.visibility_off)
+                                    : const Icon(Icons.visibility),
+                              ),
+                              border: const OutlineInputBorder(),
                             ),
+                            obscureText: _obscurePassword,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your password';
@@ -201,11 +197,23 @@ class _LoginpageState extends State<Loginpage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _login,
-                    child: const Text('Login'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: _login,
+                        child: const Text('Connexion'),
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 16),
+
                   //make a icon button for google login
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -221,11 +229,11 @@ class _LoginpageState extends State<Loginpage> {
                         onPressed: () async {
                           await _signInWithGoogle();
                           if (FirebaseAuth.instance.currentUser != null) {
-                            
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacementNamed(
-                                context, '/homeCustomer',                                
-                                );
+                              context,
+                              '/homeCustomer',
+                            );
                           } else {
                             print('Failed to login with Google');
                           }
