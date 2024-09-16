@@ -63,14 +63,13 @@ class UserServiceApi {
 
   // Login a user with the API
 
-  Future<User> loginUser(String username, String email, String password) async {
+  Future<User> loginUser(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/signIn'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'username': username,
         'email': email,
         'password': password,
       }),
