@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
-import 'package:rolling_foods_app_front_end/models/coordinates.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http_parser/http_parser.dart';
 
 class ApiService {
   // The URL of the API's endpoint
@@ -57,7 +57,6 @@ class ApiService {
   Future<int> findIdFoodTruckOwner(int userCredentialId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('id');
-    String token = prefs.getString('token')!;
     if (id == null) {
       throw Exception('Failed to find id of the food truck owner');
     }
@@ -196,8 +195,6 @@ class ApiService {
 
       // Vérifier la réponse du serveur
       if (response.statusCode == 200) {
-        Map<String, dynamic> jsonResponse =
-            json.decode(await response.stream.bytesToString());
         print('Successfully updated food truck');
         return http.Response('Success', 200);
       } else {

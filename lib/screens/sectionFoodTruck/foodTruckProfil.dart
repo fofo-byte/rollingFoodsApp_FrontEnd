@@ -1,15 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
-
 import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
-import 'package:rolling_foods_app_front_end/widgets/map.dart';
 
 class Foodtruckprofil extends StatefulWidget {
   final int foodtruckId;

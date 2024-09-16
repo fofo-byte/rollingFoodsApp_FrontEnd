@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckAdmin.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/pageFormAdminAccount.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 
 class Signuppagefoodtruckowner extends StatefulWidget {

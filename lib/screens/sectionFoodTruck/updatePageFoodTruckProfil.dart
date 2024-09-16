@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:path/path.dart' as path;
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path/path.dart' as path;
 
 class Updatepagefoodtruckprofil extends StatefulWidget {
   final int foodtruckId;
@@ -61,11 +60,7 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
 
     if (pickedFile != null) {
       setState(() {
-        if (pickedFile != null) {
-          _image = File(pickedFile.path);
-        } else {
-          print('No image selected.');
-        }
+        _image = File(pickedFile.path);
       });
 
       // Call the upload method after selecting the image
@@ -84,9 +79,6 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       try {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        int id = prefs.getInt('id') ?? 0;
-
         Foodtruck foodtruckValue = await foodtruck;
         int foodTruckId = foodtruckValue.id;
 

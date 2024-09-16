@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
@@ -55,6 +52,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
 
       // ignore: unnecessary_null_comparison
       if (foodTruckId == 0) {
+        // ignore: use_build_context_synchronously
         await showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -80,6 +78,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
           },
         );
       } else {
+        // ignore: use_build_context_synchronously
         await showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -107,6 +106,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
         );
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Vous n\'avez pas de food truck'),
@@ -173,7 +173,9 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                     Icons.arrow_forward,
                     color: Colors.white,
                   ),
-                  onSubmit: () {},
+                  onSubmit: () {
+                    return null;
+                  },
                   height: 70,
                   text: 'Envoyer votre position',
                   textStyle: const TextStyle(

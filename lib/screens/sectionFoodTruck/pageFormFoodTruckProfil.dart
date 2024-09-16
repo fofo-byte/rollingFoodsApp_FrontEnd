@@ -1,17 +1,12 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:multiselect/multiselect.dart';
-import 'package:rolling_foods_app_front_end/enum/foodType.dart';
-import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
-import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:path/path.dart' as path;
+import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Pageformfoodtruckprofil extends StatefulWidget {
   const Pageformfoodtruckprofil({super.key});
@@ -51,11 +46,7 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
 
     if (pickedFile != null) {
       setState(() {
-        if (pickedFile != null) {
-          _image = File(pickedFile.path);
-        } else {
-          print('No image selected.');
-        }
+        _image = File(pickedFile.path);
       });
 
       // Call the upload method after selecting the image

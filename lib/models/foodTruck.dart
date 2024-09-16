@@ -1,5 +1,4 @@
 import 'package:rolling_foods_app_front_end/models/coordinates.dart';
-import 'package:rolling_foods_app_front_end/models/picture.dart';
 
 class Foodtruck {
   int id;

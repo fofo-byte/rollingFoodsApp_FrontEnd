@@ -1,15 +1,8 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionCustomer/homeCustomer.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/signUpPage.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckAdmin.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/signUpPageFoodTruckOwner.dart';
-import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
-import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 import 'package:rolling_foods_app_front_end/models/user.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/signUpPage.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/signUpPageFoodTruckOwner.dart';
+import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Loginpage extends StatefulWidget {
