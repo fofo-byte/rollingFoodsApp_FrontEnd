@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rolling_foods_app_front_end/models/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/signUpPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/signUpPageFoodTruckOwner.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
@@ -18,6 +19,32 @@ class _LoginpageState extends State<Loginpage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  Future<void> _signInWithGoogle() async {
+    // Implement Google Sign In
+    FirebaseAuth auth = FirebaseAuth.instance;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount!.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+    final UserCredential authResult =
+        await auth.signInWithCredential(credential);
+
+    final User? user = authResult.user;
+    if (user != null) {
+      print('Successfully signed in with Google');
+      print('User: ${user.displayName}');
+      print('User: ${user.email}');
+      print('User: ${user.photoURL}');
+    } else {
+      print('Failed to sign in with Google');
+    }
+  }
+
   Future<void> _login() async {
     final formState = _formKey.currentState;
     if (formState!.validate()) {
@@ -29,7 +56,7 @@ class _LoginpageState extends State<Loginpage> {
         // Effacer toutes les données dans SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.clear();
-        User user = await UserServiceApi().loginUser(username, email, password);
+        var user = await UserServiceApi().loginUser(username, email, password);
 
         prefs.setString('token', user.token);
         prefs.setString('role', user.role);
@@ -178,6 +205,47 @@ class _LoginpageState extends State<Loginpage> {
                     onPressed: _login,
                     child: const Text('Login'),
                   ),
+                  const SizedBox(height: 16),
+                  //make a icon button for google login
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await _signInWithGoogle();
+                          if (FirebaseAuth.instance.currentUser != null) {
+                            
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacementNamed(
+                                context, '/homeCustomer',                                
+                                );
+                          } else {
+                            print('Failed to login with Google');
+                          }
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(
+                              image: AssetImage('assets/images/google.png'),
+                              height: 40,
+                            ),
+                            Text('Login with Google'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

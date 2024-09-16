@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
@@ -13,6 +15,7 @@ class HomeCustomer extends StatefulWidget {
 }
 
 class _HomeCustomerState extends State<HomeCustomer> {
+  final String? photoUrl = FirebaseAuth.instance.currentUser!.photoURL;
   String username = '';
   late Future<List<Foodtruck>> foodTrucks;
   late Future<List<Foodtruck>> popularFoodTrucks;
@@ -27,15 +30,24 @@ class _HomeCustomerState extends State<HomeCustomer> {
 
   Future<void> _loadUsername() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      username = prefs.getString('username') ?? 'Guest';
-    });
+    String? savedUsername = prefs.getString('username');
+
+    if (savedUsername != null) {
+      setState(() {
+        username = savedUsername;
+      });
+    } else {
+      setState(() {
+        username = FirebaseAuth.instance.currentUser!.displayName!;
+      });
+    }
   }
 
   Future<void> _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
-    prefs.remove('role');
+    prefs.clear();
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
 
     // ignore: use_build_context_synchronously
     Navigator.push(
@@ -72,7 +84,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
         actions: [
           IconButton(
             color: Colors.yellow,
-            icon: const Icon(Icons.account_circle),
+            icon: Image.network(photoUrl!),
             onPressed: () {
               _logout();
             },

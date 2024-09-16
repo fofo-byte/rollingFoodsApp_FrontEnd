@@ -24,8 +24,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
 
   Future<void> _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
-    prefs.remove('role');
+    prefs.clear();
 
     // ignore: use_build_context_synchronously
     Navigator.push(
