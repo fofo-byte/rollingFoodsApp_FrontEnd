@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:rolling_foods_app_front_end/models/article.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
+import 'package:rolling_foods_app_front_end/services/article_service.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 
 class Foodtruckprofil extends StatefulWidget {
@@ -15,6 +17,7 @@ class Foodtruckprofil extends StatefulWidget {
 
 class _FoodtruckprofilState extends State<Foodtruckprofil> {
   late Future<Foodtruck> foodTruck;
+  late Future<List<Article>> article;
   final MapController _mapController = MapController();
 
   final List<Marker> markers = [];
@@ -23,6 +26,8 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
   void initState() {
     super.initState();
     foodTruck = ApiService().fetchFoodTruckById(widget.foodtruckId);
+    article = ArticleService()
+        .getItemsByFoodTruckIdAndCategory(widget.foodtruckId, 'PROMOTION');
   }
 
   @override
@@ -146,6 +151,43 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                             foodtruck.speciality,
                             style: const TextStyle(fontSize: 15),
                           ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Promotions',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          FutureBuilder<List<Article>>(
+                              future: article,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                      child: Text('Error: ${snapshot.error}'));
+                                } else if (!snapshot.hasData) {
+                                  return const Center(child: Text('No data'));
+                                }
+                                List<Article> articles = snapshot.data!;
+
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: articles.length,
+                                    itemBuilder: (context, index) {
+                                      return Card(
+                                        child: ListTile(
+                                          title: Text(articles[index].name),
+                                          subtitle:
+                                              Text(articles[index].description),
+                                          trailing: Text(
+                                              articles[index].price.toString()),
+                                        ),
+                                      );
+                                    });
+                              }),
                         ],
                       ),
                     ),
