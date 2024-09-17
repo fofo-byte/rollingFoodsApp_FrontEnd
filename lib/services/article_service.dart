@@ -10,9 +10,17 @@ class ArticleService {
   Future<List<Article>> getItemsByFoodTruckIdAndCategory(
       int foodTruckId, String category) async {
     try {
-      print('Fetching articles from $baseUrl');
-      final response = await http.get(Uri.parse(
-          '$baseUrl/foodTruckAndCategory/foodTruckId=$foodTruckId&category=$category'));
+      // Construire l'URL avec les paramètres foodTruckId et category
+      final uri = Uri.parse('$baseUrl/items/foodTruckAndCategory').replace(
+          queryParameters: {
+            'foodTruckId': foodTruckId.toString(),
+            'category': category
+          });
+
+      print('Fetching articles from: $uri');
+
+      // Effectuer la requête HTTP GET
+      final response = await http.get(uri);
 
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body);
