@@ -1,22 +1,18 @@
-import 'dart:core';
-
 import 'package:flutter/material.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/updatePageFoodTruckProfil.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionArticle/pageAddArticle.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionArticle/pageListArticle.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Foodtruckgestionprofilfoodtruck extends StatefulWidget {
-  const Foodtruckgestionprofilfoodtruck({super.key});
+class ArticleGestionHome extends StatefulWidget {
+  const ArticleGestionHome({super.key, required int foodtruckId});
 
   @override
-  State<Foodtruckgestionprofilfoodtruck> createState() =>
-      _FoodtruckgestionprofilfoodtruckState();
+  State<ArticleGestionHome> createState() => _ArticleGestionHomeState();
 }
 
-class _FoodtruckgestionprofilfoodtruckState
-    extends State<Foodtruckgestionprofilfoodtruck> {
+class _ArticleGestionHomeState extends State<ArticleGestionHome> {
   String username = '';
   int userId = 0;
   int foodTruckOwnerId = 0;
@@ -108,8 +104,7 @@ class _FoodtruckgestionprofilfoodtruckState
                       title: Text('Salut $username',
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
-                      subtitle: const Text(
-                          'Votre espace gestion compte profil food truck',
+                      subtitle: const Text('Votre espace gestion articles',
                           style: TextStyle(fontSize: 20)),
                     ),
                   ]),
@@ -132,47 +127,36 @@ class _FoodtruckgestionprofilfoodtruckState
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           Itemdashboard(
-                              color: Colors.green,
-                              icon: Icons.person,
-                              title: 'Afficher votre food truck',
+                              color: Colors.blue,
+                              icon: Icons.add,
+                              title: 'Ajouter un article',
                               onTap: () {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Foodtruckprofil(
-                                        foodtruckId: foodTruckId),
-                                  ),
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Pageaddarticle()));
+                              }),
+                          Itemdashboard(
+                              color: Colors.green,
+                              icon: Icons.list,
+                              title: 'Afficher liste articles',
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Pagelistarticle()));
                               }),
                           Itemdashboard(
                               color: Colors.blue,
-                              icon: Icons.location_on,
-                              title: 'Modifier votre food truck',
-                              onTap: () {
-                                if (foodTruckId != 0) {
-                                  print('Food truck id: $foodTruckId');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          Updatepagefoodtruckprofil(
-                                              foodtruckId: foodTruckId),
-                                    ),
-                                  );
-                                } else {
-                                  print('Food truck id is 0');
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Veuillez attendre que le id food truck soit chargé'),
-                                    ),
-                                  );
-                                }
-                              }),
+                              icon: Icons.draw,
+                              title: 'Modifier article',
+                              onTap: () {}),
                           Itemdashboard(
                             color: Colors.red,
                             icon: Icons.close,
-                            title: 'Supprimer votre food truck',
+                            title: 'Supprimer article',
                             onTap: () async {
                               bool? confirm = await showDialog(
                                 context: context,

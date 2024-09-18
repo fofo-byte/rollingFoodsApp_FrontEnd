@@ -103,14 +103,6 @@ class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
                     Itemdashboard(
-                        color: Colors.orange,
-                        icon: Icons.app_settings_alt,
-                        title: 'Creer un compte',
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/createAccountFoodTruckOwner');
-                        }),
-                    Itemdashboard(
                         color: Colors.blue,
                         icon: Icons.upgrade,
                         title: 'Modifier votre compte',

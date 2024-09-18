@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionArticle/articleGestionHome.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/updatePageFoodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
@@ -105,7 +106,7 @@ class _GestionfoodtruckState extends State<Gestionfoodtruck> {
                       title: Text('Salut $username',
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
-                      subtitle: Text('Votre espace gestion food truck',
+                      subtitle: const Text('Votre espace gestion food truck',
                           style: TextStyle(fontSize: 20)),
                     ),
                   ]),
@@ -145,9 +146,8 @@ class _GestionfoodtruckState extends State<Gestionfoodtruck> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          Updatepagefoodtruckprofil(
-                                              foodtruckId: foodTruckId),
+                                      builder: (context) => ArticleGestionHome(
+                                          foodtruckId: foodTruckId),
                                     ),
                                   );
                                 } else {

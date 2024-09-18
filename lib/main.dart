@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/firebase_options.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionArticle/articleGestionHome.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionArticle/pageAddArticle.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckAdmin.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckGestionProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckGestionProfilFoodTruck.dart';
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
         '/foodTruckGestionProfilFoodTruck': (context) =>
             const Foodtruckgestionprofilfoodtruck(),
         '/gestionFoodTruck': (context) => const Gestionfoodtruck(),
+        '/addArticle': (context) => const Pageaddarticle(),
       },
       debugShowCheckedModeBanner: false,
     );
