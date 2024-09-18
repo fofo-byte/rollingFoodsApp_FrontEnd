@@ -140,7 +140,7 @@ class _ArticleGestionHomeState extends State<ArticleGestionHome> {
                           Itemdashboard(
                               color: Colors.green,
                               icon: Icons.list,
-                              title: 'Afficher liste articles',
+                              title: 'Modifier article',
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -148,64 +148,6 @@ class _ArticleGestionHomeState extends State<ArticleGestionHome> {
                                         builder: (context) =>
                                             const Pagelistarticle()));
                               }),
-                          Itemdashboard(
-                              color: Colors.blue,
-                              icon: Icons.draw,
-                              title: 'Modifier article',
-                              onTap: () {}),
-                          Itemdashboard(
-                            color: Colors.red,
-                            icon: Icons.close,
-                            title: 'Supprimer article',
-                            onTap: () async {
-                              bool? confirm = await showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Confirmation'),
-                                  content: const Text(
-                                      'Voulez-vous vraiment supprimer votre food truck?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context,
-                                            false); // Renvoie "false" si l'utilisateur annule
-                                      },
-                                      child: const Text('Non'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context,
-                                            true); // Renvoie "true" si l'utilisateur confirme
-                                      },
-                                      child: const Text('Oui'),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              if (confirm == true) {
-                                try {
-                                  await ApiService()
-                                      .deleteFoodTruck(foodTruckId);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Food truck supprimé avec succès!'),
-                                    ),
-                                  );
-                                  Navigator.pushNamed(
-                                      context, '/foodTruckGestionProfil');
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Erreur lors de la suppression du food truck.'),
-                                    ),
-                                  );
-                                }
-                              }
-                            },
-                          ),
                         ],
                       ),
                     ],
