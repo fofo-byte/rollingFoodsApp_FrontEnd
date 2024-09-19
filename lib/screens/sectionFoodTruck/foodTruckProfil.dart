@@ -19,6 +19,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
   late Future<Foodtruck> foodTruck;
   late Future<List<Article>> article;
   late Future<List<Article>> articleSpeciality;
+  late Future<List<Article>> articleNew;
   final MapController _mapController = MapController();
 
   final List<Marker> markers = [];
@@ -31,6 +32,8 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
         .getItemsByFoodTruckIdAndCategory(widget.foodtruckId, 'PROMOTION');
     articleSpeciality = ArticleService()
         .getItemsByFoodTruckIdAndCategory(widget.foodtruckId, 'SPECIALITY');
+    articleNew = ArticleService()
+        .getItemsByFoodTruckIdAndCategory(widget.foodtruckId, 'NEW');
   }
 
   @override
@@ -177,7 +180,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                               } else if (!snapshot.hasData ||
                                   snapshot.data!.isEmpty) {
                                 return const Center(
-                                    child: Text('No articles available'));
+                                    child: Text('Pas de promotion disponible'));
                               }
                               List<Article> articles = snapshot.data!;
 
@@ -240,7 +243,8 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                               } else if (!snapshot.hasData ||
                                   snapshot.data!.isEmpty) {
                                 return const Center(
-                                    child: Text('No articles available'));
+                                    child:
+                                        Text('Pas de spécialité disponible'));
                               }
                               List<Article> articles = snapshot.data!;
 
@@ -250,6 +254,70 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                                   const Center(
                                     child: Text(
                                       'Spécialité',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: articles.length,
+                                    itemBuilder: (context, index) {
+                                      return Card(
+                                        child: ListTile(
+                                          title: Text(articles[index].name),
+                                          subtitle:
+                                              Text(articles[index].description),
+                                          trailing: Text(
+                                            '€${articles[index].price.toString()}',
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          leading: CircleAvatar(
+                                            backgroundImage: articles[index]
+                                                        .urlPicture !=
+                                                    null
+                                                ? NetworkImage(
+                                                    articles[index].urlPicture!)
+                                                : const AssetImage(
+                                                        'assets/images/foodtruck.jpg')
+                                                    as ImageProvider,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                          FutureBuilder(
+                            future: articleNew,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                    child: Text('Error: ${snapshot.error}'));
+                              } else if (!snapshot.hasData ||
+                                  snapshot.data!.isEmpty) {
+                                return const Center(
+                                    child: Text('Pas de nouveauté disponible'));
+                              }
+                              List<Article> articles = snapshot.data!;
+
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Center(
+                                    child: Text(
+                                      'Nouveauté',
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),

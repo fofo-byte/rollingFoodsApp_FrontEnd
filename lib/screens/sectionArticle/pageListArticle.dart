@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/models/article.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionArticle/pageUpdateArticle.dart';
 import 'package:rolling_foods_app_front_end/services/article_service.dart';
 
 class Pagelistarticle extends StatefulWidget {
@@ -28,18 +29,21 @@ class _PagelistarticleState extends State<Pagelistarticle> {
           content: const Text('Que voulez-vous faire?'),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Fermer le dialogue
-                onEdit(); // Appeler la fonction de modification
-              },
-              child: const Text('Modifier'),
-            ),
-            TextButton(
+              style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  textStyle: const TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.of(context).pop(); // Fermer le dialogue
                 onDelete(); // Appeler la fonction de suppression
               },
               child: const Text('Supprimer'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Fermer le dialogue
+                onEdit(); // Appeler la fonction de modification
+              },
+              child: const Text('Modifier'),
             ),
           ],
         );
@@ -56,9 +60,9 @@ class _PagelistarticleState extends State<Pagelistarticle> {
       body: Center(
           child: SingleChildScrollView(
               child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(padding: EdgeInsets.all(10)),
           const Center(
@@ -98,8 +102,14 @@ class _PagelistarticleState extends State<Pagelistarticle> {
                             snapshot.data![index],
                             () {
                               // Edit
-                              Navigator.pushNamed(context, '/editArticle',
-                                  arguments: snapshot.data![index]);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UpdatePageArticle(
+                                    articleId: snapshot.data![index].id,
+                                  ),
+                                ),
+                              );
                             },
                             () {
                               // Delete

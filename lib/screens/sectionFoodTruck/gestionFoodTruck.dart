@@ -2,7 +2,6 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionArticle/articleGestionHome.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/updatePageFoodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
