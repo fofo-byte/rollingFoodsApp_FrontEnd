@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:path/path.dart' as path;
+import 'package:rolling_foods_app_front_end/screens/sectionArticle/articleGestionHome.dart';
 import 'package:rolling_foods_app_front_end/services/article_service.dart';
 
 class Pageaddarticle extends StatefulWidget {
@@ -102,7 +103,7 @@ class _PageaddarticleState extends State<Pageaddarticle> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/gestionFoodTruck');
                 },
                 child: const Text('OK'),
               ),
