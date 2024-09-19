@@ -108,7 +108,8 @@ class _FoodtruckgestionprofilfoodtruckState
                       title: Text('Salut $username',
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
-                      subtitle: const Text('Votre espace gestion compte',
+                      subtitle: const Text(
+                          'Votre espace gestion compte profil food truck',
                           style: TextStyle(fontSize: 20)),
                     ),
                   ]),
@@ -143,16 +144,6 @@ class _FoodtruckgestionprofilfoodtruckState
                                   ),
                                 );
                               }),
-                          /*
-                          Itemdashboard(
-                              color: Colors.orange,
-                              icon: Icons.app_settings_alt,
-                              title: 'Creer un food truck',
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, '/pageFormFoodTruckProfil');
-                              }),
-                              */
                           Itemdashboard(
                               color: Colors.blue,
                               icon: Icons.location_on,

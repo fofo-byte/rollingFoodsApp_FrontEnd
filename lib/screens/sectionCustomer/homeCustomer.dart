@@ -169,6 +169,14 @@ class _HomeCustomerState extends State<HomeCustomer> {
                           //leading: Image.network(data[index].image),
                           title: Text(data[index].name),
                           subtitle: Text(data[index].description),
+                          leading: CircleAvatar(
+                            backgroundImage: data[index].urlProlfileImage !=
+                                    null
+                                ? NetworkImage(data[index].urlProlfileImage!)
+                                : const AssetImage(
+                                    'assets/images/foodtruck.png'),
+                          ),
+
                           //trailing: Text(data[index].location),
                           onTap: () {
                             Navigator.push(
