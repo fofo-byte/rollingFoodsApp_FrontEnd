@@ -12,6 +12,7 @@ import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/gestionFood
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/pageFormAdminAccount.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/pageFormFoodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionLocationOwner/homeProprio.dart';
+import 'package:rolling_foods_app_front_end/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,21 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rolling Foods',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: Colors.blue,
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: const Color(0xFFE5E5E5),
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
-        iconTheme: const IconThemeData(color: Colors.white),
-        dividerColor: Colors.white54,
-        textTheme: const TextTheme(
-          headlineLarge: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headlineSmall: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-        ),
-        useMaterial3: true,
-      ),
+      theme: rollingFoodsTheme,
       home: const Loginpage(),
       routes: {
         '/signup': (context) => const SignUpPage(),
