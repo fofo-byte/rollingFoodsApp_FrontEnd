@@ -46,24 +46,20 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
               Navigator.pop(context);
             },
           ),
-          actions: [
-            IconButton(
-              color: Colors.yellow,
-              icon: const Icon(Icons.account_circle),
-              onPressed: () {},
-            ),
-          ],
           centerTitle: true,
-          backgroundColor: Colors.teal,
-          title: const Text(
-            'Rolling Foods',
-            style: TextStyle(
-                color: Colors.yellow,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
-                fontFamily: 'Lonely',
-                letterSpacing: 2.0),
+          backgroundColor: Colors.white,
+          title: const Row(
+            children: [
+              Text(
+                'Rolling Foods',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'InriaSans',
+                ),
+              ),
+            ],
           ),
         ),
         body: FutureBuilder<Foodtruck>(
@@ -132,29 +128,31 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(5),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text(
-                            foodtruck.name,
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                textAlign: TextAlign.center,
+                                foodtruck.name,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.favorite_border),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            foodtruck.foodTypes,
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
+                            textAlign: TextAlign.center,
                             foodtruck.description,
-                            style: const TextStyle(fontSize: 15),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            foodtruck.speciality,
                             style: const TextStyle(fontSize: 15),
                           ),
                           const SizedBox(height: 10),

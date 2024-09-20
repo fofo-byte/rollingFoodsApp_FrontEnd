@@ -26,7 +26,6 @@ class _HomeCustomerState extends State<HomeCustomer> {
   @override
   void initState() {
     super.initState();
-    _loadUsername();
   }
 
   int _selectedIndex = 0;
@@ -45,32 +44,6 @@ class _HomeCustomerState extends State<HomeCustomer> {
     const Profilpage(),
   ];
 
-  Future<void> _logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    await googleSignIn.signOut();
-
-    // ignore: use_build_context_synchronously
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const Loginpage()));
-  }
-
-  Future<void> _loadUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? savedUsername = prefs.getString('username');
-
-    if (savedUsername != null) {
-      setState(() {
-        username = savedUsername;
-      });
-    } else {
-      setState(() {
-        username = FirebaseAuth.instance.currentUser!.displayName!;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,28 +61,16 @@ class _HomeCustomerState extends State<HomeCustomer> {
                 fontFamily: 'InriaSans',
               ),
             ),
-            /*
-            Text(
-              username,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
-                fontFamily: 'Lonely',
-                letterSpacing: 2.0,
-              ),
-            ),
-            */
           ],
         ),
         actions: [
-          IconButton(
-            color: Colors.yellow,
-            icon: Image.network(photoUrl!),
-            onPressed: () {
-              _logout();
-            },
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: CircleAvatar(
+              backgroundImage:
+                  photoUrl != null ? NetworkImage(photoUrl!) : null,
+              child: photoUrl == null ? const Icon(Icons.person) : null,
+            ),
           ),
         ],
       ),

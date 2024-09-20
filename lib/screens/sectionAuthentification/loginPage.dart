@@ -20,28 +20,32 @@ class _LoginpageState extends State<Loginpage> {
   bool _obscurePassword = true;
 
   Future<void> _signInWithGoogle() async {
-    // Implement Google Sign In
-    FirebaseAuth auth = FirebaseAuth.instance;
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount!.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
-    final UserCredential authResult =
-        await auth.signInWithCredential(credential);
+    try {
+      // Implement Google Sign In
+      FirebaseAuth auth = FirebaseAuth.instance;
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      final UserCredential authResult =
+          await auth.signInWithCredential(credential);
 
-    final User? user = authResult.user;
-    if (user != null) {
-      print('Successfully signed in with Google');
-      print('User: ${user.displayName}');
-      print('User: ${user.email}');
-      print('User: ${user.photoURL}');
-    } else {
-      print('Failed to sign in with Google');
+      final User? user = authResult.user;
+      if (user != null) {
+        print('Successfully signed in with Google');
+        print('User: ${user.displayName}');
+        print('User: ${user.email}');
+        print('User: ${user.photoURL}');
+      } else {
+        print('Failed to sign in with Google');
+      }
+    } catch (e) {
+      print('Failed to sign in with Google: $e');
     }
   }
 
@@ -133,11 +137,19 @@ class _LoginpageState extends State<Loginpage> {
             Container(
               height: 400,
               width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/logo.jpeg'),
-                ),
+              decoration: const BoxDecoration(),
+              child: const Column(
+                children: [
+                  SizedBox(height: 100),
+                  Text(
+                    'Rolling Foods',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -229,7 +241,6 @@ class _LoginpageState extends State<Loginpage> {
                         onPressed: () async {
                           await _signInWithGoogle();
                           if (FirebaseAuth.instance.currentUser != null) {
-                            // ignore: use_build_context_synchronously
                             Navigator.pushReplacementNamed(
                               context,
                               '/homeCustomer',
@@ -271,15 +282,11 @@ class _LoginpageState extends State<Loginpage> {
                   ),
                   const SizedBox(height: 16),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('Vous étes un food trucker?'),
-                          TextButton(
+                          IconButton(
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -287,13 +294,25 @@ class _LoginpageState extends State<Loginpage> {
                                       builder: (context) =>
                                           const Signuppagefoodtruckowner()));
                             },
-                            child: const Text('Cliquer ici'),
+                            icon: Image.asset(
+                                'assets/icons/icons8-food-truck-48.png'),
                           ),
-                          const Text("Vous étes un lieux d'emplacement?"),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text('Cliquer ici'),
+                          const Text('Vous Food Truck'),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignUpPage()));
+                            },
+                            icon: const Icon(Icons.location_on),
                           ),
+                          const Text('Vous êtes un lieu d\'emplacement'),
                         ],
                       ),
                     ],
