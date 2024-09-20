@@ -239,19 +239,18 @@ class _LoginpageState extends State<Loginpage> {
                       ),
                     ),
                   ),
-
-                  //make a icon button for google login
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: double.infinity,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black),
+                  const SizedBox(height: 16),
+                  const Text('Ou connectez-vous avec'),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon:
+                            Image.asset('assets/icons/icons8-facebook-48.png'),
                       ),
-                      child: ElevatedButton(
+                      IconButton(
                         onPressed: () async {
                           await _signInWithGoogle();
                           if (FirebaseAuth.instance.currentUser != null) {
@@ -263,22 +262,16 @@ class _LoginpageState extends State<Loginpage> {
                             print('Failed to login with Google');
                           }
                         },
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image(
-                              image: AssetImage('assets/images/google.png'),
-                              height: 40,
-                            ),
-                            Text('Login with Google'),
-                          ],
-                        ),
+                        icon: Image.asset('assets/icons/icons8-google-48.png'),
                       ),
-                    ),
+                      IconButton(
+                        onPressed: () {},
+                        icon:
+                            Image.asset('assets/icons/icons8-instagram-48.png'),
+                      ),
+                    ],
                   ),
-
                   const SizedBox(height: 16),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
