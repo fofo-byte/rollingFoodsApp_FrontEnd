@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/signUpPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/signUpPageFoodTruckOwner.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
@@ -138,14 +139,27 @@ class _LoginpageState extends State<Loginpage> {
               height: 400,
               width: double.infinity,
               decoration: const BoxDecoration(),
-              child: const Column(
+              child: Column(
                 children: [
-                  SizedBox(height: 100),
-                  Text(
-                    'Rolling Foods',
+                  const SizedBox(height: 100),
+                  Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(),
+                    child: Lottie.asset('assets/animations/hello.json',
+                        repeat: true,
+                        reverse: true,
+                        animate: true,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill),
+                  ),
+                  const Text(
+                    'FOODS',
                     style: TextStyle(
+                      fontSize: 70,
                       color: Colors.black,
-                      fontSize: 40,
+                      fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
                     ),
                   ),

@@ -53,7 +53,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
         title: const Row(
           children: [
             Text(
-              'Rolling Foods',
+              'Hello Foods',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 35,

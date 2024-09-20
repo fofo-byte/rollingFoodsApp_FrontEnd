@@ -51,7 +51,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
           title: const Row(
             children: [
               Text(
-                'Rolling Foods',
+                'Hello Foods',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 35,
