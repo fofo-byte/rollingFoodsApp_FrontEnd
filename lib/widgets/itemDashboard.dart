@@ -43,15 +43,6 @@ class Itemdashboard extends StatelessWidget {
               size: 30,
             ),
           ),
-          /*Text(
-            textAlign: TextAlign.center,
-            title,
-            style: TextStyle(
-              color: color,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),*/
           ListTile(
               contentPadding: const EdgeInsets.all(0),
               title: Text(

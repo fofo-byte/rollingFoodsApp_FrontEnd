@@ -1,16 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/favoritesPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/profilPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/searchPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
-import 'package:rolling_foods_app_front_end/widgets/iconsWidgetHome.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rolling_foods_app_front_end/widgets/cardsWidget.dart';
+import 'package:rolling_foods_app_front_end/widgets/iconsWidgetHome.dart';
 
 class HomeCustomer extends StatefulWidget {
   const HomeCustomer({super.key});
@@ -88,7 +85,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
             label: 'Rechercher',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
+            icon: Icon(Icons.favorite, color: Colors.red),
             label: 'Favoris',
           ),
           BottomNavigationBarItem(
@@ -97,7 +94,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.green,
         onTap: _onItemTapped,
       ),
     );

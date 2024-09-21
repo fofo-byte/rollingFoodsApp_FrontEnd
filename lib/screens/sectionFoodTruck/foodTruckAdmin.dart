@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
@@ -176,7 +177,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                     return null;
                   },
                   height: 70,
-                  text: 'Envoyer votre position',
+                  text: 'Ouverture du food truck',
                   textStyle: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -194,7 +195,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                   children: [
                     Itemdashboard(
                         color: Colors.orange,
-                        icon: Icons.app_settings_alt,
+                        icon: FontAwesomeIcons.gear,
                         title: 'Gerez votre compte',
                         onTap: () {
                           Navigator.pushNamed(
@@ -202,14 +203,14 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                         }),
                     Itemdashboard(
                         color: Colors.blue,
-                        icon: Icons.location_on,
+                        icon: FontAwesomeIcons.truckFast,
                         title: 'Gerez votre foodtruck',
                         onTap: () {
                           _checkFoodTruckExists(context);
                         }),
                     Itemdashboard(
                         color: Colors.green,
-                        icon: Icons.list,
+                        icon: FontAwesomeIcons.locationDot,
                         title: 'Gerez les emplacements',
                         onTap: () {}),
                     Itemdashboard(
