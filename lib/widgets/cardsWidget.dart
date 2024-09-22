@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FoodTruckCard extends StatelessWidget {
   final String name;
@@ -6,7 +7,7 @@ class FoodTruckCard extends StatelessWidget {
   final String imageUrl;
   final VoidCallback? onTap;
   final IconData icon;
-  final IconData iconHeart = Icons.favorite;
+  final IconData rating = FontAwesomeIcons.star;
   final String distance = '5 km';
 
   FoodTruckCard({
@@ -59,8 +60,8 @@ class FoodTruckCard extends StatelessWidget {
                     ),
                     const Spacer(),
                     Icon(
-                      iconHeart,
-                      color: Colors.red,
+                      rating,
+                      color: Colors.yellow[700],
                     ),
                   ],
                 ),
