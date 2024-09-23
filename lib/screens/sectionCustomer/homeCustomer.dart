@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/favoritesPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/profilPage.dart';
@@ -112,12 +112,59 @@ class HomeCustomerPage extends StatefulWidget {
 class _HomeCustomerPageState extends State<HomeCustomerPage> {
   late Future<List<Foodtruck>> foodTrucks;
   late Future<List<Foodtruck>> popularFoodTrucks;
+  late Future<Map<String, dynamic>> _futureLocationAndFoodTrucks;
+  bool serviceEnabled = false;
+  LocationPermission permission = LocationPermission.denied;
+  Position? _currentPosition;
 
   @override
   void initState() {
     super.initState();
     foodTrucks = ApiService().fetchFoodTrucks();
     popularFoodTrucks = ApiService().fetchFoodTrucks();
+    _futureLocationAndFoodTrucks = _getLocationAndFoodTrucks();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    //Verify if the location service is enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    //Get the current location
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    //Get the current location
+
+    Position position = await Geolocator.getCurrentPosition(
+        // ignore: deprecated_member_use
+        desiredAccuracy: LocationAccuracy.best);
+
+    setState(() {
+      _currentPosition = position;
+    });
+  }
+
+  Future<Map<String, dynamic>> _getLocationAndFoodTrucks() async {
+    // Récupérer à la fois la position actuelle et la liste des food trucks
+    await _getCurrentLocation();
+    List<Foodtruck> trucks = await ApiService().fetchFoodTrucks();
+    return {
+      'position': _currentPosition,
+      'trucks': trucks,
+    };
   }
 
   @override
@@ -166,15 +213,37 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
           thickness: 0.5,
         ),
         Expanded(
-          child: FutureBuilder<List<Foodtruck>>(
-            future: foodTrucks,
+          child: FutureBuilder<Map<String, dynamic>>(
+            future: _futureLocationAndFoodTrucks,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<Foodtruck> data = snapshot.data!;
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data == null) {
+                  return const Center(child: Text('No data found'));
+                }
+
+                Position position = snapshot.data!['position'];
+                List<Foodtruck> data = snapshot.data!['trucks'];
+
+                if (position == null) {
+                  return const Center(child: Text('No position found'));
+                }
+
                 return ListView.builder(
-                  shrinkWrap: true,
                   itemCount: data.length,
+                  shrinkWrap: true,
                   itemBuilder: (context, index) {
+                    double distance = Geolocator.distanceBetween(
+                      position.latitude,
+                      position.longitude,
+                      data[index].coordinates!.latitude,
+                      data[index].coordinates!.longitude,
+                    );
+                    double distanceKm = distance / 1000;
+
                     return FoodTruckCard(
                       onTap: () {
                         Navigator.push(
@@ -194,6 +263,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                       imageUrl: data[index].urlProlfileImage != null
                           ? data[index].urlProlfileImage!
                           : 'https://via.placeholder.com/150',
+                      distance: '${distanceKm.toStringAsFixed(2)} km',
                       // Placeholder image
                     );
                   },
