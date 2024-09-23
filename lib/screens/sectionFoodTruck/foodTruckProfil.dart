@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/models/article.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/services/article_service.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Foodtruckprofil extends StatefulWidget {
   final int foodtruckId;
@@ -34,6 +38,30 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
         .getItemsByFoodTruckIdAndCategory(widget.foodtruckId, 'SPECIALITY');
     articleNew = ArticleService()
         .getItemsByFoodTruckIdAndCategory(widget.foodtruckId, 'NEW');
+  }
+
+  //Submit a rating
+  Future<void> submitRating(int foodTruckId, int rating) async {
+    try {
+      print('Submitting rating $rating for food truck $foodTruckId');
+      final response = await http.put(
+        Uri.parse(
+            'http://10.0.2.2:8686/api/rateFoodTruck?foodTruckId=$foodTruckId&rating=$rating'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Successfully submitted rating');
+      } else {
+        print('Failed to submit rating, status code: ${response.statusCode}');
+        throw Exception('Failed to submit rating');
+      }
+    } catch (e) {
+      print('Failed to submit rating: $e');
+      throw Exception('Failed to submit rating');
+    }
   }
 
   @override
@@ -112,6 +140,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
                     Container(
                       alignment: Alignment.center,
                       padding: const EdgeInsetsDirectional.symmetric(
@@ -119,12 +148,85 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                       foregroundDecoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: foodtruck.urlProlfileImage != null
-                            ? NetworkImage(foodtruck.urlProlfileImage!)
-                            : const AssetImage('assets/images/foodtruck.jpg')
-                                as ImageProvider,
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: foodtruck.urlProlfileImage != null
+                                ? NetworkImage(foodtruck.urlProlfileImage!)
+                                : const AssetImage(
+                                        'assets/images/foodtruck.jpg')
+                                    as ImageProvider,
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                foodtruck.name,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                foodtruck.description,
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Column(
+                            children: [
+                              RatingBarIndicator(
+                                rating: foodtruck.rating != null
+                                    ? foodtruck.rating!.toDouble()
+                                    : 0.0,
+                                itemBuilder: (context, index) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                itemCount: 5,
+                                itemSize: 20.0,
+                                direction: Axis.horizontal,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title:
+                                            const Text('Notez le food truck'),
+                                        content: RatingBar.builder(
+                                          initialRating: 0,
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: false,
+                                          itemCount: 5,
+                                          itemPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 4.0),
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                            submitRating(
+                                                foodtruck.id, rating.toInt());
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: const Icon(FontAwesomeIcons.thumbsUp),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                     Container(
@@ -132,29 +234,6 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                textAlign: TextAlign.center,
-                                foodtruck.name,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.favorite_border),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            textAlign: TextAlign.center,
-                            foodtruck.description,
-                            style: const TextStyle(fontSize: 15),
-                          ),
                           const SizedBox(height: 10),
                           //insert lines
                           const Divider(

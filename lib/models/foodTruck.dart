@@ -7,6 +7,7 @@ class Foodtruck {
   String speciality;
   String foodTypes;
   String? urlProlfileImage;
+  int? rating;
   Coordinates? coordinates;
 
   Foodtruck({
@@ -17,6 +18,7 @@ class Foodtruck {
     required this.foodTypes,
     this.urlProlfileImage,
     this.coordinates,
+    this.rating,
   });
 
   factory Foodtruck.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class Foodtruck {
       coordinates: Coordinates.fromJson(json['coordinates']),
       // Convert the coordinates to a Coordinates object
       foodTypes: json['foodType'],
+      rating: json['rating'],
     );
   }
 
@@ -41,5 +44,6 @@ class Foodtruck {
         'coordinates': coordinates!.toJson(),
         'profileImage': urlProlfileImage,
         'foodType': foodTypes,
+        'rating': rating,
       };
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FoodTruckCard extends StatelessWidget {
@@ -6,8 +7,7 @@ class FoodTruckCard extends StatelessWidget {
   final String description;
   final String imageUrl;
   final VoidCallback? onTap;
-  final IconData icon;
-  final IconData rating = FontAwesomeIcons.star;
+  final double rating;
   final String distance = '5 km';
 
   FoodTruckCard({
@@ -15,7 +15,7 @@ class FoodTruckCard extends StatelessWidget {
     required this.description,
     required this.imageUrl,
     this.onTap,
-    required this.icon,
+    required this.rating,
   });
 
   @override
@@ -59,9 +59,14 @@ class FoodTruckCard extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Icon(
-                      rating,
-                      color: Colors.yellow[700],
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: Colors.black54,
+                        ),
+                        Text(distance),
+                      ],
                     ),
                   ],
                 ),
@@ -77,14 +82,15 @@ class FoodTruckCard extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on,
-                          color: Colors.black54,
-                        ),
-                        Text(distance),
-                      ],
+                    RatingBarIndicator(
+                      rating: rating,
+                      itemBuilder: (context, index) => const Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      itemCount: 5,
+                      itemSize: 20,
+                      direction: Axis.horizontal,
                     ),
                   ],
                 )
