@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/favoritesPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/profilPage.dart';
@@ -129,7 +130,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Rechercher un food truck...',
-              prefixIcon: Icon(Icons.search),
+              prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
@@ -187,7 +188,9 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                       },
                       name: data[index].name,
                       description: data[index].description,
-                      icon: Icons.location_on,
+                      rating: data[index].rating != null
+                          ? data[index].rating!.toDouble()
+                          : 0.0,
                       imageUrl: data[index].urlProlfileImage != null
                           ? data[index].urlProlfileImage!
                           : 'https://via.placeholder.com/150',
