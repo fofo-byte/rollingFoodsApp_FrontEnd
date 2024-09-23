@@ -8,7 +8,7 @@ class FoodTruckCard extends StatelessWidget {
   final String imageUrl;
   final VoidCallback? onTap;
   final double rating;
-  final String distance = '5 km';
+  final String distance;
 
   FoodTruckCard({
     required this.name,
@@ -16,6 +16,7 @@ class FoodTruckCard extends StatelessWidget {
     required this.imageUrl,
     this.onTap,
     required this.rating,
+    required this.distance,
   });
 
   @override
