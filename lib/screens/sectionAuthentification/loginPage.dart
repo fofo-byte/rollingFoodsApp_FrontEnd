@@ -304,7 +304,7 @@ class _LoginpageState extends State<Loginpage> {
                             icon: Image.asset(
                                 'assets/icons/icons8-food-truck-48.png'),
                           ),
-                          const Text('Vous Food Truck'),
+                          const Text('FoodTrucker'),
                         ],
                       ),
                       Column(
@@ -317,9 +317,11 @@ class _LoginpageState extends State<Loginpage> {
                                       builder: (context) =>
                                           const SignUpPage()));
                             },
-                            icon: const Icon(Icons.location_on),
+                            icon: const Icon(
+                              Icons.location_on,
+                            ),
                           ),
-                          const Text('Vous êtes un lieu d\'emplacement'),
+                          const Text('Emplacement'),
                         ],
                       ),
                     ],

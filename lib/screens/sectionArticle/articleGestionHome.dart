@@ -66,15 +66,14 @@ class _ArticleGestionHomeState extends State<ArticleGestionHome> {
         ),
         actions: const [],
         centerTitle: true,
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green,
         title: const Text(
-          'Rolling Foods',
+          'Hello Foods',
           style: TextStyle(
-            color: Colors.yellow,
-            fontSize: 20,
+            color: Colors.black,
+            fontSize: 50,
             fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Lonely',
+            fontFamily: 'Roboto',
           ),
         ),
       ),
@@ -83,34 +82,8 @@ class _ArticleGestionHomeState extends State<ArticleGestionHome> {
           : ListView(
               padding: EdgeInsets.zero,
               children: [
-                Text('Bonjour $username'),
-                Text('Votre id est $userId'),
-                Text('Votre food truck id est $foodTruckId'),
-                Container(
-                  height: 180,
-                  decoration: const BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(50),
-                      bottomRight: Radius.circular(50),
-                    ),
-                  ),
-                  // ignore: prefer_const_constructors
-                  child: Column(children: [
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    ListTile(
-                      title: Text('Salut $username',
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      subtitle: const Text('Votre espace gestion articles',
-                          style: TextStyle(fontSize: 20)),
-                    ),
-                  ]),
-                ),
                 const SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
