@@ -260,4 +260,87 @@ class ApiService {
       throw Exception('Failed to load food truck id');
     }
   }
+
+  //Open the food truck
+  Future<http.Response> openFoodTruck(
+      int id, double latitude, double longitude) async {
+    try {
+      // Créer le JSON pour les données du food truck
+      Map<String, dynamic> foodTruckData = {
+        'coordinates': {
+          'latitude': latitude,
+          'longitude': longitude,
+        },
+      };
+      print('Opening food truck with id $id');
+      final response = await http.put(
+          Uri.parse('http://10.0.2.2:8686/api/openFoodTruck?foodTruckId=$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(foodTruckData));
+
+      if (response.statusCode == 200) {
+        print('Successfully opened food truck with id $id');
+        return response;
+      } else {
+        print('Failed to open food truck, status code: ${response.statusCode}');
+        throw Exception('Failed to open food truck');
+      }
+    } catch (e) {
+      print('Failed to open food truck: $e');
+      throw Exception('Failed to open food truck');
+    }
+  }
+
+  //Close the food truck
+  Future<http.Response> closeFoodTruck(int id) async {
+    try {
+      print('Closing food truck with id $id');
+      final response = await http.put(
+          Uri.parse('http://10.0.2.2:8686/api/closeFoodTruck?foodTruckId=$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+
+      if (response.statusCode == 200) {
+        print('Successfully closed food truck with id $id');
+        return response;
+      } else {
+        print(
+            'Failed to close food truck, status code: ${response.statusCode}');
+        throw Exception('Failed to close food truck');
+      }
+    } catch (e) {
+      print('Failed to close food truck: $e');
+      throw Exception('Failed to close food truck');
+    }
+  }
+
+  //Get the status of the food truck
+  Future<bool> getFoodTruckStatus(int id) async {
+    try {
+      print('Fetching status of food truck with id $id');
+      final response = await http.get(
+          Uri.parse('http://10.0.2.2:8686/api/isFoodTruckOpen?foodTruckId=$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+
+      if (response.statusCode == 200) {
+        bool jsonResponse = json.decode(response.body);
+        print('Successfully fetched status of food truck: $jsonResponse');
+        return jsonResponse;
+      } else {
+        print(
+            'Failed to load status of food truck, status code: ${response.statusCode}');
+        throw Exception('Failed to load status of food truck');
+      }
+    } catch (e) {
+      print('Failed to load status of food truck: $e');
+      throw Exception('Failed to load status of food truck');
+    }
+  }
 }
+
+    // Future<void> deleteFoodTruck(int id) async {

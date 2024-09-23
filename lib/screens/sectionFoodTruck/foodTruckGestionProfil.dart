@@ -38,23 +38,16 @@ class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            color: Colors.yellow,
-            icon: const Icon(Icons.account_circle),
-            onPressed: () {},
-          ),
-        ],
+        actions: const [],
         centerTitle: true,
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green,
         title: const Text(
-          'Rolling Foods',
+          'Hello Foods',
           style: TextStyle(
-            color: Colors.yellow,
-            fontSize: 20,
+            color: Colors.black,
+            fontSize: 50,
             fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Lonely',
+            fontFamily: 'Roboto',
           ),
         ),
       ),
