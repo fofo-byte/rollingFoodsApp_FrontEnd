@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionCustomer/homeCustomer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class Signuppagelocationowner extends StatefulWidget {
+  const Signuppagelocationowner({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<Signuppagelocationowner> createState() =>
+      _SignuppagefoodtruckownerState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignuppagefoodtruckownerState extends State<Signuppagelocationowner> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -21,9 +23,33 @@ class _SignUpPageState extends State<SignUpPage> {
       String email = _emailController.text;
       String password = _passwordController.text;
 
-      UserServiceApi().registerUser(username, email, password);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const HomeCustomer()));
+      UserServiceApi().registerFoodTruckOwner(username, email, password);
+      await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('You have successfully signed up'),
+              content: const Text(
+                  'Vous pouvez maintenant vous reconnecter et créer votre compte food trucker'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Loginpage()));
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('WARNING : Vous devez creer un compte food trucker',
+              style: TextStyle(color: Colors.red)),
+        ),
+      );
     }
   }
 
@@ -57,35 +83,32 @@ class _SignUpPageState extends State<SignUpPage> {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Icon(
-                Icons.account_circle,
+                FontAwesomeIcons.mapLocation,
                 size: 100,
-              ),
-            ),
-            const ListTile(
-              title: Center(
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Roboto',
-                  ),
-                ),
-              ),
-              subtitle: Text(
-                'Creéz votre compte utilisateur pour accéder à Hello Foods',
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontFamily: 'Roboto',
-                ),
               ),
             ),
             Form(
               key: _formKey,
               child: Column(
                 children: [
+                  const ListTile(
+                    title: Center(
+                      child: Text(
+                        'Vous avez un emplacement idéal à proposer ?',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    subtitle: Text(
+                      " Inscrivez-vous dès aujourd'hui et mettez votre espace à disposition des food trucks. Maximisez vos revenus en louant votre emplacement à des entrepreneurs passionnés et profitez d'une visibilité auprès de notre large communauté.",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black54,
+                          fontFamily: 'OpenSans'),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: TextFormField(

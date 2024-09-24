@@ -12,6 +12,7 @@ import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/gestionFood
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/pageFormAdminAccount.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/pageFormFoodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionLocationOwner/homeProprio.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionLocationOwner/signUpPageLocationOwner.dart';
 import 'package:rolling_foods_app_front_end/themes.dart';
 
 void main() async {
@@ -39,6 +40,8 @@ class MyApp extends StatelessWidget {
             const Pageformfoodtruckprofil(),
         '/createAccountFoodTruckOwner': (context) =>
             const Pageformadminaccount(),
+        '/signUpPageLocationOwner': (context) =>
+            const Signuppagelocationowner(),
         '/foodTruckGestionProfilFoodTruck': (context) =>
             const Foodtruckgestionprofilfoodtruck(),
         '/gestionFoodTruck': (context) => const Gestionfoodtruck(),

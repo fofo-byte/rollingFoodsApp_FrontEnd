@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 
@@ -56,7 +57,24 @@ class _SignuppagefoodtruckownerState extends State<Signuppagefoodtruckowner> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: const [],
+        centerTitle: true,
+        backgroundColor: Colors.green,
+        title: const Text(
+          'Hello Foods',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Roboto',
+          ),
+        ),
       ),
       body: Center(
         child: Column(
@@ -65,7 +83,7 @@ class _SignuppagefoodtruckownerState extends State<Signuppagefoodtruckowner> {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Icon(
-                Icons.account_circle,
+                FontAwesomeIcons.peopleGroup,
                 size: 100,
               ),
             ),
@@ -73,6 +91,24 @@ class _SignuppagefoodtruckownerState extends State<Signuppagefoodtruckowner> {
               key: _formKey,
               child: Column(
                 children: [
+                  const ListTile(
+                    title: Center(
+                      child: Text(
+                        'Vous êtes un FoodTrucker',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    subtitle: Text(
+                      "Rejoignez notre communauté de food truckers et faites découvrir vos délicieuses spécialités à des milliers de gourmands ! Créez votre compte dès aujourd'hui pour gérer facilement votre food truck, attirer de nouveaux clients et partager votre passion culinaire.",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black54,
+                          fontFamily: 'OpenSans'),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: TextFormField(

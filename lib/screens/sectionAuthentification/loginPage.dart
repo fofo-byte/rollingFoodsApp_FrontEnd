@@ -271,7 +271,7 @@ class _LoginpageState extends State<Loginpage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -287,7 +287,14 @@ class _LoginpageState extends State<Loginpage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const Center(
+                    child: ListTile(
+                      title: Center(
+                          child: Text(
+                              'Vous êtes un food trucker ou un emplacement?')),
+                      subtitle: Center(child: Text('Créez un compte')),
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -304,18 +311,15 @@ class _LoginpageState extends State<Loginpage> {
                             icon: Image.asset(
                                 'assets/icons/icons8-food-truck-48.png'),
                           ),
-                          const Text('FoodTrucker'),
+                          const Text('Food trucker'),
                         ],
                       ),
                       Column(
                         children: [
                           IconButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignUpPage()));
+                              Navigator.pushNamed(
+                                  context, '/signUpPageLocationOwner');
                             },
                             icon: const Icon(
                               Icons.location_on,
