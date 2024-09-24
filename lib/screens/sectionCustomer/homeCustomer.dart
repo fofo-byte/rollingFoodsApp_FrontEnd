@@ -228,10 +228,6 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                 Position position = snapshot.data!['position'];
                 List<Foodtruck> data = snapshot.data!['trucks'];
 
-                if (position == null) {
-                  return const Center(child: Text('No position found'));
-                }
-
                 return ListView.builder(
                   itemCount: data.length,
                   shrinkWrap: true,

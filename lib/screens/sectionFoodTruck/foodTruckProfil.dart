@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/models/article.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/services/article_service.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class Foodtruckprofil extends StatefulWidget {
   final int foodtruckId;
@@ -109,7 +108,8 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                 height: 80.0,
                 point: LatLng(foodtruck.coordinates!.latitude,
                     foodtruck.coordinates!.longitude),
-                child: const Icon(Icons.pin_drop, color: Colors.red),
+                child: const Icon(FontAwesomeIcons.locationDot,
+                    color: Colors.redAccent),
               ));
 
               return SingleChildScrollView(
