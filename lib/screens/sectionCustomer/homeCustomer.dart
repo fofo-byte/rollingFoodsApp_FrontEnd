@@ -5,6 +5,7 @@ import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/favoritesPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/profilPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/searchPage.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionCustomer/searchPageMap.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/cardsWidget.dart';
@@ -37,7 +38,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
   // Liste des pages associées aux onglets de la BottomNavigationBar
   final List<Widget> _pages = [
     const HomeCustomerPage(),
-    const Searchpage(),
+    const Searchpagemap(),
     const Favoritespage(),
     const Profilpage(),
   ];

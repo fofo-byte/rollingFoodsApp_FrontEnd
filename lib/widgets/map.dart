@@ -3,7 +3,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 class Map extends StatefulWidget {
-  const Map(MapController mapController, MarkerLayer markerLayer, {super.key});
+  const Map(MapController mapController, MarkerLayer markerLayer,
+      {super.key, required MapOptions options});
 
   @override
   State<Map> createState() => _MapState();
