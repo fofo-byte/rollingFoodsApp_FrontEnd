@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -8,6 +10,7 @@ import 'package:rolling_foods_app_front_end/models/article.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/services/article_service.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Foodtruckprofil extends StatefulWidget {
   final int foodtruckId;
@@ -63,6 +66,17 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
     }
   }
 
+  Future<void> openGoogleMaps(double latitude, double longitude) async {
+    final Uri googleMapsUrl = Uri.parse(
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
+
+    if (await canLaunchUrl(googleMapsUrl)) {
+      await launchUrl(googleMapsUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,8 +122,23 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                 height: 80.0,
                 point: LatLng(foodtruck.coordinates!.latitude,
                     foodtruck.coordinates!.longitude),
-                child: const Icon(FontAwesomeIcons.locationDot,
-                    color: Colors.redAccent),
+                child: Column(
+                  children: [
+                    IconButton(
+                        tooltip: 'Itinéraire',
+                        onPressed: () {
+                          openGoogleMaps(foodtruck.coordinates!.latitude,
+                              foodtruck.coordinates!.longitude);
+                        },
+                        icon: const Icon(Icons.location_on,
+                            color: Colors.red, size: 40)),
+                    const Text("Let's Go!",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ));
 
               return SingleChildScrollView(

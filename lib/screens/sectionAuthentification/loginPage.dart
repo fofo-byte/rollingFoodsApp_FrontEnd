@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/signUpPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/signUpPageFoodTruckOwner.dart';
@@ -29,6 +32,34 @@ class _LoginpageState extends State<Loginpage> {
           await googleSignIn.signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount!.authentication;
+
+      //Obtenir id et token d'authentification de Google
+      final String? idToken = googleSignInAuthentication.idToken;
+      print('IdToken: $idToken');
+
+      //Envoyer les informations d'authentification au backend
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:8686/api/auth'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'idToken': idToken!,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final String jwtToken = data['token'];
+
+        //Enregistrer le token dans les Shared Preferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', jwtToken);
+        print('Token: $jwtToken');
+      } else {
+        print('Failed to sign in with Google');
+      }
+
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,

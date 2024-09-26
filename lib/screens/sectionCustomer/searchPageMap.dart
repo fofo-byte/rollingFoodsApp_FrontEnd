@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 
 class Searchpagemap extends StatefulWidget {
@@ -16,8 +17,33 @@ class Searchpagemap extends StatefulWidget {
 class _SearchpagemapState extends State<Searchpagemap> {
   late Future<List<Foodtruck>> foodTrucks;
   final MapController mapController = MapController();
+  Map<int, String> foodTruckStatus = {};
+  bool isOpened = false;
 
   final List<Marker> markers = <Marker>[];
+
+  Future<void> _fetchFoodTruckStatus() async {
+    final foodTruckList = await foodTrucks;
+    for (var foodTruck in foodTruckList) {
+      final isOpened = await ApiService().getFoodTruckStatus(foodTruck.id);
+      String status = isOpened ? 'Closed' : 'Open';
+      setState(() {
+        foodTruckStatus[foodTruck.id] = status;
+        markers.add(Marker(
+          width: 80.0,
+          height: 80.0,
+          point: LatLng(foodTruck.coordinates!.latitude,
+              foodTruck.coordinates!.longitude),
+          child: IconButton(
+              icon: Icon(FontAwesomeIcons.locationDot,
+                  size: 30, color: isOpened ? Colors.red : Colors.green),
+              onPressed: () {
+                _showDetailsFoodTruck(context, foodTruck);
+              }),
+        ));
+      });
+    }
+  }
 
   void _showDetailsFoodTruck(BuildContext context, Foodtruck foodTruck) async {
     showDialog(
@@ -45,10 +71,17 @@ class _SearchpagemapState extends State<Searchpagemap> {
                     children: [
                       Text(
                         foodTruck.name,
-                        style: const TextStyle(
-                            fontSize: 16), // Diminuer la taille du texte
+                        style: const TextStyle(fontSize: 16),
                       ),
                       const Spacer(),
+                      Text(
+                        foodTruckStatus[foodTruck.id] ?? 'Closed',
+                        style: TextStyle(
+                            color: foodTruckStatus[foodTruck.id] == 'Open'
+                                ? Colors.green
+                                : Colors.red,
+                            fontSize: 16),
+                      )
                     ],
                   ),
                   subtitle: Row(
@@ -82,7 +115,14 @@ class _SearchpagemapState extends State<Searchpagemap> {
               },
               child: const Text('Fermer'),
             ),
-            TextButton(onPressed: () {}, child: const Text('Détails')),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Foodtruckprofil(foodtruckId: foodTruck.id);
+                  }));
+                },
+                child: const Text('Détails')),
           ],
         );
       },
@@ -93,6 +133,7 @@ class _SearchpagemapState extends State<Searchpagemap> {
   void initState() {
     super.initState();
     foodTrucks = ApiService().fetchFoodTrucks();
+    _fetchFoodTruckStatus();
   }
 
   @override
@@ -113,21 +154,6 @@ class _SearchpagemapState extends State<Searchpagemap> {
           }
 
           List<Foodtruck> foodTrucks = snapshot.data!;
-
-          markers.addAll(foodTrucks.map((foodTruck) {
-            return Marker(
-              width: 80.0,
-              height: 80.0,
-              point: LatLng(foodTruck.coordinates!.latitude,
-                  foodTruck.coordinates!.longitude),
-              child: IconButton(
-                  icon: const Icon(FontAwesomeIcons.locationDot,
-                      size: 30, color: Colors.red),
-                  onPressed: () {
-                    _showDetailsFoodTruck(context, foodTruck);
-                  }),
-            );
-          }).toList());
 
           return Column(
             children: [
