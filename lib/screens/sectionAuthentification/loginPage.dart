@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
@@ -165,14 +166,17 @@ class _LoginpageState extends State<Loginpage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(height: 20),
             Container(
-              height: 400,
+              height: 300,
               width: double.infinity,
               decoration: const BoxDecoration(),
               child: Column(
                 children: [
-                  const SizedBox(height: 100),
                   Container(
                     height: 200,
                     width: double.infinity,
@@ -253,7 +257,7 @@ class _LoginpageState extends State<Loginpage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 2),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -270,9 +274,9 @@ class _LoginpageState extends State<Loginpage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 2),
                   const Text('Ou connectez-vous avec'),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 2),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -302,7 +306,6 @@ class _LoginpageState extends State<Loginpage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -320,10 +323,12 @@ class _LoginpageState extends State<Loginpage> {
                   ),
                   const Center(
                     child: ListTile(
-                      title: Center(
-                          child: Text(
-                              'Vous êtes un food trucker ou un emplacement?')),
-                      subtitle: Center(child: Text('Créez un compte')),
+                      title: Text(
+                        'Vous êtes un food trucker ou un emplacement?',
+                        textAlign: TextAlign.center,
+                      ),
+                      subtitle:
+                          Text('Créez un compte', textAlign: TextAlign.center),
                     ),
                   ),
                   Row(
@@ -352,9 +357,7 @@ class _LoginpageState extends State<Loginpage> {
                               Navigator.pushNamed(
                                   context, '/signUpPageLocationOwner');
                             },
-                            icon: const Icon(
-                              Icons.location_on,
-                            ),
+                            icon: const Icon(FontAwesomeIcons.mapLocationDot),
                           ),
                           const Text('Emplacement'),
                         ],
