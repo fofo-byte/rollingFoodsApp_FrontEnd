@@ -12,7 +12,20 @@
           "package_name": "com.example.rolling_foods_app_front_end"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "631494973899-vmce573ocnl2mu2pann8fnl8fpel5lb8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rolling_foods_app_front_end",
+            "certificate_hash": "b9af9f96cd34b64b6f6ef4b53891e608829d56c2"
+          }
+        },
+        {
+          "client_id": "631494973899-evmarf6m8vr6tfhcflglsl1vt8eljjf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAwkmjDZLXicdaDQ0QPwLigKOmHzPObPdI"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "631494973899-evmarf6m8vr6tfhcflglsl1vt8eljjf4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

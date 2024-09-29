@@ -76,98 +76,100 @@ class _SignuppagefoodtruckownerState extends State<Signuppagelocationowner> {
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: Icon(
-                FontAwesomeIcons.mapLocation,
-                size: 100,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Icon(
+                  FontAwesomeIcons.mapLocation,
+                  size: 100,
+                ),
               ),
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  const ListTile(
-                    title: Center(
-                      child: Text(
-                        'Vous avez un emplacement idéal à proposer ?',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const ListTile(
+                      title: Center(
+                        child: Text(
+                          'Vous avez un emplacement idéal à proposer ?',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    subtitle: Text(
-                      " Inscrivez-vous dès aujourd'hui et mettez votre espace à disposition des food trucks. Maximisez vos revenus en louant votre emplacement à des entrepreneurs passionnés et profitez d'une visibilité auprès de notre large communauté.",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black54,
-                          fontFamily: 'OpenSans'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: TextFormField(
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                        border: OutlineInputBorder(),
+                      subtitle: Text(
+                        " Inscrivez-vous dès aujourd'hui et mettez votre espace à disposition des food trucks. Maximisez vos revenus en louant votre emplacement à des entrepreneurs passionnés et profitez d'une visibilité auprès de notre large communauté.",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black54,
+                            fontFamily: 'OpenSans'),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a username';
-                        }
-                        return null;
-                      },
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: TextFormField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: TextFormField(
+                        controller: _usernameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Username',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a username';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter an email';
-                        }
-                        return null;
-                      },
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: TextFormField(
-                      controller: _passwordController,
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter an email';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a password';
-                        }
-                        return null;
-                      },
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: TextFormField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                _signUp();
-              },
-              child: const Text('Sign Up'),
-            ),
-          ],
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  _signUp();
+                },
+                child: const Text('Sign Up'),
+              ),
+            ],
+          ),
         ),
       ),
     );

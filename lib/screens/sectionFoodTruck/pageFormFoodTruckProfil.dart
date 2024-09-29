@@ -179,6 +179,9 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
           Form(
             key: _formKey,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Stack(
                   children: [

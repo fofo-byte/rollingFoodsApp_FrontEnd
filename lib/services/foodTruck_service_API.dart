@@ -2,19 +2,28 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
+import 'package:rolling_foods_app_front_end/services/authInterceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
+  static final client =
+      InterceptedClient.build(interceptors: [AuthInterceptor()]);
   // The URL of the API's endpoint
   final String baseUrl = 'http://10.0.2.2:8686/api/foodTruck';
 
   //Fetch all food trucks
   Future<List<Foodtruck>> fetchFoodTrucks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
     try {
       print('Fetching food trucks from $baseUrl');
-      final response = await http.get(Uri.parse(baseUrl));
+      final response = await http.get(Uri.parse(baseUrl), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      });
 
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body);
@@ -62,7 +71,7 @@ class ApiService {
     }
     final response = await http.get(
       Uri.parse(
-          'http://10.0.2.2:8686/api/findFoodTruckOwnerIdByUserCredentialId?userCredentialId=$id'),
+          'http://10.0.2.2:8686/api/findFoodTruckOwnerIdByUserCredentialId?userCredentialId=$userCredentialId'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
