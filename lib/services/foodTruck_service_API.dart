@@ -97,12 +97,6 @@ class ApiService {
     }
   }
 
-  //Pick image convert base64
-  Future<String> pickImage(File image) async {
-    List<int> imageBytes = image.readAsBytesSync();
-    String base64Image = base64Encode(imageBytes);
-    return base64Image;
-  }
   //Create a food truck with multipart request
 
   Future<http.Response> createFoodTruck({
@@ -110,7 +104,7 @@ class ApiService {
     required String description,
     required String speciality,
     required String foodTypes,
-    required String profileImage,
+    required File imageFile,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('id');
@@ -122,7 +116,6 @@ class ApiService {
       'description': description,
       'speciality': speciality,
       'foodType': foodTypes,
-      'profileImage': profileImage,
       'coordinates': {
         'latitude': 50.4793576,
         'longitude': 4.18563,
@@ -147,6 +140,13 @@ class ApiService {
         contentType: MediaType('application', 'json'),
       ),
     );
+
+    // Ajouter l'image du food truck comme une partie multipart
+    request.files.add(await http.MultipartFile.fromPath(
+      'file',
+      imageFile.path,
+      contentType: MediaType('image', 'jpeg'),
+    ));
 
     // Envoyer la requête
     var response = await request.send();

@@ -18,6 +18,33 @@ class FoodTruckCard extends StatelessWidget {
     required this.distance,
   });
 
+  Widget _buildImage() {
+    bool isValideUrl =
+        imageUrl.isEmpty && Uri.tryParse(imageUrl)?.hasAbsolutePath == true;
+    return isValideUrl
+        ? Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+            height: 200,
+            width: double.infinity,
+            errorBuilder: (context, eroor, stackTrace) {
+              print('Error loading image: $eroor');
+              return Image.asset(
+                'assets/images/foodtruck.jpg',
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
+              );
+            },
+          )
+        : Image.asset(
+            'assets/images/foodtruck.jpg',
+            fit: BoxFit.cover,
+            height: 200,
+            width: double.infinity,
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -34,12 +61,19 @@ class FoodTruckCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(10)),
-              child: Image.network(
-                imageUrl,
-                height: 150,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              child: imageUrl.isEmpty
+                  ? Image.asset(
+                      'assets/images/foodtruck.jpg',
+                      fit: BoxFit.cover,
+                      height: 200,
+                      width: double.infinity,
+                    )
+                  : Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      height: 200,
+                      width: double.infinity,
+                    ),
             ),
           ),
           Padding(
