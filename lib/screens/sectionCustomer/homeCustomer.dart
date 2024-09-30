@@ -257,9 +257,11 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                       rating: data[index].rating != null
                           ? data[index].rating!.toDouble()
                           : 0.0,
-                      imageUrl: data[index].urlProlfileImage != null
+                      imageUrl: (data[index].urlProlfileImage != null &&
+                              data[index].urlProlfileImage!.isNotEmpty)
                           ? data[index].urlProlfileImage!
-                          : 'https://via.placeholder.com/150',
+                          : 'assets/images/foodtruck.jpg',
+
                       distance: '${distanceKm.toStringAsFixed(2)} km',
                       // Placeholder image
                     );

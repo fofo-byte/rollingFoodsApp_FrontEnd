@@ -51,7 +51,7 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
 
       // Call the upload method after selecting the image
       if (_image != null) {
-        imageUrl = await uploadImageToFirebase(_image!);
+        //imageUrl = await uploadImageToFirebase(_image!);
         if (imageUrl != null) {
           print("Image URL: $imageUrl");
         }
@@ -75,7 +75,7 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
           description: _descriptionController.text,
           speciality: _specialityController.text,
           foodTypes: _selectedFoodTypes,
-          profileImage: imageUrl!,
+          imageFile: _image ?? File('assets/images/foodtruck.jpg'),
         );
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -87,34 +87,6 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
       } else {
         print("User credential ID not found.");
       }
-    }
-  }
-
-  // Méthode pour uploader l'image sur Firebase Storage
-  Future<String?> uploadImageToFirebase(File imageFile) async {
-    try {
-      // Obtenir le nom du fichier
-      String fileName = path.basename(imageFile.path);
-
-      // Créer une référence dans Firebase Storage
-      Reference storageRef = FirebaseStorage.instance
-          .ref()
-          .child('profileImagesFoodTruck/$fileName + ${DateTime.now()}');
-
-      // Uploader le fichier
-      UploadTask uploadTask = storageRef.putFile(imageFile);
-
-      // Attendre que l'upload soit complété
-      TaskSnapshot taskSnapshot = await uploadTask;
-
-      // Récupérer l'URL de téléchargement de l'image
-      String downloadURL = await taskSnapshot.ref.getDownloadURL();
-
-      print("Image uploaded to Firebase: $downloadURL");
-      return downloadURL; // Retourner l'URL de l'image
-    } catch (e) {
-      print("Failed to upload image: $e");
-      return null;
     }
   }
 

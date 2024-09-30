@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,16 +63,6 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
       setState(() {
         _image = File(pickedFile.path);
       });
-
-      // Call the upload method after selecting the image
-      if (_image != null) {
-        imageUrl = await uploadImageToFirebase(_image!);
-        if (imageUrl != null) {
-          print("Image URL: $imageUrl");
-        }
-      }
-    } else {
-      print('No image selected.');
     }
   }
 
@@ -105,6 +96,36 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
           ),
         );
       }
+    }
+  }
+
+  //Uplaoder image en local
+  Future<void> uploadImage(File image, int foodTruckId) async {
+    Foodtruck foodtruckValue = await foodtruck;
+    int foodTruckId = foodtruckValue.id;
+
+    try {
+      String uplaodUrl = 'http://10.0.2.2:8686/api/uploadImage';
+
+      FormData data = FormData.fromMap({
+        "file": await MultipartFile.fromFile(
+          image.path,
+          filename: path.basename(image.path),
+        ),
+        "foodTruckId": foodTruckId,
+      });
+
+      Dio dio = new Dio();
+      Response response = await dio.post(uplaodUrl, data: data);
+
+      if (response.statusCode == 200) {
+        print('Image uploaded successfully');
+        imageUrl = response.data['profileImage'];
+      } else {
+        print('Failed to upload image');
+      }
+    } catch (e) {
+      print('Failed to upload image: $e');
     }
   }
 
@@ -165,13 +186,22 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
                     onTap: getImage,
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: foodtruck.urlProlfileImage != null
-                          ? NetworkImage(foodtruck.urlProlfileImage!)
-                          : const AssetImage('assets/images/foodtruck.jpg')
+                      backgroundImage: _image != null
+                          ? FileImage(_image!)
+                          : const AssetImage('assets/images/foodtruck.png')
                               as ImageProvider,
+                      child:
+                          _image == null ? const Icon(Icons.add_a_photo) : null,
                     ),
                   ),
                   const SizedBox(height: 20),
+                  ElevatedButton(
+                      onPressed: () {
+                        if (_image != null) {
+                          uploadImage(_image!, foodtruck.id);
+                        }
+                      },
+                      child: const Text('Upload Image')),
                   TextFormField(
                     controller: _foodTruckId,
                     decoration:
