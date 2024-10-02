@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
-import 'package:path/path.dart' as path;
 import 'package:rolling_foods_app_front_end/services/article_service.dart';
 
 class Pageaddarticle extends StatefulWidget {
@@ -43,41 +41,12 @@ class _PageaddarticleState extends State<Pageaddarticle> {
 
       // Call the upload method after selecting the image
       if (_image != null) {
-        imageUrl = await uploadImageToFirebase(_image!);
         if (imageUrl != null) {
           print("Image URL: $imageUrl");
         }
       }
     } else {
       print('No image selected.');
-    }
-  }
-
-  // Méthode pour uploader l'image sur Firebase Storage
-  Future<String?> uploadImageToFirebase(File imageFile) async {
-    try {
-      // Obtenir le nom du fichier
-      String fileName = path.basename(imageFile.path);
-
-      // Créer une référence dans Firebase Storage
-      Reference storageRef = FirebaseStorage.instance
-          .ref()
-          .child('profileImagesFoods/$fileName + ${DateTime.now()}');
-
-      // Uploader le fichier
-      UploadTask uploadTask = storageRef.putFile(imageFile);
-
-      // Attendre que l'upload soit complété
-      TaskSnapshot taskSnapshot = await uploadTask;
-
-      // Récupérer l'URL de téléchargement de l'image
-      String downloadURL = await taskSnapshot.ref.getDownloadURL();
-
-      print("Image uploaded to Firebase: $downloadURL");
-      return downloadURL; // Retourner l'URL de l'image
-    } catch (e) {
-      print("Failed to upload image: $e");
-      return null;
     }
   }
 
@@ -89,7 +58,7 @@ class _PageaddarticleState extends State<Pageaddarticle> {
         description: _descriptionController.text,
         price: double.parse(_priceController.text),
         itemCategorie: _selectedCategory,
-        pictureItem: imageUrl ?? '',
+        pictureItem: _image!,
       );
 
       // Show a dialog to confirm the creation of the food truck

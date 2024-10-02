@@ -4,7 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/favoritesPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/profilPage.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionCustomer/searchPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/searchPageMap.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';

@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
 import 'package:rolling_foods_app_front_end/models/article.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mime/mime.dart';
 
 class ArticleService {
   // The URL of the API's endpoint
@@ -46,7 +50,7 @@ class ArticleService {
     required String description,
     required double price,
     required String itemCategorie,
-    required String pictureItem,
+    required File? pictureItem,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('id');
@@ -60,28 +64,49 @@ class ArticleService {
       'description': description,
       'price': price,
       'itemCategorie': itemCategorie,
-      'pictureItem': pictureItem,
     };
 
-    final response = await http.post(
-      Uri.parse('http://10.0.2.2:8686/api/items?foodTruckId=$foodTruckId')
-          .replace(queryParameters: {
-        'foodTruckId': foodTruckId.toString(),
-      }),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      //Convertir les données du food truck en JSON
-      body: jsonEncode(articleData),
+    String json = jsonEncode(articleData);
+
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl?foodTruckId=$foodTruckId'),
     );
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    request.files.add(http.MultipartFile.fromString('itemDTO', json,
+        filename: 'itemDTO.json',
+        contentType: MediaType('application', 'json')));
+
+    if (pictureItem != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        pictureItem.path,
+        contentType: MediaType.parse(lookupMimeType(pictureItem.path) ?? ''),
+      ));
+    }
+
+    var response = await request.send();
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      print('Successfully created article: $jsonResponse');
-      return response;
+      print('Successfully created article');
+      return http.Response.fromStream(response);
+    }
+    if (response.statusCode == 201) {
+      print('Successfully created article');
+      return http.Response.fromStream(response);
+    }
+    if (response.statusCode == 400) {
+      print('Failed to create article, status code: ${response.statusCode}');
+      throw Exception('Failed to create article');
+    }
+    if (response.statusCode == 403) {
+      print('Failed to create article, status code: ${response.statusCode}');
+      throw Exception('Failed to create article');
+    }
+
+    if (response.statusCode == 500) {
+      print('Failed to create article, status code: ${response.statusCode}');
+      throw Exception('Failed to create article');
     } else {
       print('Failed to create article, status code: ${response.statusCode}');
       throw Exception('Failed to create article');
