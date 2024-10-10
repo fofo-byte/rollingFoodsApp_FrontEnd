@@ -64,11 +64,6 @@ class ApiService {
 
   //find id of the foodTruckOwner
   Future<int> findIdFoodTruckOwner(int userCredentialId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? id = prefs.getInt('id');
-    if (id == null) {
-      throw Exception('Failed to find id of the food truck owner');
-    }
     final response = await http.get(
       Uri.parse(
           'http://10.0.2.2:8686/api/findFoodTruckOwnerIdByUserCredentialId?userCredentialId=$userCredentialId'),
@@ -76,9 +71,9 @@ class ApiService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    var jsonResponse = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.body);
       if (jsonResponse is int) {
         print('Successfully found id of the food truck owner: $jsonResponse');
         return jsonResponse; // Renvoie directement l'entier
@@ -348,6 +343,114 @@ class ApiService {
     } catch (e) {
       print('Failed to load status of food truck: $e');
       throw Exception('Failed to load status of food truck');
+    }
+  }
+
+  //Get favorite food trucks
+  Future<List<Foodtruck>> getFavoriteFoodTrucks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+    try {
+      print('Fetching favorite food trucks for user with id $id');
+      final response = await http.get(
+          Uri.parse('http://10.0.2.2:8686/api/favorite?userId=$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+
+      if (response.statusCode == 200) {
+        List jsonResponse = json.decode(response.body);
+        print('Successfully fetched favorite food trucks: $jsonResponse');
+        return jsonResponse
+            .map((foodTruck) => Foodtruck.fromJson(foodTruck))
+            .toList();
+      } else {
+        print(
+            'Failed to load favorite food trucks, status code: ${response.statusCode}');
+        throw Exception('Failed to load favorite food trucks');
+      }
+    } catch (e) {
+      print('Failed to load favorite food trucks: $e');
+      throw Exception('Failed to load favorite food trucks');
+    }
+  }
+
+  //Add a food truck to favorites
+  Future<void> addFavoriteFoodTruck(int foodTruckId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+
+    try {
+      print('Adding food truck with id $foodTruckId to favorites for user $id');
+      final response = await http.post(
+          Uri.parse(
+              'http://10.0.2.2:8686/api/favorite?userId=$id&foodTruckId=$foodTruckId'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+
+      if (response.statusCode == 200) {
+        print('Successfully added food truck to favorites');
+      } else {
+        print(
+            'Failed to add food truck to favorites, status code: ${response.statusCode}');
+        throw Exception('Failed to add food truck to favorites');
+      }
+    } catch (e) {
+      print('Failed to add food truck to favorites: $e');
+      throw Exception('Failed to add food truck to favorites');
+    }
+  }
+
+  //isFavoriteFoodTruck
+  Future<bool> isFavoriteFoodTruck(int foodTruckId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+
+    print('Checking if food truck with id $foodTruckId is a favorite');
+    final response = await http.get(
+        Uri.parse(
+            'http://10.0.2.2:8686/api/isFavorite?userId=$id&foodTruckId=$foodTruckId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+
+    if (response.statusCode == 200) {
+      bool jsonResponse = json.decode(response.body);
+      print('Successfully checked if food truck is a favorite: $jsonResponse');
+      return jsonResponse;
+    } else {
+      print(
+          'Failed to check if food truck is a favorite, status code: ${response.statusCode}');
+      throw Exception('Failed to check if food truck is a favorite');
+    }
+  }
+
+  //Delete a food truck from favorites
+  Future<void> deleteFavoriteFoodTruck(int foodTruckId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+
+    try {
+      print(
+          'Deleting food truck with id $foodTruckId from favorites for user $id');
+      final response = await http.delete(
+          Uri.parse(
+              'http://10.0.2.2:8686/api/favorite?userId=$id&foodTruckId=$foodTruckId'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+
+      if (response.statusCode == 200) {
+        print('Successfully deleted food truck from favorites');
+      } else {
+        print(
+            'Failed to delete food truck from favorites, status code: ${response.statusCode}');
+        throw Exception('Failed to delete food truck from favorites');
+      }
+    } catch (e) {
+      print('Failed to delete food truck from favorites: $e');
+      throw Exception('Failed to delete food truck from favorites');
     }
   }
 }

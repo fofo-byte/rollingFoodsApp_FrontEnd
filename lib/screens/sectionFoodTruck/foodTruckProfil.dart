@@ -27,6 +27,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
   late Future<List<Article>> articleSpeciality;
   late Future<List<Article>> articleNew;
   final MapController _mapController = MapController();
+  bool isFavorite = false;
 
   final List<Marker> markers = [];
 
@@ -40,6 +41,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
         .getItemsByFoodTruckIdAndCategory(widget.foodtruckId, 'SPECIALITY');
     articleNew = ArticleService()
         .getItemsByFoodTruckIdAndCategory(widget.foodtruckId, 'NEW');
+    checkFavoriteFoodTruck();
   }
 
   //Submit a rating
@@ -75,6 +77,26 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
     } else {
       throw 'Could not open the map.';
     }
+  }
+
+  Future<void> favoriteFoodTruck() async {
+    try {
+      ApiService().addFavoriteFoodTruck(widget.foodtruckId);
+    } catch (e) {
+      print('Failed to add favorite food truck: $e');
+      throw Exception('Failed to add favorite food truck');
+    }
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
+
+  Future<bool> checkFavoriteFoodTruck() async {
+    isFavorite = await ApiService().isFavoriteFoodTruck(widget.foodtruckId);
+    setState(() {
+      isFavorite = isFavorite;
+    });
+    return isFavorite;
   }
 
   @override
@@ -147,24 +169,44 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                   children: [
                     SizedBox(
                       height: 300,
-                      child: FlutterMap(
-                        mapController: _mapController,
-                        options: MapOptions(
-                          maxZoom: 15,
-                          initialCenter: LatLng(foodtruck.coordinates!.latitude,
-                              foodtruck.coordinates!.longitude),
-                          initialZoom: 14,
-                        ),
+                      child: Stack(
                         children: [
-                          TileLayer(
-                            urlTemplate:
-                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                            userAgentPackageName:
-                                'dev.fleaflet.flutter_map.example',
-                            // Plenty of other options available!
-                          ),
-                          MarkerLayer(
-                            markers: markers,
+                          FlutterMap(
+                            mapController: _mapController,
+                            options: MapOptions(
+                              maxZoom: 15,
+                              initialCenter: LatLng(
+                                  foodtruck.coordinates!.latitude,
+                                  foodtruck.coordinates!.longitude),
+                              initialZoom: 14,
+                            ),
+                            children: [
+                              TileLayer(
+                                urlTemplate:
+                                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                userAgentPackageName:
+                                    'dev.fleaflet.flutter_map.example',
+                                // Plenty of other options available!
+                              ),
+                              MarkerLayer(
+                                markers: markers,
+                              ),
+                              Positioned(
+                                top: 10,
+                                right: 10,
+                                child: IconButton(
+                                  icon: Icon(Icons.favorite,
+                                      size: 40,
+                                      color: isFavorite
+                                          ? Colors.red
+                                          : Colors.grey),
+                                  tooltip: 'Ajouter aux favoris',
+                                  onPressed: () {
+                                    favoriteFoodTruck();
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
