@@ -26,13 +26,23 @@ class _LoginpageState extends State<Loginpage> {
 
   Future<void> _signInWithGoogle() async {
     try {
-      // Implement Google Sign In
-      FirebaseAuth auth = FirebaseAuth.instance;
       final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      // S'assurer que l'utilisateur est déconnecté avant d'essayer de se connecter
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.signOut();
+        print('Existing Google session signed out before sign-in attempt.');
+      }
+
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
+      if (googleSignInAccount == null) {
+        print('Google sign-in aborted.');
+        return; // L'utilisateur a annulé la connexion
+      }
+
       final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount!.authentication;
+          await googleSignInAccount.authentication;
 
       //Obtenir id et token d'authentification de Google
       final String? idToken = googleSignInAuthentication.idToken;
@@ -52,11 +62,68 @@ class _LoginpageState extends State<Loginpage> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final String jwtToken = data['token'];
+        print('JWT Token: $jwtToken');
 
         //Enregistrer le token dans les Shared Preferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', jwtToken);
-        print('Token: $jwtToken');
+        try {
+          // Étape 1 : Normaliser le token JWT (partie payload)
+          String base64Payload = base64.normalize(jwtToken.split(".")[1]);
+          print('Base64 Payload: $base64Payload');
+
+          // Étape 2 : Décoder en Base64
+          String decodedPayload = utf8.decode(base64.decode(base64Payload));
+          print('Decoded Payload: $decodedPayload');
+
+          // Étape 3 : Convertir en JSON
+          Map<String, dynamic> payload = json.decode(decodedPayload);
+          print('Payload: $payload');
+          // Sauvegarder les données seulement si elles existent
+          prefs.setString(
+              'role',
+              payload['roles']?[0]?['authority'] ??
+                  'Unknown'); // Accès correct au rôle
+          prefs.setInt('id', payload['id'] ?? 0); // id
+          prefs.setBool('enabled', payload['enabled'] ?? false); // enabled
+          prefs.setString('email', payload['email'] ?? ''); // email
+          prefs.setString('name', payload['username'] ?? ''); // username
+
+// Gérer les valeurs nulles pour photoUrl (inexistante dans le payload)
+          if (payload.containsKey('photoUrl') && payload['photoUrl'] != null) {
+            prefs.setString('photoUrl', payload['photoUrl']);
+          } else {
+            print('photoUrl is null or not available in the payload');
+          }
+
+          print('idUser: ${payload['id']}');
+          print('role: ${payload['roles']}');
+          print('enabled: ${payload['enabled']}');
+          print('email: ${payload['email']}');
+          print('name: ${payload['username']}');
+        } catch (e) {
+          print('Failed to decode JWT token: $e');
+        }
+
+        // Redirection vers la page d'accueil
+        String? role = prefs.getString('role');
+        if (role == 'ROLE_USER') {
+          Navigator.pushReplacementNamed(context, '/homeCustomer');
+        } else {
+          AlertDialog(
+            title: const Text('Compte non activé'),
+            content: const Text(
+                'Votre compte est verifié et un email vous sera envoyé après verification.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        }
       } else {
         print('Failed to sign in with Google');
       }
@@ -66,14 +133,19 @@ class _LoginpageState extends State<Loginpage> {
         idToken: googleSignInAuthentication.idToken,
       );
       final UserCredential authResult =
-          await auth.signInWithCredential(credential);
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
       final User? user = authResult.user;
       if (user != null) {
         print('Successfully signed in with Google');
         print('User: ${user.displayName}');
         print('User: ${user.email}');
-        print('User: ${user.photoURL}');
+        if (user.photoURL != null) {
+          print('User: ${user.photoURL}');
+        } else {
+          print('No photo URL available');
+          var photoUrl = Image.asset('assets/icons/icons8-person-64.png');
+        }
       } else {
         print('Failed to sign in with Google');
       }
@@ -288,14 +360,6 @@ class _LoginpageState extends State<Loginpage> {
                       IconButton(
                         onPressed: () async {
                           await _signInWithGoogle();
-                          if (FirebaseAuth.instance.currentUser != null) {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              '/homeCustomer',
-                            );
-                          } else {
-                            print('Failed to login with Google');
-                          }
                         },
                         icon: Image.asset('assets/icons/icons8-google-48.png'),
                       ),

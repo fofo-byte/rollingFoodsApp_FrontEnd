@@ -18,7 +18,8 @@ class HomeCustomer extends StatefulWidget {
 }
 
 class _HomeCustomerState extends State<HomeCustomer> {
-  final String? photoUrl = FirebaseAuth.instance.currentUser!.photoURL;
+  final String? photoUrl = "";
+
   String username = '';
 
   @override
@@ -65,8 +66,10 @@ class _HomeCustomerState extends State<HomeCustomer> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: CircleAvatar(
-              backgroundImage:
-                  photoUrl != null ? NetworkImage(photoUrl!) : null,
+              backgroundImage: FirebaseAuth.instance.currentUser!.photoURL !=
+                      null
+                  ? NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!)
+                  : null,
               child: photoUrl == null ? const Icon(Icons.person) : null,
             ),
           ),

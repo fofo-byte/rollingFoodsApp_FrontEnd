@@ -21,10 +21,22 @@ class _ProfilpageState extends State<Profilpage> {
   }
 
   Future<void> _logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
     final GoogleSignIn googleSignIn = GoogleSignIn();
-    await googleSignIn.signOut();
+
+    // Si un utilisateur est connecté via Google, déconnexion de Google Sign-In
+    if (await googleSignIn.isSignedIn()) {
+      await googleSignIn.signOut();
+      print('GoogleSignIn successfully signed out.');
+    }
+
+    // Déconnexion de Firebase Auth
+    await FirebaseAuth.instance.signOut();
+    print('FirebaseAuth successfully signed out.');
+
+    // Effacer toutes les données de session de l'application
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    print('Local data cleared.');
 
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
