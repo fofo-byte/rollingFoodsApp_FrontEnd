@@ -416,8 +416,10 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                                       return Card(
                                         child: ListTile(
                                           title: Text(articles[index].name),
-                                          subtitle:
-                                              Text(articles[index].description),
+                                          subtitle: Text(
+                                            articles[index].description,
+                                            maxLines: 5,
+                                          ),
                                           trailing: Text(
                                             '€${articles[index].price.toString()}',
                                             style: const TextStyle(
