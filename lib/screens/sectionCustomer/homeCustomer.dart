@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:rolling_foods_app_front_end/enum/foodType.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/favoritesPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/profilPage.dart';
@@ -125,7 +126,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     super.initState();
     foodTrucks = ApiService().fetchFoodTrucks();
     popularFoodTrucks = ApiService().fetchFoodTrucks();
-    _futureLocationAndFoodTrucks = _getLocationAndFoodTrucks();
+    _futureLocationAndFoodTrucks = _getLocationAndFoodTrucks(null);
   }
 
   Future<void> _getCurrentLocation() async {
@@ -160,14 +161,31 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     });
   }
 
-  Future<Map<String, dynamic>> _getLocationAndFoodTrucks() async {
+  Future<Map<String, dynamic>> _getLocationAndFoodTrucks(
+      String? foodType) async {
     // Récupérer à la fois la position actuelle et la liste des food trucks
     await _getCurrentLocation();
-    List<Foodtruck> trucks = await ApiService().fetchFoodTrucks();
+    List<Foodtruck> trucks;
+    if (foodType != null) {
+      trucks = await ApiService().getFoodTrucksByIconFilter(foodType);
+    } else {
+      trucks = await ApiService().fetchFoodTrucks();
+    }
     return {
       'position': _currentPosition,
       'trucks': trucks,
     };
+  }
+
+  Future<void> _filterFoodTrucks(String foodType) async {
+    List<Foodtruck> newfoodTrucks =
+        await ApiService().getFoodTrucksByIconFilter(foodType);
+    setState(() {
+      _futureLocationAndFoodTrucks = Future.value({
+        'position': _currentPosition,
+        'trucks': newfoodTrucks,
+      });
+    });
   }
 
   @override
@@ -197,7 +215,9 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(10),
-          child: const Iconswidgethome(),
+          child: Iconswidgethome(iconFilter: (foodType) {
+            _filterFoodTrucks(foodType);
+          }),
         ),
         //Section for list food trucks
         const Text(

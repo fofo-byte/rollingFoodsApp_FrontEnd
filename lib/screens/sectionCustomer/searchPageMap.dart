@@ -27,21 +27,23 @@ class _SearchpagemapState extends State<Searchpagemap> {
     for (var foodTruck in foodTruckList) {
       final isOpened = await ApiService().getFoodTruckStatus(foodTruck.id);
       String status = isOpened ? 'Closed' : 'Open';
-      setState(() {
-        foodTruckStatus[foodTruck.id] = status;
-        markers.add(Marker(
-          width: 80.0,
-          height: 80.0,
-          point: LatLng(foodTruck.coordinates!.latitude,
-              foodTruck.coordinates!.longitude),
-          child: IconButton(
-              icon: Icon(FontAwesomeIcons.locationDot,
-                  size: 30, color: isOpened ? Colors.red : Colors.green),
-              onPressed: () {
-                _showDetailsFoodTruck(context, foodTruck);
-              }),
-        ));
-      });
+      if (mounted) {
+        setState(() {
+          foodTruckStatus[foodTruck.id] = status;
+          markers.add(Marker(
+            width: 80.0,
+            height: 80.0,
+            point: LatLng(foodTruck.coordinates!.latitude,
+                foodTruck.coordinates!.longitude),
+            child: IconButton(
+                icon: Icon(FontAwesomeIcons.locationDot,
+                    size: 30, color: isOpened ? Colors.red : Colors.green),
+                onPressed: () {
+                  _showDetailsFoodTruck(context, foodTruck);
+                }),
+          ));
+        });
+      }
     }
   }
 

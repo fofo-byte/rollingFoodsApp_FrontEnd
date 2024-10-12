@@ -98,7 +98,7 @@ class ApiService {
     required String name,
     required String description,
     required String speciality,
-    required String foodTypes,
+    required List<String> foodTypes,
     required File imageFile,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -162,7 +162,7 @@ class ApiService {
     required String name,
     required String description,
     required String speciality,
-    required String foodTypes,
+    required List<String> foodTypes,
     String? profileImage,
   }) async {
     try {
@@ -453,6 +453,32 @@ class ApiService {
       throw Exception('Failed to delete food truck from favorites');
     }
   }
-}
 
-    // Future<void> deleteFoodTruck(int id) async {
+  //Get food trucks by icon filter
+  Future<List<Foodtruck>> getFoodTrucksByIconFilter(String foodType) async {
+    try {
+      print('Fetching food trucks by icon filter $foodType');
+      final response = await http.get(
+          Uri.parse(
+              'http://10.0.2.2:8686/api/foodTruckByFoodType?foodType=$foodType'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+
+      if (response.statusCode == 200) {
+        List jsonResponse = json.decode(response.body);
+        print('Successfully fetched food trucks by icon filter: $jsonResponse');
+        return jsonResponse
+            .map((foodTruck) => Foodtruck.fromJson(foodTruck))
+            .toList();
+      } else {
+        print(
+            'Failed to load food trucks by icon filter, status code: ${response.statusCode}');
+        throw Exception('Failed to load food trucks by icon filter');
+      }
+    } catch (e) {
+      print('Failed to load food trucks by icon filter: $e');
+      throw Exception('Failed to load food trucks by icon filter');
+    }
+  }
+}
