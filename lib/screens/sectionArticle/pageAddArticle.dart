@@ -216,7 +216,7 @@ class _PageaddarticleState extends State<Pageaddarticle> {
                   padding: const EdgeInsets.all(8.0),
                   child: MultiSelectDialogField(
                     items: _categories,
-                    title: const Text("Food Types"),
+                    title: const Text("Selectionner le Menu"),
                     selectedColor: Colors.blue,
                     decoration: BoxDecoration(
                       color: Colors.blue.withOpacity(0.1),
@@ -227,7 +227,7 @@ class _PageaddarticleState extends State<Pageaddarticle> {
                       ),
                     ),
                     buttonText: Text(
-                      "Select Food Types",
+                      "Menu",
                       style: TextStyle(
                         color: Colors.blue[800],
                         fontSize: 16,

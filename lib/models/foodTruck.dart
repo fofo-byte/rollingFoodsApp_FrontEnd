@@ -31,7 +31,7 @@ class Foodtruck {
       // Convert the list of pictures to a list of Picture objects
       coordinates: Coordinates.fromJson(json['coordinates']),
       // Convert the coordinates to a Coordinates object
-      foodTypes: json['foodType'],
+      foodTypes: List<String>.from(json['foodType']).join(', '),
       rating: json['rating'],
     );
   }

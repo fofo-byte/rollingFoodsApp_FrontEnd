@@ -19,7 +19,7 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _specialityController = TextEditingController();
-  String _selectedFoodTypes = '';
+  List<String> _selectedFoodTypes = [];
 
   File? _image;
   final picker = ImagePicker();
@@ -28,14 +28,16 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
   // Food types for dropdown
   // Food types for dropdown
   final List<MultiSelectItem<String>> _foodTypes = [
-    MultiSelectItem("FAST_FOOD", "Fast Food"),
-    MultiSelectItem("Mexican", "Mexican"),
-    MultiSelectItem("ITALIAN", "Italian"),
-    MultiSelectItem("Chinese", "Chinese"),
-    MultiSelectItem("Japanese", "Japanese"),
-    MultiSelectItem("Indian", "Indian"),
-    MultiSelectItem("Mediterranean", "Mediterranean"),
-    MultiSelectItem("American", "American"),
+    MultiSelectItem("BURGER", "Burger"),
+    MultiSelectItem("PIZZA", "Pizza"),
+    MultiSelectItem("FRIES", "Frites"),
+    MultiSelectItem("CHICKEN", "Chicken"),
+    MultiSelectItem("HOTDOG", "Hotdog"),
+    MultiSelectItem("CHINESE", "Chinese"),
+    MultiSelectItem("SUSHI", "Sushi"),
+    MultiSelectItem("PITTA", "Pitta"),
+    MultiSelectItem("DURUM", "Durum"),
+    MultiSelectItem("GLACES", "Glaces"),
   ];
 
   // Method to upload an image
@@ -244,9 +246,8 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
                     ),
                     onConfirm: (results) {
                       setState(() {
-                        _selectedFoodTypes = results
-                            .map((result) => result.toString())
-                            .join(',');
+                        _selectedFoodTypes =
+                            results.map((result) => result.toString()).toList();
                       });
                     },
                   ),

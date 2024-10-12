@@ -98,7 +98,7 @@ class ApiService {
     required String name,
     required String description,
     required String speciality,
-    required String foodTypes,
+    required List<String> foodTypes,
     required File imageFile,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -162,7 +162,7 @@ class ApiService {
     required String name,
     required String description,
     required String speciality,
-    required String foodTypes,
+    required List<String> foodTypes,
     String? profileImage,
   }) async {
     try {

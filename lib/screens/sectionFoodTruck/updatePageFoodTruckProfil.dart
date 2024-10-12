@@ -26,20 +26,22 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _specialityController = TextEditingController();
   final TextEditingController _foodTruckId = TextEditingController();
-  String _selectedFoodTypes = '';
+  List<String> _selectedFoodTypes = [];
   File? _image;
   final ImagePicker picker = ImagePicker();
   String? imageUrl;
 
   final List<MultiSelectItem<String>> _foodTypes = [
-    MultiSelectItem("FAST_FOOD", "Fast Food"),
-    MultiSelectItem("Mexican", "Mexican"),
-    MultiSelectItem("ITALIAN", "Italian"),
-    MultiSelectItem("Chinese", "Chinese"),
-    MultiSelectItem("Japanese", "Japanese"),
-    MultiSelectItem("Indian", "Indian"),
-    MultiSelectItem("Mediterranean", "Mediterranean"),
-    MultiSelectItem("American", "American"),
+    MultiSelectItem("BURGER", "Burger"),
+    MultiSelectItem("PIZZA", "Pizza"),
+    MultiSelectItem("FRIES", "Frites"),
+    MultiSelectItem("CHICKEN", "Chicken"),
+    MultiSelectItem("HOTDOG", "Hotdog"),
+    MultiSelectItem("CHINESE", "Chinese"),
+    MultiSelectItem("SUSHI", "Sushi"),
+    MultiSelectItem("PITTA", "Pitta"),
+    MultiSelectItem("DURUM", "Durum"),
+    MultiSelectItem("GLACES", "Glaces"),
   ];
 
   @override
@@ -51,7 +53,7 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
       _nameController.text = value.name;
       _descriptionController.text = value.description;
       _specialityController.text = value.speciality;
-      _selectedFoodTypes = value.foodTypes;
+      _selectedFoodTypes = value.foodTypes.split(',');
     });
   }
 
@@ -263,9 +265,7 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
                       ),
                       onConfirm: (results) {
                         setState(() {
-                          _selectedFoodTypes = results
-                              .map((result) => result.toString())
-                              .join(',');
+                          _selectedFoodTypes = results.cast<String>();
                         });
                       },
                     ),
