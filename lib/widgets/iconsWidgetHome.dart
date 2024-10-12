@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Iconswidgethome extends StatelessWidget {
-  const Iconswidgethome({super.key});
+  final Function(String) iconFilter;
+  const Iconswidgethome({super.key, required this.iconFilter});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,9 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('Burger');
+                  },
                   icon: Image.asset('assets/icons/icons8-cheeseburger-64.png'),
                 ),
                 const Text('Burger'),
@@ -27,7 +30,9 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('Chicken');
+                  },
                   icon: Image.asset('assets/icons/icons8-chicken-box-64.png'),
                 ),
                 const Text('Fried Chicken'),
@@ -38,7 +43,9 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('Chinese');
+                  },
                   icon: Image.asset(
                       'assets/icons/icons8-chinese-fried-rice-64.png'),
                 ),
@@ -50,7 +57,9 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('Fast Food');
+                  },
                   icon: Image.asset('assets/icons/icons8-fast-food-64.png'),
                 ),
                 const Text('Fast Food'),
@@ -61,7 +70,9 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('pizza');
+                  },
                   icon: Image.asset('assets/icons/icons8-pizza-64.png'),
                 ),
                 const Text('pizza'),
@@ -72,7 +83,9 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('Sandwich');
+                  },
                   icon: Image.asset('assets/icons/icons8-sandwich-64.png'),
                 ),
                 const Text('Sandwich'),
@@ -83,7 +96,9 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('Sushi');
+                  },
                   icon: Image.asset('assets/icons/icons8-sushi-64.png'),
                 ),
                 const Text('Sushi'),
@@ -94,10 +109,12 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('Tacos');
+                  },
                   icon: Image.asset('assets/icons/icons8-taco-64.png'),
                 ),
-                const Text('Taco'),
+                const Text('Tacos'),
               ],
             ),
             const SizedBox(width: 10),
@@ -105,7 +122,9 @@ class Iconswidgethome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    iconFilter('Wrap');
+                  },
                   icon: Image.asset('assets/icons/icons8-wrap-64.png'),
                 ),
                 const Text('Wrap'),
