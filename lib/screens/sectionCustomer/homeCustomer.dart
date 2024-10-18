@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
@@ -17,7 +18,7 @@ class HomeCustomer extends StatefulWidget {
 }
 
 class _HomeCustomerState extends State<HomeCustomer> {
-  final String? photoUrl = "";
+  final String? photoUrl = FirebaseAuth.instance.currentUser!.photoURL;
 
   String username = '';
 
@@ -65,7 +66,10 @@ class _HomeCustomerState extends State<HomeCustomer> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: CircleAvatar(
-              child: photoUrl == null ? const Icon(Icons.person) : null,
+              radius: 20,
+              backgroundImage: photoUrl != null && photoUrl!.isNotEmpty
+                  ? NetworkImage(photoUrl!)
+                  : const AssetImage('assets/images/user.png') as ImageProvider,
             ),
           ),
         ],
