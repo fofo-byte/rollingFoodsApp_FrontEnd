@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:rolling_foods_app_front_end/enum/foodType.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/favoritesPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/profilPage.dart';
@@ -67,10 +65,6 @@ class _HomeCustomerState extends State<HomeCustomer> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: CircleAvatar(
-              backgroundImage: FirebaseAuth.instance.currentUser!.photoURL !=
-                      null
-                  ? NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!)
-                  : null,
               child: photoUrl == null ? const Icon(Icons.person) : null,
             ),
           ),
