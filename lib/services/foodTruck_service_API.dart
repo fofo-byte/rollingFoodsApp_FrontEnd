@@ -481,4 +481,29 @@ class ApiService {
       throw Exception('Failed to load food trucks by icon filter');
     }
   }
+
+  //Search food trucks
+  Future<List<Foodtruck>> searchFoodTrucks(String searchTerm) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+            'http://10.0.2.2:8686/api/searchFoodTrucks?searchTerm=$searchTerm'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List jsonResponse = json.decode(response.body);
+        return jsonResponse
+            .map((foodTruck) => Foodtruck.fromJson(foodTruck))
+            .toList();
+      } else {
+        throw Exception('Failed to search food trucks');
+      }
+    } catch (e) {
+      print('Error: $e');
+      rethrow;
+    }
+  }
 }

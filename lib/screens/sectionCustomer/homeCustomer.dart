@@ -6,6 +6,7 @@ import 'package:rolling_foods_app_front_end/screens/sectionCustomer/favoritesPag
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/profilPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/searchPageMap.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/searchResultPage.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/cardsWidget.dart';
 import 'package:rolling_foods_app_front_end/widgets/iconsWidgetHome.dart';
@@ -84,7 +85,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.location_on),
             label: 'Rechercher',
           ),
           BottomNavigationBarItem(
@@ -186,6 +187,34 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     });
   }
 
+  Future<void> _searchFoodTrucks(String search) async {
+    try {
+      List<Foodtruck> newfoodTrucks =
+          await ApiService().searchFoodTrucks(search);
+
+      if (newfoodTrucks.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SearchResultsPage(
+              foodTrucks: newfoodTrucks,
+              currentPosition: _currentPosition!,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Aucun food truck trouvé'),
+          ),
+        );
+      }
+    } catch (e) {
+      print('Failed to search food trucks: $e');
+      throw Exception('Failed to search food trucks');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -194,20 +223,27 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
         Container(
           padding: const EdgeInsets.all(10),
           child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Rechercher un food truck...',
-              prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide.none,
+              decoration: InputDecoration(
+                hintText: 'Rechercher un food truck ou un type de cuisine',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Colors.grey[200],
               ),
-              filled: true,
-              fillColor: Colors.grey[200],
-            ),
-            onChanged: (value) {
-              // Add your search logic here
-            },
-          ),
+              onSubmitted: (value) {
+                if (value.isNotEmpty) {
+                  _searchFoodTrucks(value);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Veuillez entrer un terme de recherche'),
+                    ),
+                  );
+                }
+              }),
         ),
         //Section for search icons
         Container(
