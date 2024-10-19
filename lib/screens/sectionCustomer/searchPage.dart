@@ -42,7 +42,7 @@ class _SearchpageState extends State<Searchpage> {
             padding: const EdgeInsets.all(10),
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Nom du food truck',
+                hintText: 'Rechercher une localité',
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),

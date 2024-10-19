@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/searchResultPage.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 
 class Searchpagemap extends StatefulWidget {
@@ -138,6 +140,13 @@ class _SearchpagemapState extends State<Searchpagemap> {
     _fetchFoodTruckStatus();
   }
 
+  // Fonction pour zoomer et centrer la carte sur un food truck
+  void _zoomOnFoodTruck(Foodtruck foodTruck) {
+    LatLng targetLocation = LatLng(
+        foodTruck.coordinates!.latitude, foodTruck.coordinates!.longitude);
+    mapController.move(targetLocation, 15.0); // Zoom à 15 (ou autre valeur)
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,13 +183,22 @@ class _SearchpagemapState extends State<Searchpagemap> {
                           filled: true,
                           fillColor: Colors.grey[200],
                         ),
-                        onChanged: (value) => setState(() {
-                          foodTrucks = foodTrucks
-                              .where((foodTruck) => foodTruck.name
-                                  .toLowerCase()
-                                  .contains(value.toLowerCase()))
-                              .toList();
-                        }),
+                        onSubmitted: (value) {
+                          Foodtruck? foundtruck = foodTrucks.firstWhere(
+                            (element) => element.name
+                                .toLowerCase()
+                                .contains(value.toLowerCase()),
+                          );
+                          if (foundtruck != null) {
+                            _zoomOnFoodTruck(foundtruck);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Aucun food truck trouvé'),
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),
