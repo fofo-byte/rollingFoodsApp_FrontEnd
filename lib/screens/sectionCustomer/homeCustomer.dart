@@ -46,6 +46,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -65,7 +66,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(screenWidth * 0.02),
             child: CircleAvatar(
               radius: 20,
               backgroundImage: photoUrl != null && photoUrl!.isNotEmpty
@@ -217,11 +218,12 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(screenWidth * 0.05),
           child: TextField(
               decoration: InputDecoration(
                 hintText: 'Rechercher un food truck ou un type de cuisine',
@@ -248,7 +250,8 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
         //Section for search icons
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.05, vertical: screenWidth * 0.02),
           child: Iconswidgethome(iconFilter: (foodType) {
             _filterFoodTrucks(foodType);
           }),

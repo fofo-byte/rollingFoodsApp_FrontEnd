@@ -56,6 +56,7 @@ class _ArticleGestionHomeState extends State<ArticleGestionHome> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -80,7 +81,7 @@ class _ArticleGestionHomeState extends State<ArticleGestionHome> {
       body: foodTruckId == 0
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: EdgeInsets.zero,
+              padding: EdgeInsets.all(screenWidth * 0.05),
               children: [
                 const SizedBox(
                   height: 50,

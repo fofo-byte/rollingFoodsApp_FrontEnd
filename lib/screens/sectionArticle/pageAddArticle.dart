@@ -85,6 +85,7 @@ class _PageaddarticleState extends State<Pageaddarticle> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -107,7 +108,7 @@ class _PageaddarticleState extends State<Pageaddarticle> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.all(screenWidth * 0.05),
         children: [
           Container(
             decoration: const BoxDecoration(

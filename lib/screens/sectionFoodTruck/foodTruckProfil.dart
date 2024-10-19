@@ -101,6 +101,13 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    //Adjustement for responsive design
+    double mapHeight = screenHeight * 0.3;
+    double avatarSize = screenWidth * 0.10;
+
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -168,7 +175,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 300,
+                      height: mapHeight,
                       child: Stack(
                         children: [
                           FlutterMap(
@@ -222,7 +229,7 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                       child: Row(
                         children: [
                           CircleAvatar(
-                            radius: 50,
+                            radius: avatarSize,
                             backgroundImage: foodtruck.urlProlfileImage != null
                                 ? NetworkImage(foodtruck.urlProlfileImage!)
                                 : const AssetImage(
@@ -235,14 +242,14 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                             children: [
                               Text(
                                 foodtruck.name,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 30,
+                                    fontSize: screenWidth * 0.07,
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 foodtruck.description,
-                                style: const TextStyle(fontSize: 15),
+                                style: TextStyle(fontSize: screenWidth * 0.04),
                               ),
                             ],
                           ),
@@ -349,25 +356,31 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                                         const NeverScrollableScrollPhysics(),
                                     itemCount: articles.length,
                                     itemBuilder: (context, index) {
-                                      return Card(
-                                        child: ListTile(
-                                          title: Text(articles[index].name),
-                                          subtitle:
-                                              Text(articles[index].description),
-                                          trailing: Text(
-                                              style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold),
-                                              '€${articles[index].price.toString()}'),
-                                          leading: CircleAvatar(
-                                            backgroundImage: articles[index]
-                                                        .urlPicture !=
-                                                    null
-                                                ? NetworkImage(
-                                                    articles[index].urlPicture!)
-                                                : const AssetImage(
-                                                        'assets/images/foodtruck.jpg')
-                                                    as ImageProvider,
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: screenWidth * 0.02,
+                                            vertical: screenHeight * 0.02),
+                                        child: Card(
+                                          child: ListTile(
+                                            title: Text(articles[index].name),
+                                            subtitle: Text(
+                                                articles[index].description),
+                                            trailing: Text(
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                '€${articles[index].price.toString()}'),
+                                            leading: CircleAvatar(
+                                              backgroundImage: articles[index]
+                                                          .urlPicture !=
+                                                      null
+                                                  ? NetworkImage(articles[index]
+                                                      .urlPicture!)
+                                                  : const AssetImage(
+                                                          'assets/images/foodtruck.jpg')
+                                                      as ImageProvider,
+                                            ),
                                           ),
                                         ),
                                       );
@@ -413,28 +426,33 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                                         const NeverScrollableScrollPhysics(),
                                     itemCount: articles.length,
                                     itemBuilder: (context, index) {
-                                      return Card(
-                                        child: ListTile(
-                                          title: Text(articles[index].name),
-                                          subtitle: Text(
-                                            articles[index].description,
-                                            maxLines: 5,
-                                          ),
-                                          trailing: Text(
-                                            '€${articles[index].price.toString()}',
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          leading: CircleAvatar(
-                                            backgroundImage: articles[index]
-                                                        .urlPicture !=
-                                                    null
-                                                ? NetworkImage(
-                                                    articles[index].urlPicture!)
-                                                : const AssetImage(
-                                                        'assets/images/foodtruck.jpg')
-                                                    as ImageProvider,
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: screenWidth * 0.02,
+                                            vertical: screenHeight * 0.02),
+                                        child: Card(
+                                          child: ListTile(
+                                            title: Text(articles[index].name),
+                                            subtitle: Text(
+                                              articles[index].description,
+                                              maxLines: 5,
+                                            ),
+                                            trailing: Text(
+                                              '€${articles[index].price.toString()}',
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            leading: CircleAvatar(
+                                              backgroundImage: articles[index]
+                                                          .urlPicture !=
+                                                      null
+                                                  ? NetworkImage(articles[index]
+                                                      .urlPicture!)
+                                                  : const AssetImage(
+                                                          'assets/images/foodtruck.jpg')
+                                                      as ImageProvider,
+                                            ),
                                           ),
                                         ),
                                       );
@@ -479,26 +497,31 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                                         const NeverScrollableScrollPhysics(),
                                     itemCount: articles.length,
                                     itemBuilder: (context, index) {
-                                      return Card(
-                                        child: ListTile(
-                                          title: Text(articles[index].name),
-                                          subtitle:
-                                              Text(articles[index].description),
-                                          trailing: Text(
-                                            '€${articles[index].price.toString()}',
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          leading: CircleAvatar(
-                                            backgroundImage: articles[index]
-                                                        .urlPicture !=
-                                                    null
-                                                ? NetworkImage(
-                                                    articles[index].urlPicture!)
-                                                : const AssetImage(
-                                                        'assets/images/foodtruck.jpg')
-                                                    as ImageProvider,
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: screenWidth * 0.02,
+                                            vertical: screenHeight * 0.02),
+                                        child: Card(
+                                          child: ListTile(
+                                            title: Text(articles[index].name),
+                                            subtitle: Text(
+                                                articles[index].description),
+                                            trailing: Text(
+                                              '€${articles[index].price.toString()}',
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            leading: CircleAvatar(
+                                              backgroundImage: articles[index]
+                                                          .urlPicture !=
+                                                      null
+                                                  ? NetworkImage(articles[index]
+                                                      .urlPicture!)
+                                                  : const AssetImage(
+                                                          'assets/images/foodtruck.jpg')
+                                                      as ImageProvider,
+                                            ),
                                           ),
                                         ),
                                       );

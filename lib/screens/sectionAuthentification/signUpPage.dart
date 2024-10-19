@@ -29,6 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -54,9 +55,9 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: Icon(
+            Padding(
+              padding: EdgeInsets.all(screenWidth * 0.05),
+              child: const Icon(
                 Icons.account_circle,
                 size: 100,
               ),
@@ -87,7 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(screenWidth * 0.05),
                     child: TextFormField(
                       controller: _usernameController,
                       decoration: const InputDecoration(
@@ -103,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(screenWidth * 0.05),
                     child: TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
@@ -119,7 +120,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(screenWidth * 0.05),
                     child: TextFormField(
                       controller: _passwordController,
                       decoration: const InputDecoration(

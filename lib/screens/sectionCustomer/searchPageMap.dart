@@ -53,19 +53,18 @@ class _SearchpagemapState extends State<Searchpagemap> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        double screenWidth = MediaQuery.of(context).size.width;
         return AlertDialog(
-          contentPadding: EdgeInsets.zero, // Supprimer les marges par défaut
+          // Supprimer les marges par défaut
           content: SizedBox(
-            width: MediaQuery.of(context).size.width *
-                0.8, // 80% de la largeur de l'écran
-            height: MediaQuery.of(context).size.height *
-                0.10, // 10% de la hauteur de l'écran
+            width: screenWidth * 0.8,
+            height:
+                screenWidth * 0.25, // Ajuster la hauteur en fonction du contenu
             child: Column(
               children: [
                 ListTile(
-                  contentPadding: const EdgeInsets.all(10),
                   leading: CircleAvatar(
-                    radius: 30, // Diminuer la taille de l'image
+                    radius: screenWidth * 0.1, // Ajuster la taille de l'image
                     backgroundImage: foodTruck.urlProlfileImage != null
                         ? NetworkImage(foodTruck.urlProlfileImage!)
                         : const AssetImage('assets/images/foodtruck.jpg')
@@ -73,29 +72,33 @@ class _SearchpagemapState extends State<Searchpagemap> {
                   ),
                   title: Row(
                     children: [
-                      Text(
-                        foodTruck.name,
-                        style: const TextStyle(fontSize: 16),
+                      Expanded(
+                        child: Text(
+                          foodTruck.name,
+                          style: TextStyle(
+                            fontSize: screenWidth *
+                                0.045, // Réduire la taille du texte
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.visible,
+                        ),
                       ),
                       const Spacer(),
                       Text(
                         foodTruckStatus[foodTruck.id] ?? 'Closed',
                         style: TextStyle(
-                            color: foodTruckStatus[foodTruck.id] == 'Open'
-                                ? Colors.green
-                                : Colors.red,
-                            fontSize: 16),
-                      )
+                          color: foodTruckStatus[foodTruck.id] == 'Open'
+                              ? Colors.green
+                              : Colors.red,
+                          fontSize: screenWidth *
+                              0.045, // Taille du texte pour le statut
+                        ),
+                      ),
                     ],
                   ),
                   subtitle: Row(
                     children: [
-                      Text(
-                        foodTruck.description,
-                        style: const TextStyle(
-                            fontSize: 12), // Diminuer la taille du texte
-                      ),
-                      const Spacer(),
+                      const SizedBox(width: 8),
                       RatingBarIndicator(
                         itemBuilder: (context, _) {
                           return const Icon(
@@ -104,9 +107,18 @@ class _SearchpagemapState extends State<Searchpagemap> {
                           );
                         },
                         rating: foodTruck.rating?.toDouble() ?? 0.0,
-                        itemSize: 15,
+                        itemSize: screenWidth * 0.045, // Taille des étoiles
                       ),
                     ],
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    foodTruck.description,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.035, // Taille de la description
+                    ),
+                    overflow: TextOverflow.visible,
                   ),
                 ),
               ],
@@ -120,13 +132,14 @@ class _SearchpagemapState extends State<Searchpagemap> {
               child: const Text('Fermer'),
             ),
             TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Foodtruckprofil(foodtruckId: foodTruck.id);
-                  }));
-                },
-                child: const Text('Détails')),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Foodtruckprofil(foodtruckId: foodTruck.id);
+                }));
+              },
+              child: const Text('Détails'),
+            ),
           ],
         );
       },
@@ -149,6 +162,7 @@ class _SearchpagemapState extends State<Searchpagemap> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des food trucks'),
@@ -172,7 +186,7 @@ class _SearchpagemapState extends State<Searchpagemap> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(5),
+                      padding: EdgeInsets.all(screenWidth * 0.05),
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: 'Nom du food truck',

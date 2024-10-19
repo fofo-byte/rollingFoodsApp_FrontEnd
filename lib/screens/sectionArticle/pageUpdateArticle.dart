@@ -122,6 +122,7 @@ class _UpdatePageArticleState extends State<UpdatePageArticle> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update Article'),
@@ -132,7 +133,7 @@ class _UpdatePageArticleState extends State<UpdatePageArticle> {
           if (snapshot.hasData) {
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(screenWidth * 0.05),
                 child: Form(
                   key: _formKey,
                   child: Column(

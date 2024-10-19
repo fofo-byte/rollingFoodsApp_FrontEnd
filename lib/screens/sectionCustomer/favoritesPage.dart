@@ -20,6 +20,7 @@ class _FavoritespageState extends State<Favoritespage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mes food trucks preférés',
@@ -36,7 +37,7 @@ class _FavoritespageState extends State<Favoritespage> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    margin: const EdgeInsets.all(5),
+                    margin: EdgeInsets.all(screenWidth * 0.05),
                     elevation: 5,
                     child: ListTile(
                       leading: IconButton(

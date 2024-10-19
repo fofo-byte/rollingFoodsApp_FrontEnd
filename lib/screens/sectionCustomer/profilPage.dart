@@ -60,6 +60,7 @@ class _ProfilpageState extends State<Profilpage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Profil'),

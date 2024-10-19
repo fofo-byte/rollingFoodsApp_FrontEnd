@@ -239,6 +239,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20),
       elevation: 10,
@@ -246,7 +247,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
     );
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.all(screenWidth * 0.05),
         children: [
           Container(
             decoration: const BoxDecoration(
@@ -373,41 +374,45 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
+                Padding(
+                  padding: EdgeInsets.all(screenWidth * 0.05),
+                  child: GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                    ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Itemdashboard(
+                          color: Colors.orange,
+                          icon: FontAwesomeIcons.gear,
+                          title: 'Gerez votre compte',
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, '/foodTruckGestionProfil');
+                          }),
+                      Itemdashboard(
+                          color: Colors.blue,
+                          icon: FontAwesomeIcons.truckFast,
+                          title: 'Gerez votre foodtruck',
+                          onTap: () {
+                            _checkFoodTruckExists(context);
+                          }),
+                      Itemdashboard(
+                          color: Colors.green,
+                          icon: FontAwesomeIcons.locationDot,
+                          title: 'Gerez les emplacements',
+                          onTap: () {}),
+                      Itemdashboard(
+                          color: Colors.red,
+                          icon: Icons.close,
+                          title: 'Fermer le food truck',
+                          onTap: () {}),
+                    ],
                   ),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    Itemdashboard(
-                        color: Colors.orange,
-                        icon: FontAwesomeIcons.gear,
-                        title: 'Gerez votre compte',
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/foodTruckGestionProfil');
-                        }),
-                    Itemdashboard(
-                        color: Colors.blue,
-                        icon: FontAwesomeIcons.truckFast,
-                        title: 'Gerez votre foodtruck',
-                        onTap: () {
-                          _checkFoodTruckExists(context);
-                        }),
-                    Itemdashboard(
-                        color: Colors.green,
-                        icon: FontAwesomeIcons.locationDot,
-                        title: 'Gerez les emplacements',
-                        onTap: () {}),
-                    Itemdashboard(
-                        color: Colors.red,
-                        icon: Icons.close,
-                        title: 'Fermer le food truck',
-                        onTap: () {}),
-                  ],
                 ),
               ],
             ),

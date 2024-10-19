@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -235,6 +236,7 @@ class _LoginpageState extends State<Loginpage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -242,7 +244,9 @@ class _LoginpageState extends State<Loginpage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.all(screenWidth * 0.05),
+            ),
             Container(
               height: 300,
               width: double.infinity,
@@ -288,7 +292,9 @@ class _LoginpageState extends State<Loginpage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.05,
+                              vertical: screenWidth * 0.02),
                           child: TextFormField(
                             controller: _emailController,
                             decoration: const InputDecoration(
@@ -304,7 +310,9 @@ class _LoginpageState extends State<Loginpage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.05,
+                              vertical: screenWidth * 0.02),
                           child: TextFormField(
                             controller: _passwordController,
                             decoration: InputDecoration(
@@ -331,7 +339,9 @@ class _LoginpageState extends State<Loginpage> {
                   ),
                   const SizedBox(height: 2),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05,
+                        vertical: screenWidth * 0.02),
                     child: Container(
                       width: double.infinity,
                       height: 50,

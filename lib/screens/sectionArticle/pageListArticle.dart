@@ -53,6 +53,7 @@ class _PagelistarticleState extends State<Pagelistarticle> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des articles'),
