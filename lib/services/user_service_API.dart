@@ -122,9 +122,15 @@ class UserServiceApi {
 
       print('Successfully logged in user: $jsonResponse');
       return user;
+    } else if (response.statusCode == 401) {
+      throw Exception('Incorrect email or password');
+    } else if (response.statusCode == 403) {
+      throw Exception('User is disabled');
+    } else if (response.statusCode == 404) {
+      throw Exception('User not found');
     } else {
-      print('Failed to login user, status code: ${response.statusCode}');
-      throw Exception('Failed to login user');
+      print('Failed to log in user, status code: ${response.statusCode}');
+      throw Exception('Failed to log in user');
     }
   }
 
@@ -257,5 +263,26 @@ class UserServiceApi {
     }
 
     return jsonPayload;
+  }
+
+  //update the user's password
+  Future<void> updatePassword(String email, String password) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/updatePassword'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('Successfully updated password');
+    } else {
+      print('Failed to update password, status code: ${response.statusCode}');
+      throw Exception('Failed to update password');
+    }
   }
 }

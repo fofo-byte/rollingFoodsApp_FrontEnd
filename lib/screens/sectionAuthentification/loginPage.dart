@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -223,7 +222,23 @@ class _LoginpageState extends State<Loginpage> {
           }
         }
       } catch (e) {
-        print('Failed to login user: $e');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Erreur de connexion'),
+              content: const Text('Mot de passe ou email incorrect'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       }
     }
   }
@@ -304,6 +319,8 @@ class _LoginpageState extends State<Loginpage> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
+                              } else if (!value.contains('@')) {
+                                return 'Email doit contenir @';
                               }
                               return null;
                             },
@@ -327,8 +344,14 @@ class _LoginpageState extends State<Loginpage> {
                             ),
                             obscureText: _obscurePassword,
                             validator: (value) {
+                              final specialChars =
+                                  RegExp(r'[!@#$%^&*(),.?":{}|<>]');
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
+                                return 'Please enter a password';
+                              } else if (value.length < 8) {
+                                return 'Password minimum 8 caractères';
+                              } else if (!specialChars.hasMatch(value)) {
+                                return 'Le mot de passe doit contenir au moins un caractère spécial';
                               }
                               return null;
                             },
@@ -338,6 +361,26 @@ class _LoginpageState extends State<Loginpage> {
                     ),
                   ),
                   const SizedBox(height: 2),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05,
+                        vertical: screenWidth * 0.02),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/forgotPassword');
+                        },
+                        child: const Text(
+                          'Mot de passe oublié?',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: screenWidth * 0.05,
@@ -383,7 +426,7 @@ class _LoginpageState extends State<Loginpage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Don\'t have an account?'),
+                      const Text('Vous n\'avez pas de compte?'),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -391,7 +434,7 @@ class _LoginpageState extends State<Loginpage> {
                               MaterialPageRoute(
                                   builder: (context) => const SignUpPage()));
                         },
-                        child: const Text('Sign Up'),
+                        child: const Text('Créez un compte'),
                       ),
                     ],
                   ),

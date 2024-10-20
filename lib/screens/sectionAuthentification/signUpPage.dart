@@ -114,6 +114,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter an email';
+                        } else if (!value.contains('@')) {
+                          return 'Email doit contenir @';
                         }
                         return null;
                       },
@@ -128,8 +130,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
+                        final specialChars = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
                         if (value == null || value.isEmpty) {
                           return 'Please enter a password';
+                        } else if (value.length < 8) {
+                          return 'Password minimum 8 caractères';
+                        } else if (!specialChars.hasMatch(value)) {
+                          return 'Password doit contenir au moins un caractère spécial';
                         }
                         return null;
                       },

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:rolling_foods_app_front_end/firebase_options.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionArticle/pageAddArticle.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/forgotPassword.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/signUpPage.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionCustomer/homeCustomer.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
             const Foodtruckgestionprofilfoodtruck(),
         '/gestionFoodTruck': (context) => const Gestionfoodtruck(),
         '/addArticle': (context) => const Pageaddarticle(),
+        '/forgotPassword': (context) => ForgotPasswordPage(),
       },
       debugShowCheckedModeBanner: false,
     );

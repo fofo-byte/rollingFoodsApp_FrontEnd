@@ -137,6 +137,8 @@ class _SignuppagefoodtruckownerState extends State<Signuppagefoodtruckowner> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter an email';
+                          } else if (!value.contains('@')) {
+                            return 'Email doit contenir @';
                           }
                           return null;
                         },
@@ -153,6 +155,11 @@ class _SignuppagefoodtruckownerState extends State<Signuppagefoodtruckowner> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a password';
+                          } else if (value.length < 8) {
+                            return 'Password doit contenir au moins 8 caractères';
+                          } else if (!value
+                              .contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                            return 'Le mot de passe doit contenir au moins un caractère spécial';
                           }
                           return null;
                         },
