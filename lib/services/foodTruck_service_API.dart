@@ -391,10 +391,10 @@ class ApiService {
 
       if (response.statusCode == 200) {
         print('Successfully added food truck to favorites');
-      } else {
+      } else if (response.statusCode == 409) {
         print(
             'Failed to add food truck to favorites, status code: ${response.statusCode}');
-        throw Exception('Failed to add food truck to favorites');
+        throw Exception('Food truck deja dans vos favoris');
       }
     } catch (e) {
       print('Failed to add food truck to favorites: $e');

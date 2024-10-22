@@ -83,7 +83,11 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
     try {
       ApiService().addFavoriteFoodTruck(widget.foodtruckId);
     } catch (e) {
-      print('Failed to add favorite food truck: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Le Food Truck existe déjà dans vos favoris'),
+        ),
+      );
       throw Exception('Failed to add favorite food truck');
     }
     setState(() {
