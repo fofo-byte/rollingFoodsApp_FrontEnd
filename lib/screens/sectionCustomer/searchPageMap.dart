@@ -28,7 +28,7 @@ class _SearchpagemapState extends State<Searchpagemap> {
     final foodTruckList = await foodTrucks;
     for (var foodTruck in foodTruckList) {
       final isOpened = await ApiService().getFoodTruckStatus(foodTruck.id);
-      String status = isOpened ? 'Closed' : 'Open';
+      String status = isOpened ? 'Open' : 'Closed';
       if (mounted) {
         setState(() {
           foodTruckStatus[foodTruck.id] = status;
@@ -39,7 +39,7 @@ class _SearchpagemapState extends State<Searchpagemap> {
                 foodTruck.coordinates!.longitude),
             child: IconButton(
                 icon: Icon(FontAwesomeIcons.locationDot,
-                    size: 30, color: isOpened ? Colors.red : Colors.green),
+                    size: 30, color: isOpened ? Colors.green : Colors.red),
                 onPressed: () {
                   _showDetailsFoodTruck(context, foodTruck);
                 }),
@@ -57,7 +57,7 @@ class _SearchpagemapState extends State<Searchpagemap> {
         return AlertDialog(
           // Supprimer les marges par défaut
           content: SizedBox(
-            width: screenWidth * 0.8,
+            width: screenWidth * 1,
             height:
                 screenWidth * 0.25, // Ajuster la hauteur en fonction du contenu
             child: Column(
@@ -91,7 +91,7 @@ class _SearchpagemapState extends State<Searchpagemap> {
                               ? Colors.green
                               : Colors.red,
                           fontSize: screenWidth *
-                              0.045, // Taille du texte pour le statut
+                              0.040, // Taille du texte pour le statut
                         ),
                       ),
                     ],
