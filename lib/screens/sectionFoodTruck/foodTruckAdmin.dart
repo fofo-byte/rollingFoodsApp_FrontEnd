@@ -247,14 +247,15 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
     );
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.all(screenWidth * 0.05),
+        padding: EdgeInsets.all(screenWidth * 0.03),
         children: [
           Container(
+            width: double.infinity,
             decoration: const BoxDecoration(
               color: Colors.green,
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(50),
-                bottomRight: Radius.circular(50),
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(300),
               ),
             ),
             child: Column(children: [
@@ -268,11 +269,12 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                 subtitle: const Text('Espace Administrateur',
                     style: TextStyle(fontSize: 20)),
                 trailing: CircleAvatar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.red,
                   child: IconButton(
+                    tooltip: 'Déconnexion',
                     icon: const Icon(
                       Icons.logout,
-                      color: Colors.orange,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       _logout();
@@ -407,9 +409,14 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                           title: 'Gerez les emplacements',
                           onTap: () {}),
                       Itemdashboard(
-                          color: Colors.red,
-                          icon: Icons.close,
-                          title: 'Fermer le food truck',
+                          color: Colors.grey,
+                          icon: FontAwesomeIcons.cartShopping,
+                          title: "Gerez les commandes",
+                          onTap: () {}),
+                      Itemdashboard(
+                          color: Colors.grey,
+                          icon: Icons.analytics,
+                          title: 'View Analytics',
                           onTap: () {}),
                     ],
                   ),

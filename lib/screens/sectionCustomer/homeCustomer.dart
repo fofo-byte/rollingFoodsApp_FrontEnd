@@ -66,35 +66,34 @@ class _HomeCustomerState extends State<HomeCustomer> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.all(screenWidth * 0.02),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: photoUrl != null && photoUrl!.isNotEmpty
-                  ? NetworkImage(photoUrl!)
-                  : const AssetImage('assets/images/user.png') as ImageProvider,
-            ),
-          ),
+              padding: EdgeInsets.all(screenWidth * 0.02),
+              child: const Icon(Icons.notifications_none, color: Colors.black)),
         ],
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         showUnselectedLabels: true,
         unselectedItemColor: Colors.black,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Accueil',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.location_on),
             label: 'Rechercher',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.favorite, color: Colors.red),
             label: 'Favoris',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: CircleAvatar(
+              radius: 15,
+              backgroundImage: photoUrl != null && photoUrl!.isNotEmpty
+                  ? NetworkImage(photoUrl!)
+                  : const AssetImage('assets/images/user.png') as ImageProvider,
+            ),
             label: 'Profil',
           ),
         ],

@@ -161,38 +161,57 @@ class ArticleService {
 
   //Update de l'article
   Future<http.Response> updateArticleById({
-    int? id,
-    String? name,
-    String? description,
-    double? price,
-    String? itemCategorie,
-    String? pictureItem,
+    required int id,
+    required String name,
+    required String description,
+    required double price,
+    required String itemCategorie,
+    File? pictureFile,
   }) async {
-    // Créer le JSON pour les données de l'article
+    // Création des données JSON pour l'article
     Map<String, dynamic> articleData = {
       'name': name,
       'description': description,
       'price': price,
       'itemCategorie': itemCategorie,
-      if (pictureItem != null) 'pictureItem': pictureItem,
     };
 
-    final response = await http.put(
+    String jsonArticleData = jsonEncode(articleData);
+
+    // Configuration de la requête multipart
+    var request = http.MultipartRequest(
+      'PUT',
       Uri.parse('$baseUrl/$id'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      //Convertir les données du food truck en JSON
-      body: jsonEncode(articleData),
     );
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    // Ajouter l'article JSON en tant que fichier de champ itemDTO
+    request.files.add(
+      http.MultipartFile.fromString(
+        'itemDTO',
+        jsonArticleData,
+        filename: 'itemDTO.json',
+        contentType: MediaType('application', 'json'),
+      ),
+    );
+
+    // Ajouter l'image si elle est présente
+    if (pictureFile != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'file',
+          pictureFile.path,
+          contentType: MediaType.parse(lookupMimeType(pictureFile.path) ?? ''),
+        ),
+      );
+    }
+
+    // Envoyer la requête et attendre la réponse
+    var streamedResponse = await request.send();
+    final response = await http.Response.fromStream(streamedResponse);
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      print('Successfully updated article: $jsonResponse');
-      return response;
+      print('Successfully updated article');
+      return http.Response('Successfully updated article', 200);
     } else {
       print('Failed to update article, status code: ${response.statusCode}');
       throw Exception('Failed to update article');

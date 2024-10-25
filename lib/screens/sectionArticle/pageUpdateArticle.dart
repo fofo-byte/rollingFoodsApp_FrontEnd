@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -60,7 +61,6 @@ class _UpdatePageArticleState extends State<UpdatePageArticle> {
 
       // Call the upload method after selecting the image
       if (_image != null) {
-        imageUrl = await uploadImageToFirebase(_image!);
         if (imageUrl != null) {
           print("Image URL: $imageUrl");
         }
@@ -70,45 +70,28 @@ class _UpdatePageArticleState extends State<UpdatePageArticle> {
     }
   }
 
-  // Méthode pour uploader l'image sur Firebase Storage
-  // Méthode pour uploader l'image sur Firebase Storage
-  Future<String?> uploadImageToFirebase(File imageFile) async {
-    try {
-      // Obtenir le nom du fichier
-      String fileName = path.basename(imageFile.path);
-
-      // Créer une référence dans Firebase Storage
-      Reference storageRef = FirebaseStorage.instance
-          .ref()
-          .child('profileImagesFoods/$fileName + ${DateTime.now()}');
-
-      // Uploader le fichier
-      UploadTask uploadTask = storageRef.putFile(imageFile);
-
-      // Attendre que l'upload soit complété
-      TaskSnapshot taskSnapshot = await uploadTask;
-
-      // Récupérer l'URL de téléchargement de l'image
-      String downloadURL = await taskSnapshot.ref.getDownloadURL();
-
-      print("Image uploaded to Firebase: $downloadURL");
-      return downloadURL; // Retourner l'URL de l'image
-    } catch (e) {
-      print("Failed to upload image: $e");
-      return null;
-    }
-  }
-
   Future<void> _submitForm() async {
+    // Vérifie si l'image est sélectionnée
+    if (_image == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Veuillez sélectionner une image'),
+        ),
+      );
+      return;
+    }
+
     if (_formKey.currentState!.validate()) {
-      // Call the createFoodTruck method
+      File? imageFile = _image; // On garde le fichier image directement
+
+      // Appeler la méthode de mise à jour de l'article avec le fichier image
       await ArticleService().updateArticleById(
         id: widget.articleId,
         name: _nameController.text,
         description: _descriptionController.text,
         price: double.parse(_priceController.text),
         itemCategorie: _selectedCategory,
-        pictureItem: imageUrl ?? '',
+        pictureFile: imageFile, // Passe le fichier image, pas le chemin
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -138,13 +121,28 @@ class _UpdatePageArticleState extends State<UpdatePageArticle> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      GestureDetector(
-                        onTap: getImage,
-                        child: _image != null
-                            ? Image.file(_image!)
-                            : snapshot.data!.urlPicture != ''
-                                ? Image.network(snapshot.data!.urlPicture ?? '')
-                                : const Icon(Icons.add_a_photo),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: _image != null
+                                ? FileImage(_image!)
+                                : const AssetImage(
+                                        'assets/icons/hello-foods-high-resolution-logo.png')
+                                    as ImageProvider,
+                          ),
+                          IconButton(
+                            padding: const EdgeInsets.all(80),
+                            color: Colors.black,
+                            onPressed: () async {
+                              await getImage();
+                            },
+                            icon: const Icon(
+                              FontAwesomeIcons.cameraRetro,
+                              color: Colors.orange,
+                            ),
+                          ),
+                        ],
                       ),
                       TextFormField(
                         controller: _nameController,

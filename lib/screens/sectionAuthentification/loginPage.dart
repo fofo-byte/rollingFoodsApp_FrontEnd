@@ -179,66 +179,79 @@ class _LoginpageState extends State<Loginpage> {
         print('Id: ${user.enabled}');
         print('Role: $role');
         print('Id: $id');
-
         print('Enabled: $enabled');
 
-        if (role == 'ROLE_USER') {
-          // Redirection vers la page client
-          Navigator.pushReplacementNamed(context, '/homeCustomer');
-        } else if (role == 'ROLE_FOOD_TRUCK_OWNER') {
-          if (enabled == false) {
-            // Vérification si l'utilisateur est un FoodTruckOwner
-            bool isFoodTruckOwner =
-                await UserServiceApi().isFoodTruckOwner(id!);
-            print('isFoodTruckOwner: $isFoodTruckOwner');
-            if (isFoodTruckOwner) {
-              //Show message if the user is not activated
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Compte non activé'),
-                    content: const Text(
-                        'Votre compte est verifié et un email vous sera envoyé après verification.'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
+        if (mounted) {
+          // Vérifie si le widget est toujours monté
+          if (role == 'ROLE_USER') {
+            // Redirection vers la page client
+            Navigator.pushReplacementNamed(context, '/homeCustomer');
+          } else if (role == 'ROLE_FOOD_TRUCK_OWNER') {
+            if (enabled == false) {
+              // Vérification si l'utilisateur est un FoodTruckOwner
+              bool isFoodTruckOwner =
+                  await UserServiceApi().isFoodTruckOwner(id!);
+              print('isFoodTruckOwner: $isFoodTruckOwner');
+
+              if (isFoodTruckOwner) {
+                // Show message if the user is not activated
+                if (mounted) {
+                  // Vérifie avant d'afficher le dialogue
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Compte non activé'),
+                        content: const Text(
+                            'Votre compte est vérifié et un email vous sera envoyé après vérification.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
                   );
-                },
-              );
+                }
+              } else {
+                if (mounted) {
+                  // Redirection vers la page de formulaire d'inscription
+                  Navigator.pushReplacementNamed(
+                      context, '/createAccountFoodTruckOwner');
+                }
+              }
             } else {
-              // Redirection vers la page de formulaire d'inscription
-              Navigator.pushReplacementNamed(
-                  context, '/createAccountFoodTruckOwner');
+              if (mounted) {
+                // Redirection vers la page admin
+                Navigator.pushReplacementNamed(context, '/foodTruckAdmin');
+              }
             }
-          } else {
-            // Affichage de l'alerte si l'utilisateur n'est pas activé
-            Navigator.pushReplacementNamed(context, '/foodTruckAdmin');
           }
         }
       } catch (e) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Erreur de connexion'),
-              content: const Text('Mot de passe ou email incorrect'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
+        if (mounted) {
+          // Vérifie avant d'afficher le dialogue en cas d'erreur
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Erreur de connexion'),
+                content: const Text('Mot de passe ou email incorrect'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
       }
     }
   }

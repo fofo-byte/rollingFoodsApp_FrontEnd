@@ -70,6 +70,15 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
 
   // Method to submit the form
   Future<void> _submitForm() async {
+    // Vérifie si l'image est sélectionnée
+    if (_image == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Veuillez sélectionner une image'),
+        ),
+      );
+      return;
+    }
     if (_formKey.currentState!.validate()) {
       try {
         Foodtruck foodtruckValue = await foodtruck;
@@ -131,34 +140,6 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
     }
   }
 
-  // Méthode pour uploader l'image sur Firebase Storage
-  Future<String?> uploadImageToFirebase(File imageFile) async {
-    try {
-      // Obtenir le nom du fichier
-      String fileName = path.basename(imageFile.path);
-
-      // Créer une référence dans Firebase Storage
-      Reference storageRef = FirebaseStorage.instance
-          .ref()
-          .child('profileImagesFoodTruck/$fileName + ${DateTime.now()}');
-
-      // Uploader le fichier
-      UploadTask uploadTask = storageRef.putFile(imageFile);
-
-      // Attendre que l'upload soit complété
-      TaskSnapshot taskSnapshot = await uploadTask;
-
-      // Récupérer l'URL de téléchargement de l'image
-      String downloadURL = await taskSnapshot.ref.getDownloadURL();
-
-      print("Image uploaded to Firebase: $downloadURL");
-      return downloadURL; // Retourner l'URL de l'image
-    } catch (e) {
-      print("Failed to upload image: $e");
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,7 +171,8 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
                       radius: 50,
                       backgroundImage: _image != null
                           ? FileImage(_image!)
-                          : const AssetImage('assets/images/foodtruck.png')
+                          : const AssetImage(
+                                  'assets/icons/hello-foods-high-resolution-logo.png')
                               as ImageProvider,
                       child:
                           _image == null ? const Icon(Icons.add_a_photo) : null,
