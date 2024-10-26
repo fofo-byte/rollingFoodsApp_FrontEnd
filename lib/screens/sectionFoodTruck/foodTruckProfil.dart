@@ -304,7 +304,8 @@ class _FoodtruckprofilState extends State<Foodtruckprofil> {
                                     },
                                   );
                                 },
-                                icon: const Icon(FontAwesomeIcons.thumbsUp),
+                                icon: const Icon(FontAwesomeIcons.thumbsUp,
+                                    color: Colors.blue),
                               ),
                             ],
                           ),
