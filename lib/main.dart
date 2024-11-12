@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             const Foodtruckgestionprofilfoodtruck(),
         '/gestionFoodTruck': (context) => const Gestionfoodtruck(),
         '/addArticle': (context) => const Pageaddarticle(),
-        '/forgotPassword': (context) => ForgotPasswordPage(),
+        '/forgotPassword': (context) => const ForgotPasswordPage(),
       },
       debugShowCheckedModeBanner: false,
     );

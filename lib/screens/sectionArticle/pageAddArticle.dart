@@ -108,7 +108,6 @@ class _PageaddarticleState extends State<Pageaddarticle> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(screenWidth * 0.05),
         children: [
           Container(
             decoration: const BoxDecoration(

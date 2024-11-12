@@ -112,23 +112,15 @@ class _PageformadminaccountState extends State<Pageformadminaccount> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            color: Colors.yellow,
-            icon: const Icon(Icons.account_circle),
-            onPressed: () {},
-          ),
-        ],
         centerTitle: true,
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green,
         title: const Text(
-          'Rolling Foods',
+          'Hello Foods',
           style: TextStyle(
-            color: Colors.yellow,
-            fontSize: 20,
+            color: Colors.black,
+            fontSize: 50,
             fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Lonely',
+            fontFamily: 'Roboto',
           ),
         ),
       ),
@@ -141,25 +133,27 @@ class _PageformadminaccountState extends State<Pageformadminaccount> {
               decoration: const BoxDecoration(
                 color: Colors.orange,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50),
+                  bottomLeft: Radius.circular(100),
+                  bottomRight: Radius.circular(100),
                 ),
               ),
               child: const Column(children: [
                 SizedBox(
-                  height: 60,
+                  height: 20,
                 ),
                 ListTile(
                   title: Text('Creation de compte',
+                      textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                   subtitle: Text('Veuillez remplir les champs ci-dessous',
+                      textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 20)),
                 ),
               ]),
             ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             Padding(
               padding: const EdgeInsets.all(20),
