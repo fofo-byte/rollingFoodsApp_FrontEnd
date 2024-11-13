@@ -35,7 +35,7 @@ class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.popAndPushNamed(context, '/foodTruckGestionProfil');
+            Navigator.popAndPushNamed(context, '/foodTruckAdmin');
           },
         ),
         actions: const [],

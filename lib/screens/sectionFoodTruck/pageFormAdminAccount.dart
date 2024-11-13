@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -109,7 +110,12 @@ class _PageformadminaccountState extends State<Pageformadminaccount> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Loginpage(),
+              ),
+            );
           },
         ),
         centerTitle: true,
