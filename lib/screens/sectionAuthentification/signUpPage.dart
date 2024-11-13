@@ -22,8 +22,27 @@ class _SignUpPageState extends State<SignUpPage> {
       String password = _passwordController.text;
 
       UserServiceApi().registerUser(username, email, password);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const HomeCustomer()));
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Inscription réussie'),
+            content: const Text(
+                'Vous pouvez maintenant vous reconnecter et accéder à Hello Foods'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeCustomer()));
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 

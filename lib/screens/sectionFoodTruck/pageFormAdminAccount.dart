@@ -75,9 +75,10 @@ class _PageformadminaccountState extends State<Pageformadminaccount> {
         // Inform the user of successful registration
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text('Admin account registered successfully')),
+              content: Text('Compte créé avec succès',
+                  style: TextStyle(color: Colors.green)),
+              duration: Duration(seconds: 5)),
         );
-
         Navigator.pop(context);
       } catch (e) {
         print('Failed to register admin account: $e');

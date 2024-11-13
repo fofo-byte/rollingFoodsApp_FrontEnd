@@ -85,7 +85,6 @@ class _PageaddarticleState extends State<Pageaddarticle> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

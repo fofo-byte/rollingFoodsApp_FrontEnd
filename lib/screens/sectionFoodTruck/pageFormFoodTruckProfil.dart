@@ -77,13 +77,23 @@ class _PageformfoodtruckprofilState extends State<Pageformfoodtruckprofil> {
           foodTypes: _selectedFoodTypes,
           imageFile: _image ?? File('assets/images/foodtruck.jpg'),
         );
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Food Truck created successfully!'),
-          ),
-        );
-        // ignore: use_build_context_synchronously
-        Navigator.pushNamed(context, '/foodTruckAdmin');
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Food Truck créé'),
+                content: const Text('Votre food truck a été créé avec succès'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.popAndPushNamed(context, '/foodTruckAdmin');
+                      const Duration(seconds: 2);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            });
       } else {
         print("User credential ID not found.");
       }

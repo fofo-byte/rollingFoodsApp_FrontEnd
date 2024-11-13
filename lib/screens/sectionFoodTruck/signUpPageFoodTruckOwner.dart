@@ -28,7 +28,7 @@ class _SignuppagefoodtruckownerState extends State<Signuppagefoodtruckowner> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text('You have successfully signed up'),
+              title: const Text('Inscription réussie'),
               content: const Text(
                   'Vous pouvez maintenant vous reconnecter et créer votre compte food trucker'),
               actions: [

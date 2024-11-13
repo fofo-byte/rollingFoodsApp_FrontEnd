@@ -144,7 +144,6 @@ class _LoginpageState extends State<Loginpage> {
           print('User: ${user.photoURL}');
         } else {
           print('No photo URL available');
-          var photoUrl = Image.asset('assets/icons/icons8-person-64.png');
         }
       } else {
         print('Failed to sign in with Google');

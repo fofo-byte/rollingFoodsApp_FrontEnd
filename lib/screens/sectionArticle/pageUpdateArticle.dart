@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +7,6 @@ import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:rolling_foods_app_front_end/models/article.dart';
 import 'package:rolling_foods_app_front_end/services/article_service.dart';
-import 'package:path/path.dart' as path;
 
 class UpdatePageArticle extends StatefulWidget {
   final int articleId;

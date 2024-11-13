@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:rolling_foods_app_front_end/models/user.dart';
 import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -22,12 +19,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       String password = _passwordController.text;
 
       UserServiceApi().updatePassword(email, password);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Mot de passe réinitialisé avec succès'),
-        ),
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Mot de passe réinitialisé'),
+            content: const Text('Vous pouvez maintenant vous reconnecter'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
       );
-      Navigator.pop(context);
     }
   }
 

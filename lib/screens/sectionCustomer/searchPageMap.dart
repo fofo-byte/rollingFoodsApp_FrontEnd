@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rolling_foods_app_front_end/models/foodTruck.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/foodTruckProfil.dart';
-import 'package:rolling_foods_app_front_end/screens/sectionFoodTruck/searchResultPage.dart';
 import 'package:rolling_foods_app_front_end/services/foodTruck_service_API.dart';
 
 class Searchpagemap extends StatefulWidget {
