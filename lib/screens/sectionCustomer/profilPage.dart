@@ -61,32 +61,70 @@ class _ProfilpageState extends State<Profilpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profil'),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 30),
+            const Text(
+              'Profil',
+              style: TextStyle(fontSize: 24),
+            ),
+            const SizedBox(height: 20),
+            CircleAvatar(
+              radius: 50,
+              backgroundImage:
+                  NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Bonjour, $username',
+              style: const TextStyle(fontSize: 20),
+            ),
+            const Divider(
+              height: 1,
+              color: Colors.grey,
+              thickness: 0.5,
+            ),
+            const SizedBox(height: 20),
+            TextButton.icon(
+                onPressed: () {},
+                label: const Text('Modifier le profil'),
+                icon: const Icon(Icons.edit)),
+            /* const SizedBox(height: 20),
+            
+            TextButton.icon(
+              onPressed: () {},
+              label: const Text('Historique des commandes'),
+              icon: const Icon(Icons.history),
+            ),*/
+            const SizedBox(height: 20),
+            TextButton.icon(
+                onPressed: () {},
+                label: const Text('Notifications'),
+                icon: const Icon(Icons.notifications)),
+            const SizedBox(height: 20),
+            TextButton.icon(
+                onPressed: () {},
+                label: const Text('Favoris'),
+                icon: const Icon(Icons.favorite)),
+            /*const SizedBox(height: 20),
+            TextButton.icon(
+                onPressed: () {},
+                label: const Text('Carte de fidélité'),
+                icon: const Icon(Icons.loyalty)),*/
+            const SizedBox(height: 20),
+            TextButton.icon(
+                onPressed: () {},
+                label: const Text('A propos'),
+                icon: const Icon(Icons.info)),
+            const SizedBox(height: 60),
+            ElevatedButton(
+              onPressed: _logout,
+              child: const Text('Se déconnecter'),
+            ),
+          ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              Text(
-                'Bonjour $username',
-                style: const TextStyle(fontSize: 20),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Bienvenue sur votre profil',
-                style: TextStyle(fontSize: 20),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  _logout();
-                },
-                child: const Text('Logout'),
-              ),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
