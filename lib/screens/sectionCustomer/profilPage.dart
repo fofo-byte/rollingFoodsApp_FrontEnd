@@ -61,69 +61,85 @@ class _ProfilpageState extends State<Profilpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 30),
-            const Text(
-              'Profil',
-              style: TextStyle(fontSize: 24),
+      body: Column(
+        children: <Widget>[
+          const SizedBox(height: 30),
+          const Text(
+            'Profil',
+            style: TextStyle(fontSize: 24),
+          ),
+          const SizedBox(height: 20),
+          CircleAvatar(
+            radius: 50,
+            backgroundImage:
+                NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Bonjour, $username',
+            style: const TextStyle(fontSize: 20),
+          ),
+          const Divider(
+            height: 1,
+            color: Colors.grey,
+            thickness: 0.5,
+          ),
+          const SizedBox(height: 20),
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              alignment:
+                  Alignment.centerLeft, // Aligne le contenu du bouton à gauche
             ),
-            const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 50,
-              backgroundImage:
-                  NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!),
+            child: const Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.start, // Aligne les enfants à gauche
+              children: [
+                Icon(Icons.notifications),
+                SizedBox(width: 20), // Espacement entre l'icône et le texte
+                Text('Notifications', style: TextStyle(fontSize: 18)),
+              ],
             ),
-            const SizedBox(height: 20),
-            Text(
-              'Bonjour, $username',
-              style: const TextStyle(fontSize: 20),
+          ),
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              alignment:
+                  Alignment.centerLeft, // Aligne le contenu du bouton à gauche
             ),
-            const Divider(
-              height: 1,
-              color: Colors.grey,
-              thickness: 0.5,
+            child: const Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.start, // Aligne les enfants à gauche
+              children: [
+                Icon(Icons.delete),
+                SizedBox(width: 20), // Espacement entre l'icône et le texte
+                Text('Supprimer profil', style: TextStyle(fontSize: 18)),
+              ],
             ),
-            const SizedBox(height: 20),
-            TextButton.icon(
-                onPressed: () {},
-                label: const Text('Modifier le profil'),
-                icon: const Icon(Icons.edit)),
-            /* const SizedBox(height: 20),
-            
-            TextButton.icon(
-              onPressed: () {},
-              label: const Text('Historique des commandes'),
-              icon: const Icon(Icons.history),
-            ),*/
-            const SizedBox(height: 20),
-            TextButton.icon(
-                onPressed: () {},
-                label: const Text('Notifications'),
-                icon: const Icon(Icons.notifications)),
-            const SizedBox(height: 20),
-            TextButton.icon(
-                onPressed: () {},
-                label: const Text('Favoris'),
-                icon: const Icon(Icons.favorite)),
-            /*const SizedBox(height: 20),
-            TextButton.icon(
-                onPressed: () {},
-                label: const Text('Carte de fidélité'),
-                icon: const Icon(Icons.loyalty)),*/
-            const SizedBox(height: 20),
-            TextButton.icon(
-                onPressed: () {},
-                label: const Text('A propos'),
-                icon: const Icon(Icons.info)),
-            const SizedBox(height: 60),
-            ElevatedButton(
-              onPressed: _logout,
-              child: const Text('Se déconnecter'),
+          ),
+          const SizedBox(height: 20),
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              alignment:
+                  Alignment.centerLeft, // Aligne le contenu du bouton à gauche
             ),
-          ],
-        ),
+            child: const Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.start, // Aligne les enfants à gauche
+              children: [
+                Icon(Icons.info),
+                SizedBox(width: 20), // Espacement entre l'icône et le texte
+                Text('A propos', style: TextStyle(fontSize: 18)),
+              ],
+            ),
+          ),
+          const SizedBox(height: 250),
+          ElevatedButton(
+            onPressed: _logout,
+            child: const Text('Se déconnecter'),
+          ),
+        ],
       ),
     );
   }
