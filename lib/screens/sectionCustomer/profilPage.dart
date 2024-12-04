@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
+import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profilpage extends StatefulWidget {
@@ -58,6 +59,40 @@ class _ProfilpageState extends State<Profilpage> {
     }
   }
 
+  //Delete account
+  Future<void> _deleteAccount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? UserCredentialId = prefs.getInt('id');
+    try {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Supprimer le compte'),
+              content: const Text(
+                  'Êtes-vous sûr de vouloir supprimer votre compte ?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Annuler'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    UserServiceApi().deleteAccount(UserCredentialId!);
+                    await _logout();
+                  },
+                  child: const Text('Confirmer'),
+                ),
+              ],
+            );
+          });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +137,7 @@ class _ProfilpageState extends State<Profilpage> {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: _deleteAccount,
             style: TextButton.styleFrom(
               alignment:
                   Alignment.centerLeft, // Aligne le contenu du bouton à gauche

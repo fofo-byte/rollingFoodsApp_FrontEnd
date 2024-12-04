@@ -285,4 +285,21 @@ class UserServiceApi {
       throw Exception('Failed to update password');
     }
   }
+
+  //Delete account user from the API
+  Future<void> deleteAccount(int userCredentialId) async {
+    final response = await http.delete(
+      Uri.parse('$baseUrl/deleteAccount?userCredentialId=$userCredentialId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('Successfully deleted account');
+    } else {
+      print('Failed to delete account, status code: ${response.statusCode}');
+      throw Exception('Failed to delete account');
+    }
+  }
 }
