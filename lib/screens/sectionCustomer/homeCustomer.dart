@@ -164,15 +164,16 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
       String? foodType) async {
     // Récupérer à la fois la position actuelle et la liste des food trucks
     await _getCurrentLocation();
-    List<Foodtruck> trucks;
-    if (foodType != null) {
-      trucks = await ApiService().getFoodTrucksByIconFilter(foodType);
-    } else {
-      trucks = await ApiService().fetchFoodTrucks();
-    }
+    List<Foodtruck> trucks = await ApiService().fetchFoodTrucks();
+
+    print(
+        'Liste brute des food trucks : ${trucks.map((e) => e.toJson()).toList()}');
+
+    List<Map<String, dynamic>> foodTrucksWithDistance =
+        await filterAndSortFoodTrucks(trucks, _currentPosition!);
     return {
       'position': _currentPosition,
-      'trucks': trucks,
+      'trucks': foodTrucksWithDistance,
     };
   }
 
@@ -213,6 +214,101 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
       print('Failed to search food trucks: $e');
       throw Exception('Failed to search food trucks');
     }
+  }
+
+  //Filter Food Trucks disance and open
+  /* Future<List<Map<String, dynamic>>> filterAndSortFoodTrucks(
+      List<Foodtruck> foodTrucks, Position position) async {
+    print('Position actuelle : ${position.latitude}, ${position.longitude}');
+    print(
+        'Food trucks initiaux : ${foodTrucks.map((e) => e.toJson()).toList()}');
+    // Filtrer les food trucks ouverts et calculer la distance
+    List<Map<String, dynamic>> foodTrucksWithDistance = foodTrucks
+        //.where((truck) => truck.open == false) // Vérifie si le truck est ouvert
+        .map((truck) {
+          if (truck.coordinates == null) {
+            print('Coordonnées du food truck non définies : ${truck.toJson()}');
+            return null;
+          }
+
+          double distance = Geolocator.distanceBetween(
+                position.latitude,
+                position.longitude,
+                truck.coordinates!.latitude,
+                truck.coordinates!.longitude,
+              ) /
+              1000;
+          print(
+              'Food truck ${truck.name}, distance : $distance km'); // Conversion en kilomètres
+          return {
+            'foodTruck': truck,
+            'distance': distance,
+          };
+        })
+
+       .where((truck) =>
+            truck != null &&
+            truck['distance'] != null &&
+            (truck['distance'] as double) <= 5) // Vérifie la distance ≤ 5 km
+        .cast<Map<String, dynamic>>()
+
+        .toList();
+
+    // Trier par distance croissante
+    foodTrucksWithDistance.sort(
+      (a, b) => (a['distance'] as double).compareTo(b['distance'] as double),
+    );
+
+
+    print('foodTrucksWithDistance: $foodTrucksWithDistance');
+
+    return foodTrucksWithDistance;
+  }*/
+
+  // Aucune condition appliquée
+
+  Future<List<Map<String, dynamic>>> filterAndSortFoodTrucks(
+      List<Foodtruck> foodTrucks, Position position) async {
+    print('Position actuelle : ${position.latitude}, ${position.longitude}');
+    print(
+        'Food trucks initiaux : ${foodTrucks.map((e) => e.toJson()).toList()}');
+    // Filtrer les food trucks ouverts et calculer la distance
+    List<Map<String, dynamic>> foodTrucksWithDistance = foodTrucks
+        .map((truck) {
+          if (truck.coordinates == null) {
+            print('Coordonnées du food truck non définies : ${truck.toJson()}');
+            return null;
+          }
+
+          double distance = Geolocator.distanceBetween(
+                position.latitude,
+                position.longitude,
+                truck.coordinates!.latitude,
+                truck.coordinates!.longitude,
+              ) /
+              1000;
+          print(
+              'Food truck ${truck.name}, distance : $distance km'); // Conversion en kilomètres
+          return {
+            'foodTruck': truck,
+            'distance': distance,
+          };
+        })
+        .cast<Map<String, dynamic>>()
+        .where((truck) =>
+            truck != null &&
+            truck['distance'] <= 20 && // Vérifie la distance en km
+            truck['foodTruck'].open == true) // Vérifie la distance ≤ 5 km
+        .toList();
+
+    // Trier par distance croissante
+    foodTrucksWithDistance.sort(
+      (a, b) => (a['distance'] as double).compareTo(b['distance'] as double),
+    );
+
+    print('foodTrucksWithDistance: $foodTrucksWithDistance');
+
+    return foodTrucksWithDistance;
   }
 
   @override
@@ -281,23 +377,23 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data == null) {
-                  return const Center(child: Text('No data found'));
+                  return const Center(
+                      child: Text('Aucun food truck trouvé autour de vous',
+                          style: TextStyle(fontSize: 20),
+                          textAlign: TextAlign.center));
                 }
 
-                Position position = snapshot.data!['position'];
-                List<Foodtruck> data = snapshot.data!['trucks'];
+                print('Liste des food trucks: ${snapshot.data!['trucks']}');
+
+                List<Map<String, dynamic>> trucksWithDistance =
+                    snapshot.data!['trucks'];
 
                 return ListView.builder(
-                  itemCount: data.length,
+                  itemCount: trucksWithDistance.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    double distance = Geolocator.distanceBetween(
-                      position.latitude,
-                      position.longitude,
-                      data[index].coordinates!.latitude,
-                      data[index].coordinates!.longitude,
-                    );
-                    double distanceKm = distance / 1000;
+                    final truck = trucksWithDistance[index]['foodTruck'];
+                    final distanceKm = trucksWithDistance[index]['distance'];
 
                     return FoodTruckCard(
                       onTap: () {
@@ -305,19 +401,18 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Foodtruckprofil(
-                              foodtruckId: data[index].id,
+                              foodtruckId: truck.id,
                             ),
                           ),
                         );
                       },
-                      name: data[index].name,
-                      description: data[index].description,
-                      rating: data[index].rating != null
-                          ? data[index].rating!.toDouble()
-                          : 0.0,
-                      imageUrl: (data[index].urlProlfileImage != null &&
-                              data[index].urlProlfileImage!.isNotEmpty)
-                          ? data[index].urlProlfileImage!
+                      name: truck.name,
+                      description: truck.description,
+                      rating:
+                          truck.rating != null ? truck.rating!.toDouble() : 0.0,
+                      imageUrl: (truck.urlProlfileImage != null &&
+                              truck.urlProlfileImage!.isNotEmpty)
+                          ? truck.urlProlfileImage!
                           : 'assets/images/foodtruck.jpg',
 
                       distance: '${distanceKm.toStringAsFixed(2)} km',
