@@ -404,7 +404,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                             _checkFoodTruckExists(context);
                           }),
                       Itemdashboard(
-                          color: Colors.green,
+                          color: Colors.grey,
                           icon: FontAwesomeIcons.locationDot,
                           title: 'Gerez les emplacements',
                           onTap: () {}),

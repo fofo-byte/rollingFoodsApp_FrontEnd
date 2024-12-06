@@ -140,62 +140,15 @@ class _GestionfoodtruckState extends State<Gestionfoodtruck> {
                                 }
                               }),
                           Itemdashboard(
-                              color: Colors.green,
+                              color: Colors.grey,
                               icon: Icons.inventory,
                               title: 'Gestion stock',
                               onTap: () {}),
                           Itemdashboard(
-                            color: Colors.red,
+                            color: Colors.grey,
                             icon: Icons.calculate,
                             title: 'Gestion ventes',
-                            onTap: () async {
-                              bool? confirm = await showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Confirmation'),
-                                  content: const Text(
-                                      'Voulez-vous vraiment supprimer votre food truck?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context,
-                                            false); // Renvoie "false" si l'utilisateur annule
-                                      },
-                                      child: const Text('Non'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context,
-                                            true); // Renvoie "true" si l'utilisateur confirme
-                                      },
-                                      child: const Text('Oui'),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              if (confirm == true) {
-                                try {
-                                  await ApiService()
-                                      .deleteFoodTruck(foodTruckId);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Food truck supprimé avec succès!'),
-                                    ),
-                                  );
-                                  Navigator.pushNamed(
-                                      context, '/foodTruckGestionProfil');
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Erreur lors de la suppression du food truck.'),
-                                    ),
-                                  );
-                                }
-                              }
-                            },
+                            onTap: () async {},
                           ),
                         ],
                       ),
