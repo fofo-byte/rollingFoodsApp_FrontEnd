@@ -418,6 +418,11 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                           icon: Icons.analytics,
                           title: 'View Analytics',
                           onTap: () {}),
+                      Itemdashboard(
+                          color: Colors.grey,
+                          icon: Icons.qr_code,
+                          title: 'Lecteur de Qr_Code',
+                          onTap: () {}),
                     ],
                   ),
                 ),
