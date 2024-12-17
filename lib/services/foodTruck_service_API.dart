@@ -466,7 +466,8 @@ class ApiService {
           });
 
       if (response.statusCode == 200) {
-        List jsonResponse = json.decode(response.body);
+        List<Map<String, dynamic>> jsonResponse =
+            List<Map<String, dynamic>>.from(json.decode(response.body));
         print('Successfully fetched food trucks by icon filter: $jsonResponse');
         return jsonResponse
             .map((foodTruck) => Foodtruck.fromJson(foodTruck))

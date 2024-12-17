@@ -59,6 +59,8 @@ class _SearchpagemapState extends State<Searchpagemap> {
             height:
                 screenWidth * 0.25, // Ajuster la hauteur en fonction du contenu
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ListTile(
                   leading: CircleAvatar(
@@ -69,8 +71,11 @@ class _SearchpagemapState extends State<Searchpagemap> {
                             as ImageProvider,
                   ),
                   title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
+                        flex: 1,
                         child: Text(
                           foodTruck.name,
                           style: TextStyle(
@@ -81,7 +86,6 @@ class _SearchpagemapState extends State<Searchpagemap> {
                           overflow: TextOverflow.visible,
                         ),
                       ),
-                      const Spacer(),
                       Text(
                         foodTruckStatus[foodTruck.id] ?? 'Closed',
                         style: TextStyle(
@@ -96,8 +100,8 @@ class _SearchpagemapState extends State<Searchpagemap> {
                   ),
                   subtitle: Row(
                     children: [
-                      const SizedBox(width: 8),
                       RatingBarIndicator(
+                        direction: Axis.horizontal,
                         itemBuilder: (context, _) {
                           return const Icon(
                             Icons.star,

@@ -275,13 +275,13 @@ class _LoginpageState extends State<Loginpage> {
               padding: EdgeInsets.all(screenWidth * 0.05),
             ),
             Container(
-              height: 300,
+              height: 280,
               width: double.infinity,
               decoration: const BoxDecoration(),
               child: Column(
                 children: [
                   Container(
-                    height: 200,
+                    height: 180,
                     width: double.infinity,
                     decoration: const BoxDecoration(),
                     child: Lottie.asset('assets/animations/hello.json',
@@ -476,7 +476,7 @@ class _LoginpageState extends State<Loginpage> {
                             icon: Image.asset(
                                 'assets/icons/icons8-food-truck-48.png'),
                           ),
-                          const Text('Food trucker'),
+                          const Text('Food Trucker'),
                         ],
                       ),
                       Column(

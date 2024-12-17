@@ -404,7 +404,7 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                             _checkFoodTruckExists(context);
                           }),
                       Itemdashboard(
-                          color: Colors.green,
+                          color: Colors.grey,
                           icon: FontAwesomeIcons.locationDot,
                           title: 'Gerez les emplacements',
                           onTap: () {}),
@@ -417,6 +417,11 @@ class _FoodTruckAdminState extends State<FoodTruckAdmin> {
                           color: Colors.grey,
                           icon: Icons.analytics,
                           title: 'View Analytics',
+                          onTap: () {}),
+                      Itemdashboard(
+                          color: Colors.grey,
+                          icon: Icons.qr_code,
+                          title: 'Lecteur de Qr_Code',
                           onTap: () {}),
                     ],
                   ),

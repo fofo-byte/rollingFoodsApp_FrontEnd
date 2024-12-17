@@ -143,7 +143,24 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Food Truck'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: const [],
+        centerTitle: true,
+        backgroundColor: Colors.green,
+        title: const Text(
+          'Hello Foods',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Roboto',
+          ),
+        ),
       ),
       body: FutureBuilder<Foodtruck>(
         future: foodtruck,
@@ -157,44 +174,62 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
           }
           Foodtruck foodtruck = snapshot.data!;
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  Text('Food Truck ID: ${snapshot.data!.id}'),
-                  GestureDetector(
-                    onTap: getImage,
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: _image != null
-                          ? FileImage(_image!)
-                          : const AssetImage(
-                                  'assets/icons/hello-foods-high-resolution-logo.png')
-                              as ImageProvider,
-                      child:
-                          _image == null ? const Icon(Icons.add_a_photo) : null,
+          return Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                      onPressed: () {
-                        if (_image != null) {
-                          uploadImage(_image!, foodtruck.id);
-                        }
-                      },
-                      child: const Text('Upload Image')),
-                  TextFormField(
-                    controller: _foodTruckId,
-                    decoration:
-                        const InputDecoration(labelText: 'Food Truck ID'),
-                    enabled: false,
+                  child: const Column(children: [
+                    ListTile(
+                      title: Text("Mise a jour de votre profil FoodTruck",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      subtitle: Text('Remplir tous les champs',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                          )),
+                    ),
+                  ]),
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: getImage,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: _image != null
+                        ? FileImage(_image!)
+                        : const AssetImage(
+                                'assets/icons/hello-foods-high-resolution-logo.png')
+                            as ImageProvider,
+                    child:
+                        _image == null ? const Icon(Icons.add_a_photo) : null,
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: () {
+                      if (_image != null) {
+                        uploadImage(_image!, foodtruck.id);
+                      }
+                    },
+                    child: const Text('Upload Image')),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextFormField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: 'Name'),
+                    decoration: const InputDecoration(
+                        labelText: 'Nom FoodTruck',
+                        border: OutlineInputBorder()),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a name';
@@ -202,9 +237,13 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
                       return null;
                     },
                   ),
-                  TextFormField(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextFormField(
                     controller: _descriptionController,
-                    decoration: const InputDecoration(labelText: 'Description'),
+                    decoration: const InputDecoration(
+                        labelText: 'Description', border: OutlineInputBorder()),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a description';
@@ -212,9 +251,14 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
                       return null;
                     },
                   ),
-                  TextFormField(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextFormField(
                     controller: _specialityController,
-                    decoration: const InputDecoration(labelText: 'Speciality'),
+                    decoration: const InputDecoration(
+                        labelText: 'Specialités du FoodTruck',
+                        border: OutlineInputBorder()),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a speciality';
@@ -222,42 +266,44 @@ class _UpdatepagefoodtruckprofilState extends State<Updatepagefoodtruckprofil> {
                       return null;
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: MultiSelectDialogField(
-                      items: _foodTypes,
-                      title: const Text("Food Types"),
-                      selectedColor: Colors.blue,
-                      decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(
-                          color: Colors.blue,
-                          width: 2,
-                        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: MultiSelectDialogField(
+                    items: _foodTypes,
+                    title: const Text("Food Types"),
+                    selectedColor: Colors.blue,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withOpacity(0.1),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 2,
                       ),
-                      buttonText: Text(
-                        "Select Food Types",
-                        style: TextStyle(
-                          color: Colors.blue[800],
-                          fontSize: 16,
-                        ),
-                      ),
-                      onConfirm: (results) {
-                        setState(() {
-                          _selectedFoodTypes = results.cast<String>();
-                        });
-                      },
                     ),
+                    buttonText: Text(
+                      "Selectionner les types de nourriture",
+                      style: TextStyle(
+                        color: Colors.blue[800],
+                        fontSize: 16,
+                      ),
+                    ),
+                    onConfirm: (results) {
+                      setState(() {
+                        _selectedFoodTypes = results.cast<String>();
+                      });
+                    },
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ElevatedButton(
                     onPressed: _submitForm,
-                    child: const Text('Update Food Truck'),
+                    child: const Text('Mise a jour'),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

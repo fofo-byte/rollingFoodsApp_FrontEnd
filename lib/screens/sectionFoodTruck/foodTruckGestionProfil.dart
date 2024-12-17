@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rolling_foods_app_front_end/screens/sectionAuthentification/loginPage.dart';
+import 'package:rolling_foods_app_front_end/services/user_service_API.dart';
 import 'package:rolling_foods_app_front_end/widgets/itemDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +28,51 @@ class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
       username = prefs.getString('username') ?? 'Guest';
       foodtruckId = prefs.getInt('id') ?? 0;
     });
+  }
+
+  Future<void> _logout() async {
+    // Effacer toutes les données de session de l'application
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    print('Local data cleared.');
+
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const Loginpage()));
+  }
+
+  //Delete account
+  Future<void> _deleteAccount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? UserCredentialId = prefs.getInt('id');
+    try {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Supprimer le compte'),
+              content: const Text(
+                  'Êtes-vous sûr de vouloir supprimer votre compte ?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Annuler'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    UserServiceApi().deleteAccount(UserCredentialId!);
+                    await _logout();
+                  },
+                  child: const Text('Confirmer'),
+                ),
+              ],
+            );
+          });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -64,18 +111,16 @@ class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
             ),
             child: Column(children: [
               const SizedBox(
-                height: 60,
+                height: 10,
               ),
               ListTile(
                 title: Text('$username ${foodtruckId.toString()}',
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 30, fontWeight: FontWeight.bold)),
-                subtitle: const Text('Votre espace gestion compte',
+                subtitle: const Text('Votre espace gestion de compte',
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
-                trailing: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/foodtruck.jpg'),
-                  radius: 30,
-                ),
               ),
             ]),
           ),
@@ -104,7 +149,7 @@ class _FoodtruckgestionprofilState extends State<Foodtruckgestionprofil> {
                         color: Colors.red,
                         icon: Icons.close,
                         title: 'Supprimer votre compte',
-                        onTap: () {}),
+                        onTap: _deleteAccount),
                   ],
                 ),
               ],
